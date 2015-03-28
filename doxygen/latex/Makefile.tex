@@ -1,0 +1,31 @@
+\hypertarget{Makefile}{\section{Makefile File Reference}
+\label{Makefile}\index{Makefile@{Makefile}}
+}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Makefile_a833b28f90e109607cd5d9e826474893a}{D\-E\-V\-I\-C\-E}
+\item 
+gc sections \hyperlink{Makefile_acbf05e6f0553ff348b66242ac5d80039}{Wl}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{Makefile_a833b28f90e109607cd5d9e826474893a}{\index{Makefile@{Makefile}!D\-E\-V\-I\-C\-E@{D\-E\-V\-I\-C\-E}}
+\index{D\-E\-V\-I\-C\-E@{D\-E\-V\-I\-C\-E}!Makefile@{Makefile}}
+\subsubsection[{D\-E\-V\-I\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}D\-E\-V\-I\-C\-E}}\label{Makefile_a833b28f90e109607cd5d9e826474893a}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+=atxmega256d3
+AVRDUDE\_DEVICE=x256d3
+
+PROG= -c avrispmkII -P usb
+
+CFLAGS=-\hyperlink{list_8c_a71867e609034d4dbd6d0ad8d84540e59}{g} -Wall -mcall-prologues -mmcu=$(\hyperlink{Makefile_a833b28f90e109607cd5d9e826474893a}{DEVICE}) -Os -std=c99 -fno-strict-aliasing
+CC=avr-gcc
+OBJ2HEX=avr-objcopy
+LDFLAGS=-\hyperlink{Makefile_acbf05e6f0553ff348b66242ac5d80039}{Wl}
+\end{DoxyCode}
+\hypertarget{Makefile_acbf05e6f0553ff348b66242ac5d80039}{\index{Makefile@{Makefile}!Wl@{Wl}}
+\index{Wl@{Wl}!Makefile@{Makefile}}
+\subsubsection[{Wl}]{\setlength{\rightskip}{0pt plus 5cm}gc sections Wl}}\label{Makefile_acbf05e6f0553ff348b66242ac5d80039}

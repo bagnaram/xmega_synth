@@ -1,0 +1,11 @@
+<map id="disk_write" name="disk_write">
+<area shape="rect" id="node2" href="$sdmm_8c.html#ac0eadae94de728461ccade9e03fafd8c" title="deselect" alt="" coords="434,5,505,32"/>
+<area shape="rect" id="node4" href="$sdmm_8c.html#a21ad8e9a107ea2000705a3edfebaaa2d" title="disk_status" alt="" coords="147,208,237,235"/>
+<area shape="rect" id="node5" href="$sdmm_8c.html#a99684b493c8bfdb0288a2e24e52f6871" title="send_cmd" alt="" coords="151,107,233,133"/>
+<area shape="rect" id="node10" href="$sdmm_8c.html#aefbd30f6bdff37184f58faf98ad1c6e0" title="xmit_datablock" alt="" coords="137,157,247,184"/>
+<area shape="rect" id="node3" href="$sdmm_8c.html#ab628371b03508f9db7c6daf1203ed84d" title="rcvr_mmc" alt="" coords="560,107,640,133"/>
+<area shape="rect" id="node6" href="$sdmm_8c.html#ab45cb1d47cda5822ce492ad3c11867ae" title="select" alt="" coords="309,56,366,83"/>
+<area shape="rect" id="node9" href="$sdmm_8c.html#ace0af708caf7775204ca74fbd46818bb" title="xmit_mmc" alt="" coords="296,157,379,184"/>
+<area shape="rect" id="node7" href="$sdmm_8c.html#a624a19e248af05530dae5c0cc1dddc11" title="wait_ready" alt="" coords="427,259,512,285"/>
+<area shape="rect" id="node8" href="$sdmm_8c.html#a76a43e01b9676630e121e5a659acbb3f" title="dly_us" alt="" coords="570,259,630,285"/>
+</map>

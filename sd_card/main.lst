@@ -1,0 +1,544 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+ 112               	.global	get_fattime
+ 114               	get_fattime:
+ 115               		.stabd	46,0,0
+   1:main.c        **** /*
+   2:main.c        ****     
+   3:main.c        ****     ****************************************************************************
+   4:main.c        ****     Copyright (C) 2013 Radu Motisan  <radu.motisan@gmail.com>
+   5:main.c        **** 
+   6:main.c        **** 	http://www.pocketmagic.net
+   7:main.c        **** 
+   8:main.c        ****     This program is free software; you can redistribute it and/or modify
+   9:main.c        ****     it under the terms of the GNU General Public License as published by
+  10:main.c        ****     the Free Software Foundation; either version 2 of the License, or
+  11:main.c        ****     (at your option) any later version.
+  12:main.c        **** 
+  13:main.c        ****     This program is distributed in the hope that it will be useful,
+  14:main.c        ****     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  15:main.c        ****     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  16:main.c        ****     GNU General Public License for more details.
+  17:main.c        **** 
+  18:main.c        ****     You should have received a copy of the GNU General Public License
+  19:main.c        ****     along with this program; if not, write to the Free Software
+  20:main.c        ****     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  21:main.c        ****     ****************************************************************************
+  22:main.c        ****  */
+  23:main.c        **** 
+  24:main.c        **** #include <avr/io.h> 
+  25:main.c        **** #include "timeout.h"
+  26:main.c        **** #include <util/delay.h>
+  27:main.c        **** #include <string.h>
+  28:main.c        **** #include <stdlib.h>
+  29:main.c        **** #include "ff.h"
+  30:main.c        **** #include "integer.h"
+  31:main.c        **** 
+  32:main.c        **** // atmega128 has two leds connected to PA0 and PA1
+  33:main.c        **** //LED led1, led2;
+  34:main.c        **** //LCD_5110 lcd;
+  35:main.c        **** //UART uart0;
+  36:main.c        **** FATFS FatFs;	// FatFs work area 
+  37:main.c        **** FIL *fp;		// fpe object 
+  38:main.c        **** 
+  39:main.c        **** 
+  40:main.c        **** /*---------------------------------------------------------*/ 
+  41:main.c        **** /* User Provided RTC Function called by FatFs module       */
+  42:main.c        **** /* Used to provide a Timestamp for SDCard files and folders*/
+  43:main.c        **** DWORD get_fattime (void)
+  44:main.c        **** {
+ 117               	.LM0:
+ 118               	.LFBB1:
+ 119               	/* prologue: function */
+ 120               	/* frame size = 0 */
+ 121               	/* stack size = 0 */
+ 122               	.L__stack_usage = 0
+  45:main.c        **** 	// Returns current time packed into a DWORD variable 
+  46:main.c        **** 	return	  ((DWORD)(2013 - 1980) << 25)	// Year 2013 
+  47:main.c        **** 	| ((DWORD)8 << 21)				// Month 7 
+  48:main.c        **** 	| ((DWORD)2 << 16)				// Mday 28 
+  49:main.c        **** 	| ((DWORD)20 << 11)				// Hour 0..24
+  50:main.c        **** 	| ((DWORD)30 << 5)				// Min 0 
+  51:main.c        **** 	| ((DWORD)0 >> 1);				// Sec 0
+  52:main.c        **** }
+ 124               	.LM1:
+ 125 0000 60EC      		ldi r22,lo8(-64)
+ 126 0002 73EA      		ldi r23,lo8(-93)
+ 127 0004 82E0      		ldi r24,lo8(2)
+ 128 0006 93E4      		ldi r25,lo8(67)
+ 129 0008 0895      		ret
+ 131               	.Lscope1:
+ 133               		.stabd	78,0,0
+ 134               		.section	.rodata.str1.1,"aMS",@progbits,1
+ 135               	.LC0:
+ 136 0000 6669 6C65 		.string	"file.txt"
+ 136      2E74 7874 
+ 136      00
+ 137               	.LC1:
+ 138 0009 4865 6C6C 		.string	"Hello World! SDCard support up and running!\r\n"
+ 138      6F20 576F 
+ 138      726C 6421 
+ 138      2053 4443 
+ 138      6172 6420 
+ 139               	.LC2:
+ 140 0037 5468 6973 		.string	"This is a new line, appended to existing file!\r\n"
+ 140      2069 7320 
+ 140      6120 6E65 
+ 140      7720 6C69 
+ 140      6E65 2C20 
+ 141               	.LC3:
+ 142 0068 00        		.string	""
+ 143               		.section	.text.startup,"ax",@progbits
+ 145               	.global	main
+ 147               	main:
+ 148               		.stabd	46,0,0
+  53:main.c        **** 
+  54:main.c        **** 
+  55:main.c        **** 
+  56:main.c        **** int main(void)
+  57:main.c        **** {
+ 150               	.LM2:
+ 151               	.LFBB2:
+ 152 0000 CF93      		push r28
+ 153 0002 DF93      		push r29
+ 154 0004 CDB7      		in r28,__SP_L__
+ 155 0006 DEB7      		in r29,__SP_H__
+ 156 0008 C351      		subi r28,19
+ 157 000a D140      		sbci r29,1
+ 158 000c 0FB6      		in __tmp_reg__,__SREG__
+ 159 000e F894      		cli
+ 160 0010 DEBF      		out __SP_H__,r29
+ 161 0012 0FBE      		out __SREG__,__tmp_reg__
+ 162 0014 CDBF      		out __SP_L__,r28
+ 163               	/* prologue: function */
+ 164               	/* frame size = 275 */
+ 165               	/* stack size = 277 */
+ 166               	.L__stack_usage = 277
+ 167               	.LBB9:
+ 168               	.LBB10:
+ 170               	.Ltext1:
+   1:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+   6:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+   9:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  12:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  17:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  21:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  33:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /* $Id: delay.h.in 2251 2011-09-14 08:20:33Z joerg_wunsch $ */
+  34:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  35:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  38:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #endif
+  41:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  42:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #include <math.h>
+  45:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  46:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /** \file */
+  47:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     \code
+  49:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     \endcode
+  53:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  54:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     used.
+  58:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  59:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  68:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  77:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  81:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** */
+  82:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  83:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #endif
+  87:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  88:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #endif
+  93:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  94:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #endif
+  97:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+  98:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #endif
+ 103:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 104:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** /**
+ 105:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 107:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 109:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 112:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 114:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 120:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 125:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 129:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 132:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 140:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****  */
+ 141:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** void
+ 142:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** {
+ 144:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 145:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	double __tmp ; 
+ 146:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 147:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 148:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 149:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 150:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 151:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 152:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 153:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 154:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 155:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 156:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 157:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 158:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 159:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	#else
+ 160:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 		//round up by default
+ 161:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 162:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	#endif
+ 163:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 
+ 164:/usr/lib/gcc/avr/4.7.3/../../../../avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 172               	.LM3:
+ 173 0016 2FEF      		ldi r18,lo8(639999)
+ 174 0018 83EC      		ldi r24,hi8(639999)
+ 175 001a 99E0      		ldi r25,hlo8(639999)
+ 176 001c 2150      		1: subi r18,1
+ 177 001e 8040      		sbci r24,0
+ 178 0020 9040      		sbci r25,0
+ 179 0022 01F4      		brne 1b
+ 180 0024 00C0      		rjmp .
+ 181 0026 0000      		nop
+ 182               	.LBE10:
+ 183               	.LBE9:
+ 185               	.Ltext2:
+  58:main.c        **** 	// reboot delay
+  59:main.c        **** 	_delay_ms(200);
+  60:main.c        **** 	
+  61:main.c        **** 	// init serial link
+  62:main.c        **** 	//uart0.Init(0,1200, false); //uart0:
+  63:main.c        **** 	
+  64:main.c        **** 	// init leds
+  65:main.c        **** 	//led1.Init(&DDRA, &PORTA, 0); //DDRA, PORTA, PA0 // D4 on atmega128 board
+  66:main.c        **** 	//led2.Init(&DDRA, &PORTA, 1); //DDRA, PORTA, PA1 // D3
+  67:main.c        **** 	
+  68:main.c        **** 	// init LCD
+  69:main.c        **** 	//lcd.init(&PORTC, PC0, &PORTC, PC1, &PORTC, PC2, &PORTC, PC3, &PORTC, PC4);
+  70:main.c        **** 	
+  71:main.c        **** 	// init sdcard
+  72:main.c        **** 	UINT bw;
+  73:main.c        **** 	f_mount(0, &FatFs);		// Give a work area to the FatFs module 
+ 187               	.LM4:
+ 188 0028 60E0      		ldi r22,lo8(FatFs)
+ 189 002a 70E0      		ldi r23,hi8(FatFs)
+ 190 002c 80E0      		ldi r24,0
+ 191 002e 0E94 0000 		call f_mount
+  74:main.c        **** 	// open file
+  75:main.c        **** 	fp = (FIL *)malloc(sizeof (FIL));
+ 193               	.LM5:
+ 194 0032 80E2      		ldi r24,lo8(32)
+ 195 0034 92E0      		ldi r25,lo8(2)
+ 196 0036 0E94 0000 		call malloc
+ 197 003a 8093 0000 		sts fp,r24
+ 198 003e 9093 0000 		sts fp+1,r25
+  76:main.c        **** 	if (f_open(fp, "file.txt", FA_WRITE | FA_CREATE_ALWAYS) == FR_OK) {	// Create a file 
+ 200               	.LM6:
+ 201 0042 4AE0      		ldi r20,lo8(10)
+ 202 0044 60E0      		ldi r22,lo8(.LC0)
+ 203 0046 70E0      		ldi r23,hi8(.LC0)
+ 204 0048 0E94 0000 		call f_open
+ 205 004c 8111      		cpse r24,__zero_reg__
+ 206 004e 00C0      		rjmp .L4
+ 207               	.LBB11:
+  77:main.c        **** 		char *text = "Hello World! SDCard support up and running!\r\n";
+  78:main.c        **** 		f_write(fp, text, strlen(text), &bw);	// Write data to the file 
+ 209               	.LM7:
+ 210 0050 9E01      		movw r18,r28
+ 211 0052 2E5E      		subi r18,-18
+ 212 0054 3E4F      		sbci r19,-2
+ 213 0056 4DE2      		ldi r20,lo8(45)
+ 214 0058 50E0      		ldi r21,0
+ 215 005a 60E0      		ldi r22,lo8(.LC1)
+ 216 005c 70E0      		ldi r23,hi8(.LC1)
+ 217 005e 8091 0000 		lds r24,fp
+ 218 0062 9091 0000 		lds r25,fp+1
+ 219 0066 0E94 0000 		call f_write
+  79:main.c        **** 		f_close(fp);// Close the file 
+ 221               	.LM8:
+ 222 006a 8091 0000 		lds r24,fp
+ 223 006e 9091 0000 		lds r25,fp+1
+ 224 0072 0E94 0000 		call f_close
+  80:main.c        **** 		if (bw == strlen(text)) { //we wrote the entire string
+ 226               	.LM9:
+ 227 0076 CE5E      		subi r28,lo8(-274)
+ 228 0078 DE4F      		sbci r29,hi8(-274)
+ 229 007a 8881      		ld r24,Y
+ 230 007c 9981      		ldd r25,Y+1
+ 231 007e C251      		subi r28,lo8(274)
+ 232 0080 D140      		sbci r29,hi8(274)
+ 233 0082 8D97      		sbiw r24,45
+ 234 0084 01F4      		brne .L4
+  81:main.c        **** 			PORTC=0x00; // Lights LED if data written well (D4 led on atmega128 board)
+ 236               	.LM10:
+ 237 0086 15BA      		out 0x15,__zero_reg__
+ 238               	.L4:
+ 239               	.LBE11:
+  82:main.c        **** 		}
+  83:main.c        **** 		//else led2.Set(1);
+  84:main.c        **** 	}
+  85:main.c        **** 	// test append
+  86:main.c        **** 	if (f_open(fp, "file.txt", FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {	// Open existing or create new f
+ 241               	.LM11:
+ 242 0088 42E1      		ldi r20,lo8(18)
+ 243 008a 60E0      		ldi r22,lo8(.LC0)
+ 244 008c 70E0      		ldi r23,hi8(.LC0)
+ 245 008e 8091 0000 		lds r24,fp
+ 246 0092 9091 0000 		lds r25,fp+1
+ 247 0096 0E94 0000 		call f_open
+ 248 009a 8111      		cpse r24,__zero_reg__
+ 249 009c 00C0      		rjmp .L6
+  87:main.c        **** 		if (f_lseek(fp, f_size(fp)) == FR_OK) 
+ 251               	.LM12:
+ 252 009e 8091 0000 		lds r24,fp
+ 253 00a2 9091 0000 		lds r25,fp+1
+ 254 00a6 FC01      		movw r30,r24
+ 255 00a8 4285      		ldd r20,Z+10
+ 256 00aa 5385      		ldd r21,Z+11
+ 257 00ac 6485      		ldd r22,Z+12
+ 258 00ae 7585      		ldd r23,Z+13
+ 259 00b0 0E94 0000 		call f_lseek
+ 260 00b4 8111      		cpse r24,__zero_reg__
+ 261 00b6 00C0      		rjmp .L7
+ 262               	.LBB12:
+  88:main.c        **** 			{
+  89:main.c        **** 			char *text2 = "This is a new line, appended to existing file!\r\n";
+  90:main.c        **** 			f_write(fp, text2, strlen(text2), &bw);	// Write data to the file
+ 264               	.LM13:
+ 265 00b8 9E01      		movw r18,r28
+ 266 00ba 2E5E      		subi r18,-18
+ 267 00bc 3E4F      		sbci r19,-2
+ 268 00be 40E3      		ldi r20,lo8(48)
+ 269 00c0 50E0      		ldi r21,0
+ 270 00c2 60E0      		ldi r22,lo8(.LC2)
+ 271 00c4 70E0      		ldi r23,hi8(.LC2)
+ 272 00c6 8091 0000 		lds r24,fp
+ 273 00ca 9091 0000 		lds r25,fp+1
+ 274 00ce 0E94 0000 		call f_write
+ 275               	.L7:
+ 276               	.LBE12:
+  91:main.c        **** 			if (bw == strlen(text2)) { //we wrote the entire string
+  92:main.c        **** 			}
+  93:main.c        **** 			
+  94:main.c        **** 		}	
+  95:main.c        **** 		f_close(fp);// Close the file		
+ 278               	.LM14:
+ 279 00d2 8091 0000 		lds r24,fp
+ 280 00d6 9091 0000 		lds r25,fp+1
+ 281 00da 0E94 0000 		call f_close
+ 282               	.L6:
+  96:main.c        **** 	}	
+  97:main.c        **** 	 char str[12];
+  98:main.c        **** 
+  99:main.c        **** 	
+ 100:main.c        **** 	// get card volume
+ 101:main.c        **** 	char szCardLabel[12] = {0};
+ 284               	.LM15:
+ 285 00de BE01      		movw r22,r28
+ 286 00e0 7395      		inc r23
+ 287 00e2 8CE0      		ldi r24,lo8(12)
+ 288 00e4 FB01      		movw r30,r22
+ 289               		0:
+ 290 00e6 1192      		st Z+,__zero_reg__
+ 291 00e8 8A95      		dec r24
+ 292 00ea 01F4      		brne 0b
+ 102:main.c        **** 	DWORD sn = 0;
+ 294               	.LM16:
+ 295 00ec C45F      		subi r28,lo8(-268)
+ 296 00ee DE4F      		sbci r29,hi8(-268)
+ 297 00f0 1882      		st Y,__zero_reg__
+ 298 00f2 1982      		std Y+1,__zero_reg__
+ 299 00f4 1A82      		std Y+2,__zero_reg__
+ 300 00f6 1B82      		std Y+3,__zero_reg__
+ 301 00f8 CC50      		subi r28,lo8(268)
+ 302 00fa D140      		sbci r29,hi8(268)
+ 103:main.c        **** 	if (f_getlabel("", szCardLabel, &sn) == FR_OK) {
+ 304               	.LM17:
+ 305 00fc AE01      		movw r20,r28
+ 306 00fe 445F      		subi r20,-12
+ 307 0100 5E4F      		sbci r21,-2
+ 308 0102 80E0      		ldi r24,lo8(.LC3)
+ 309 0104 90E0      		ldi r25,hi8(.LC3)
+ 310 0106 0E94 0000 		call f_getlabel
+ 104:main.c        **** 		//lcd.send_format_string("%s SN:%X\n", szCardLabel, sn);
+ 105:main.c        **** 	}			
+ 106:main.c        **** 	
+ 107:main.c        **** 	// read from file
+ 108:main.c        **** 	if (f_open(fp, "file.txt", FA_READ ) == FR_OK) {	// Create a file
+ 312               	.LM18:
+ 313 010a 41E0      		ldi r20,lo8(1)
+ 314 010c 60E0      		ldi r22,lo8(.LC0)
+ 315 010e 70E0      		ldi r23,hi8(.LC0)
+ 316 0110 8091 0000 		lds r24,fp
+ 317 0114 9091 0000 		lds r25,fp+1
+ 318 0118 0E94 0000 		call f_open
+ 319 011c 8111      		cpse r24,__zero_reg__
+ 320 011e 00C0      		rjmp .L10
+ 321               	.LBB13:
+ 109:main.c        **** 		char text[255]; 
+ 110:main.c        **** 		UINT br;
+ 111:main.c        **** 		f_read(fp, text, 255, &br); 
+ 323               	.LM19:
+ 324 0120 9E01      		movw r18,r28
+ 325 0122 205F      		subi r18,-16
+ 326 0124 3E4F      		sbci r19,-2
+ 327 0126 4FEF      		ldi r20,lo8(-1)
+ 328 0128 50E0      		ldi r21,0
+ 329 012a BE01      		movw r22,r28
+ 330 012c 6F5F      		subi r22,-1
+ 331 012e 7F4F      		sbci r23,-1
+ 332 0130 8091 0000 		lds r24,fp
+ 333 0134 9091 0000 		lds r25,fp+1
+ 334 0138 0E94 0000 		call f_read
+ 112:main.c        **** 		f_close(fp);// Close the file
+ 336               	.LM20:
+ 337 013c 8091 0000 		lds r24,fp
+ 338 0140 9091 0000 		lds r25,fp+1
+ 339 0144 0E94 0000 		call f_close
+ 340               	.L10:
+ 341               	.LBE13:
+ 342               	.LBB14:
+ 343               	.LBB15:
+ 345               	.Ltext3:
+ 347               	.LM21:
+ 348 0148 FFEF      		ldi r31,lo8(3199999)
+ 349 014a 23ED      		ldi r18,hi8(3199999)
+ 350 014c 80E3      		ldi r24,hlo8(3199999)
+ 351 014e F150      		1: subi r31,1
+ 352 0150 2040      		sbci r18,0
+ 353 0152 8040      		sbci r24,0
+ 354 0154 01F4      		brne 1b
+ 355 0156 00C0      		rjmp .
+ 356 0158 0000      		nop
+ 357 015a 00C0      		rjmp .L10
+ 358               	.LBE15:
+ 359               	.LBE14:
+ 370               	.Lscope2:
+ 372               		.stabd	78,0,0
+ 373               		.comm	fp,2,1
+ 374               		.comm	FatFs,562,1
+ 377               		.text
+ 379               	.Letext0:
+ 380               		.ident	"GCC: (Fedora 4.7.3-0.1.fc19) 4.7.3 20130216 (prerelease)"
+ 381               	.global __do_copy_data
+ 382               	.global __do_clear_bss
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+     /tmp/ccXyK9aT.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccXyK9aT.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccXyK9aT.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccXyK9aT.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccXyK9aT.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccXyK9aT.s:114    .text:0000000000000000 get_fattime
+     /tmp/ccXyK9aT.s:147    .text.startup:0000000000000000 main
+                            *COM*:0000000000000232 FatFs
+                            *COM*:0000000000000002 fp
+
+UNDEFINED SYMBOLS
+f_mount
+malloc
+f_open
+f_write
+f_close
+f_lseek
+f_getlabel
+f_read
+__do_copy_data
+__do_clear_bss

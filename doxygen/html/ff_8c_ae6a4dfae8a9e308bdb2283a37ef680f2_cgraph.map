@@ -1,0 +1,23 @@
+<map id="f_write" name="f_write">
+<area shape="rect" id="node2" href="$ff_8c.html#a7519abb60fe91f6aa1d17f64fbae123a" title="clust2sect" alt="" coords="121,5,204,32"/>
+<area shape="rect" id="node3" href="$ff_8c.html#acbd0a20a17c6f9b6d536490d1cc3c5ac" title="create_chain" alt="" coords="115,157,211,184"/>
+<area shape="rect" id="node5" href="$ff_8c.html#af2e8986556ee6644b4bf31fa4158d735" title="move_window" alt="" coords="398,157,503,184"/>
+<area shape="rect" id="node6" href="$ff_8c.html#a5e18753404354b210096f9af99e31bc1" title="sync_window" alt="" coords="552,259,653,285"/>
+<area shape="rect" id="node7" href="$diskio_8h.html#ac4785625f4bb82e33562079813659880" title="disk_write" alt="" coords="702,263,783,289"/>
+<area shape="rect" id="node17" href="$diskio_8h.html#ac0c802f8a12fa2047b4bec7109b9293f" title="disk_read" alt="" coords="703,143,782,169"/>
+<area shape="rect" id="node20" href="$ff_8c.html#a8941d573d16af92c8570950d53164f30" title="mem_cpy" alt="" coords="123,360,202,387"/>
+<area shape="rect" id="node21" href="$ff_8c.html#aa7193f5b86c3996b5312043a0c26da5f" title="validate" alt="" coords="129,411,196,437"/>
+<area shape="rect" id="node4" href="$ff_8c.html#a65611adf1626e5e08da77cd33a98dd8b" title="get_fat" alt="" coords="273,157,335,184"/>
+<area shape="rect" id="node19" href="$ff_8c.html#abd4b6b071a8d728a88727051c12bc6d7" title="put_fat" alt="" coords="273,107,335,133"/>
+<area shape="rect" id="node8" href="$sdmm_8c.html#ac0eadae94de728461ccade9e03fafd8c" title="deselect" alt="" coords="1141,168,1211,195"/>
+<area shape="rect" id="node10" href="$sdmm_8c.html#a21ad8e9a107ea2000705a3edfebaaa2d" title="disk_status" alt="" coords="843,168,933,195"/>
+<area shape="rect" id="node11" href="$sdmm_8c.html#a99684b493c8bfdb0288a2e24e52f6871" title="send_cmd" alt="" coords="847,269,929,296"/>
+<area shape="rect" id="node16" href="$sdmm_8c.html#aefbd30f6bdff37184f58faf98ad1c6e0" title="xmit_datablock" alt="" coords="833,396,943,423"/>
+<area shape="rect" id="node9" href="$sdmm_8c.html#ab628371b03508f9db7c6daf1203ed84d" title="rcvr_mmc" alt="" coords="1277,244,1357,271"/>
+<area shape="rect" id="node12" href="$sdmm_8c.html#ab45cb1d47cda5822ce492ad3c11867ae" title="select" alt="" coords="1005,269,1062,296"/>
+<area shape="rect" id="node15" href="$sdmm_8c.html#ace0af708caf7775204ca74fbd46818bb" title="xmit_mmc" alt="" coords="992,371,1075,397"/>
+<area shape="rect" id="node13" href="$sdmm_8c.html#a624a19e248af05530dae5c0cc1dddc11" title="wait_ready" alt="" coords="1133,219,1219,245"/>
+<area shape="rect" id="node14" href="$sdmm_8c.html#a76a43e01b9676630e121e5a659acbb3f" title="dly_us" alt="" coords="1287,143,1347,169"/>
+<area shape="rect" id="node18" href="$sdmm_8c.html#a8c99afbc312912297b19752cf7e0960b" title="rcvr_datablock" alt="" coords="1123,117,1229,144"/>
+<area shape="rect" id="node22" href="$diskio_8h.html#a8348ac5ee6d709420c02e45c111f4793" title="disk_status" alt="" coords="259,411,349,437"/>
+</map>

@@ -1,0 +1,395 @@
+\hypertarget{lcd8bit_8c}{\section{lcd8bit/lcd8bit.c File Reference}
+\label{lcd8bit_8c}\index{lcd8bit/lcd8bit.\-c@{lcd8bit/lcd8bit.\-c}}
+}
+{\ttfamily \#include \char`\"{}../config.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$avr/io.\-h$>$}\\*
+{\ttfamily \#include $<$avr/pgmspace.\-h$>$}\\*
+{\ttfamily \#include $<$util/delay.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}lcd8bit.\-h\char`\"{}}\\*
+Include dependency graph for lcd8bit.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{lcd8bit_8c_ab0c169c959c5be67954c866776329563}{D\-A\-T\-A\-\_\-\-P\-O\-R\-T}~P\-O\-R\-T\-B
+\item 
+\#define \hyperlink{lcd8bit_8c_a4781e073871c6f27f89b9463ad3a4ed1}{L\-C\-D\-\_\-\-R\-S}~P\-I\-N0\-\_\-bm    /$\ast$ R\-S on pin P\-B3 $\ast$/
+\item 
+\#define \hyperlink{lcd8bit_8c_a6ec15b1e813d1f56d2eb644a127e5d49}{L\-C\-D\-\_\-\-E}~P\-I\-N1\-\_\-bm    /$\ast$ E on pin P\-B1 $\ast$/
+\item 
+\#define \hyperlink{lcd8bit_8c_a18b1a802fdc6371ca9ea8219ab62f219}{C\-O\-M\-M\-\_\-\-P\-O\-R\-T}~P\-O\-R\-T\-A
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{lcd8bit_8c_a9d0f278e2fa5d8921d3a4fdd508a561e}{lcd\-\_\-set\-\_\-write\-\_\-instruction} ()
+\item 
+void \hyperlink{lcd8bit_8c_ad55e5c04e2a5354bfd4840be5e0eb5d1}{lcd\-\_\-set\-\_\-write\-\_\-data} ()
+\item 
+void \hyperlink{lcd8bit_8c_aef7fba4025d73ad60e375357e557bca3}{lcd\-\_\-write\-\_\-byte} (char c)
+\item 
+void \hyperlink{lcd8bit_8c_a88fdc90276b48773630acfc4525ff0db}{lcd\-\_\-clear\-\_\-and\-\_\-home} ()
+\item 
+void \hyperlink{lcd8bit_8c_a60675105b93bba6762aaab88d732365a}{lcd\-\_\-home} ()
+\item 
+void \hyperlink{lcd8bit_8c_affc4cf9b640d7c72fcb1e8be36c0183c}{lcd\-\_\-goto} (uint8\-\_\-t line, uint8\-\_\-t pos)
+\item 
+void \hyperlink{lcd8bit_8c_a8752d4e091188fcb07bbc9ae3c496e95}{lcd\-\_\-line\-\_\-one} ()
+\item 
+void \hyperlink{lcd8bit_8c_aa0b44a03031cc3639604de620e426021}{lcd\-\_\-line\-\_\-two} ()
+\item 
+void \hyperlink{lcd8bit_8c_a082c749307f206b15a9cbeb775b03b5c}{lcd\-\_\-write\-\_\-data} (char c)
+\item 
+void \hyperlink{lcd8bit_8c_a348a0350888f0a9bc01ed290423e2af8}{lcd\-\_\-write\-\_\-string} (char $\ast$x, uint8\-\_\-t len)
+\item 
+void \hyperlink{lcd8bit_8c_a9aa8378a804ddb51f770bd01665df653}{lcd\-\_\-write\-\_\-string\-\_\-0} (char $\ast$x)
+\item 
+void \hyperlink{lcd8bit_8c_a39cdfea82914e968ea1dbf7a8c6c9f9e}{lcd\-\_\-write\-\_\-string\-\_\-p} (const char $\ast$s)
+\item 
+void \hyperlink{lcd8bit_8c_ac23e73124dc9fabae95671fe71d074a6}{lcd\-\_\-init} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{lcd8bit_8c_a18b1a802fdc6371ca9ea8219ab62f219}{\index{lcd8bit.\-c@{lcd8bit.\-c}!C\-O\-M\-M\-\_\-\-P\-O\-R\-T@{C\-O\-M\-M\-\_\-\-P\-O\-R\-T}}
+\index{C\-O\-M\-M\-\_\-\-P\-O\-R\-T@{C\-O\-M\-M\-\_\-\-P\-O\-R\-T}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{C\-O\-M\-M\-\_\-\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\-O\-M\-M\-\_\-\-P\-O\-R\-T~P\-O\-R\-T\-A}}\label{lcd8bit_8c_a18b1a802fdc6371ca9ea8219ab62f219}
+
+
+Referenced by lcd\-\_\-init(), lcd\-\_\-set\-\_\-write\-\_\-data(), lcd\-\_\-set\-\_\-write\-\_\-instruction(), and lcd\-\_\-write\-\_\-byte().
+
+\hypertarget{lcd8bit_8c_ab0c169c959c5be67954c866776329563}{\index{lcd8bit.\-c@{lcd8bit.\-c}!D\-A\-T\-A\-\_\-\-P\-O\-R\-T@{D\-A\-T\-A\-\_\-\-P\-O\-R\-T}}
+\index{D\-A\-T\-A\-\_\-\-P\-O\-R\-T@{D\-A\-T\-A\-\_\-\-P\-O\-R\-T}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{D\-A\-T\-A\-\_\-\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-A\-T\-A\-\_\-\-P\-O\-R\-T~P\-O\-R\-T\-B}}\label{lcd8bit_8c_ab0c169c959c5be67954c866776329563}
+
+
+Referenced by lcd\-\_\-init(), and lcd\-\_\-write\-\_\-byte().
+
+\hypertarget{lcd8bit_8c_a6ec15b1e813d1f56d2eb644a127e5d49}{\index{lcd8bit.\-c@{lcd8bit.\-c}!L\-C\-D\-\_\-\-E@{L\-C\-D\-\_\-\-E}}
+\index{L\-C\-D\-\_\-\-E@{L\-C\-D\-\_\-\-E}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{L\-C\-D\-\_\-\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-C\-D\-\_\-\-E~P\-I\-N1\-\_\-bm    /$\ast$ E on pin P\-B1 $\ast$/}}\label{lcd8bit_8c_a6ec15b1e813d1f56d2eb644a127e5d49}
+
+
+Referenced by lcd\-\_\-init(), and lcd\-\_\-write\-\_\-byte().
+
+\hypertarget{lcd8bit_8c_a4781e073871c6f27f89b9463ad3a4ed1}{\index{lcd8bit.\-c@{lcd8bit.\-c}!L\-C\-D\-\_\-\-R\-S@{L\-C\-D\-\_\-\-R\-S}}
+\index{L\-C\-D\-\_\-\-R\-S@{L\-C\-D\-\_\-\-R\-S}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{L\-C\-D\-\_\-\-R\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-C\-D\-\_\-\-R\-S~P\-I\-N0\-\_\-bm    /$\ast$ R\-S on pin P\-B3 $\ast$/}}\label{lcd8bit_8c_a4781e073871c6f27f89b9463ad3a4ed1}
+
+
+Referenced by lcd\-\_\-init(), lcd\-\_\-set\-\_\-write\-\_\-data(), and lcd\-\_\-set\-\_\-write\-\_\-instruction().
+
+
+
+\subsection{Function Documentation}
+\hypertarget{lcd8bit_8c_a88fdc90276b48773630acfc4525ff0db}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-clear\-\_\-and\-\_\-home@{lcd\-\_\-clear\-\_\-and\-\_\-home}}
+\index{lcd\-\_\-clear\-\_\-and\-\_\-home@{lcd\-\_\-clear\-\_\-and\-\_\-home}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-clear\-\_\-and\-\_\-home}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-clear\-\_\-and\-\_\-home (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a88fdc90276b48773630acfc4525ff0db}
+
+
+References lcd\-\_\-set\-\_\-write\-\_\-instruction(), and lcd\-\_\-write\-\_\-byte().
+
+
+
+Referenced by die(), lcd\-\_\-init(), and main().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{lcd8bit_8c_a88fdc90276b48773630acfc4525ff0db_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_affc4cf9b640d7c72fcb1e8be36c0183c}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-goto@{lcd\-\_\-goto}}
+\index{lcd\-\_\-goto@{lcd\-\_\-goto}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-goto}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-goto (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{line, }
+\item[{uint8\-\_\-t}]{pos}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_affc4cf9b640d7c72fcb1e8be36c0183c}
+
+
+References lcd\-\_\-set\-\_\-write\-\_\-instruction(), and lcd\-\_\-write\-\_\-byte().
+
+
+
+Referenced by lcd\-\_\-line\-\_\-one(), and lcd\-\_\-line\-\_\-two().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{lcd8bit_8c_affc4cf9b640d7c72fcb1e8be36c0183c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_a60675105b93bba6762aaab88d732365a}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-home@{lcd\-\_\-home}}
+\index{lcd\-\_\-home@{lcd\-\_\-home}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-home}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-home (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a60675105b93bba6762aaab88d732365a}
+
+
+References lcd\-\_\-set\-\_\-write\-\_\-instruction(), and lcd\-\_\-write\-\_\-byte().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{lcd8bit_8c_a60675105b93bba6762aaab88d732365a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_ac23e73124dc9fabae95671fe71d074a6}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-init@{lcd\-\_\-init}}
+\index{lcd\-\_\-init@{lcd\-\_\-init}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_ac23e73124dc9fabae95671fe71d074a6}
+
+
+References C\-O\-M\-M\-\_\-\-P\-O\-R\-T, D\-A\-T\-A\-\_\-\-P\-O\-R\-T, lcd\-\_\-clear\-\_\-and\-\_\-home(), L\-C\-D\-\_\-\-E, L\-C\-D\-\_\-\-R\-S, and lcd\-\_\-write\-\_\-byte().
+
+
+
+Referenced by main().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_ac23e73124dc9fabae95671fe71d074a6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_a8752d4e091188fcb07bbc9ae3c496e95}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-line\-\_\-one@{lcd\-\_\-line\-\_\-one}}
+\index{lcd\-\_\-line\-\_\-one@{lcd\-\_\-line\-\_\-one}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-line\-\_\-one}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-line\-\_\-one (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a8752d4e091188fcb07bbc9ae3c496e95}
+
+
+References lcd\-\_\-goto().
+
+
+
+Referenced by die(), and main().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_a8752d4e091188fcb07bbc9ae3c496e95_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_aa0b44a03031cc3639604de620e426021}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-line\-\_\-two@{lcd\-\_\-line\-\_\-two}}
+\index{lcd\-\_\-line\-\_\-two@{lcd\-\_\-line\-\_\-two}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-line\-\_\-two}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-line\-\_\-two (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_aa0b44a03031cc3639604de620e426021}
+
+
+References lcd\-\_\-goto().
+
+
+
+Referenced by die(), and main().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_aa0b44a03031cc3639604de620e426021_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_ad55e5c04e2a5354bfd4840be5e0eb5d1}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-set\-\_\-write\-\_\-data@{lcd\-\_\-set\-\_\-write\-\_\-data}}
+\index{lcd\-\_\-set\-\_\-write\-\_\-data@{lcd\-\_\-set\-\_\-write\-\_\-data}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-set\-\_\-write\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-set\-\_\-write\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_ad55e5c04e2a5354bfd4840be5e0eb5d1}
+
+
+References C\-O\-M\-M\-\_\-\-P\-O\-R\-T, and L\-C\-D\-\_\-\-R\-S.
+
+
+
+Referenced by lcd\-\_\-write\-\_\-data().
+
+\hypertarget{lcd8bit_8c_a9d0f278e2fa5d8921d3a4fdd508a561e}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-set\-\_\-write\-\_\-instruction@{lcd\-\_\-set\-\_\-write\-\_\-instruction}}
+\index{lcd\-\_\-set\-\_\-write\-\_\-instruction@{lcd\-\_\-set\-\_\-write\-\_\-instruction}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-set\-\_\-write\-\_\-instruction}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-set\-\_\-write\-\_\-instruction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a9d0f278e2fa5d8921d3a4fdd508a561e}
+
+
+References C\-O\-M\-M\-\_\-\-P\-O\-R\-T, and L\-C\-D\-\_\-\-R\-S.
+
+
+
+Referenced by lcd\-\_\-clear\-\_\-and\-\_\-home(), lcd\-\_\-goto(), and lcd\-\_\-home().
+
+\hypertarget{lcd8bit_8c_aef7fba4025d73ad60e375357e557bca3}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-write\-\_\-byte@{lcd\-\_\-write\-\_\-byte}}
+\index{lcd\-\_\-write\-\_\-byte@{lcd\-\_\-write\-\_\-byte}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-write\-\_\-byte}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-write\-\_\-byte (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_aef7fba4025d73ad60e375357e557bca3}
+
+
+References C\-O\-M\-M\-\_\-\-P\-O\-R\-T, D\-A\-T\-A\-\_\-\-P\-O\-R\-T, and L\-C\-D\-\_\-\-E.
+
+
+
+Referenced by lcd\-\_\-clear\-\_\-and\-\_\-home(), lcd\-\_\-goto(), lcd\-\_\-home(), lcd\-\_\-init(), and lcd\-\_\-write\-\_\-data().
+
+\hypertarget{lcd8bit_8c_a082c749307f206b15a9cbeb775b03b5c}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-write\-\_\-data@{lcd\-\_\-write\-\_\-data}}
+\index{lcd\-\_\-write\-\_\-data@{lcd\-\_\-write\-\_\-data}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-write\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-write\-\_\-data (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a082c749307f206b15a9cbeb775b03b5c}
+
+
+References lcd\-\_\-set\-\_\-write\-\_\-data(), and lcd\-\_\-write\-\_\-byte().
+
+
+
+Referenced by lcd\-\_\-write\-\_\-string(), lcd\-\_\-write\-\_\-string\-\_\-0(), and lcd\-\_\-write\-\_\-string\-\_\-p().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{lcd8bit_8c_a082c749307f206b15a9cbeb775b03b5c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_a348a0350888f0a9bc01ed290423e2af8}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-write\-\_\-string@{lcd\-\_\-write\-\_\-string}}
+\index{lcd\-\_\-write\-\_\-string@{lcd\-\_\-write\-\_\-string}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-write\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-write\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{x, }
+\item[{uint8\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a348a0350888f0a9bc01ed290423e2af8}
+
+
+References lcd\-\_\-write\-\_\-data().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_a348a0350888f0a9bc01ed290423e2af8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_a9aa8378a804ddb51f770bd01665df653}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-write\-\_\-string\-\_\-0@{lcd\-\_\-write\-\_\-string\-\_\-0}}
+\index{lcd\-\_\-write\-\_\-string\-\_\-0@{lcd\-\_\-write\-\_\-string\-\_\-0}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-write\-\_\-string\-\_\-0}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-write\-\_\-string\-\_\-0 (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{x}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a9aa8378a804ddb51f770bd01665df653}
+
+
+References lcd\-\_\-write\-\_\-data().
+
+
+
+Referenced by die(), and main().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_a9aa8378a804ddb51f770bd01665df653_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{lcd8bit_8c_a39cdfea82914e968ea1dbf7a8c6c9f9e}{\index{lcd8bit.\-c@{lcd8bit.\-c}!lcd\-\_\-write\-\_\-string\-\_\-p@{lcd\-\_\-write\-\_\-string\-\_\-p}}
+\index{lcd\-\_\-write\-\_\-string\-\_\-p@{lcd\-\_\-write\-\_\-string\-\_\-p}!lcd8bit.c@{lcd8bit.\-c}}
+\subsubsection[{lcd\-\_\-write\-\_\-string\-\_\-p}]{\setlength{\rightskip}{0pt plus 5cm}void lcd\-\_\-write\-\_\-string\-\_\-p (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{lcd8bit_8c_a39cdfea82914e968ea1dbf7a8c6c9f9e}
+
+
+References lcd\-\_\-write\-\_\-data().
+
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lcd8bit_8c_a39cdfea82914e968ea1dbf7a8c6c9f9e_cgraph}
+\end{center}
+\end{figure}
+
+

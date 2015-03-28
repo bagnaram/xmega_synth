@@ -1,0 +1,1446 @@
+   1               		.file	"diskio.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  91               	power_off:
+  92               		.stabd	46,0,0
+   1:diskio.c      **** /*-----------------------------------------------------------------------*/
+   2:diskio.c      **** /* MMCv3/SDv1/SDv2 (in SPI mode) control module  (C)ChaN, 2010           */
+   3:diskio.c      **** /*-----------------------------------------------------------------------*/
+   4:diskio.c      **** 
+   5:diskio.c      **** #include <avr/io.h>
+   6:diskio.c      **** #include "diskio.h"
+   7:diskio.c      **** 
+   8:diskio.c      **** 
+   9:diskio.c      **** /* Port controls  (Platform dependent) */
+  10:diskio.c      **** #define CS_LOW()	PORTB &= ~1			/* CS=low */
+  11:diskio.c      **** #define	CS_HIGH()	PORTB |= 1			/* CS=high */
+  12:diskio.c      **** #define SOCKINS		(!(PINB & 0x10))	/* Card detected.   yes:true, no:false, default:true */
+  13:diskio.c      **** #define SOCKWP		(PINB & 0x20)		/* Write protected. yes:true, no:false, default:false */
+  14:diskio.c      **** #define	FCLK_SLOW()	SPCR = 0x52		/* Set slow clock (F_CPU / 64) */
+  15:diskio.c      **** #define	FCLK_FAST()	SPCR = 0x50		/* Set fast clock (F_CPU / 2) */
+  16:diskio.c      **** 
+  17:diskio.c      **** 
+  18:diskio.c      **** /*--------------------------------------------------------------------------
+  19:diskio.c      **** 
+  20:diskio.c      ****    Module Private Functions
+  21:diskio.c      **** 
+  22:diskio.c      **** ---------------------------------------------------------------------------*/
+  23:diskio.c      **** 
+  24:diskio.c      **** /* Definitions for MMC/SDC command */
+  25:diskio.c      **** #define CMD0	(0)			/* GO_IDLE_STATE */
+  26:diskio.c      **** #define CMD1	(1)			/* SEND_OP_COND (MMC) */
+  27:diskio.c      **** #define	ACMD41	(0x80+41)	/* SEND_OP_COND (SDC) */
+  28:diskio.c      **** #define CMD8	(8)			/* SEND_IF_COND */
+  29:diskio.c      **** #define CMD9	(9)			/* SEND_CSD */
+  30:diskio.c      **** #define CMD10	(10)		/* SEND_CID */
+  31:diskio.c      **** #define CMD12	(12)		/* STOP_TRANSMISSION */
+  32:diskio.c      **** #define ACMD13	(0x80+13)	/* SD_STATUS (SDC) */
+  33:diskio.c      **** #define CMD16	(16)		/* SET_BLOCKLEN */
+  34:diskio.c      **** #define CMD17	(17)		/* READ_SINGLE_BLOCK */
+  35:diskio.c      **** #define CMD18	(18)		/* READ_MULTIPLE_BLOCK */
+  36:diskio.c      **** #define CMD23	(23)		/* SET_BLOCK_COUNT (MMC) */
+  37:diskio.c      **** #define	ACMD23	(0x80+23)	/* SET_WR_BLK_ERASE_COUNT (SDC) */
+  38:diskio.c      **** #define CMD24	(24)		/* WRITE_BLOCK */
+  39:diskio.c      **** #define CMD25	(25)		/* WRITE_MULTIPLE_BLOCK */
+  40:diskio.c      **** #define CMD32	(32)		/* ERASE_ER_BLK_START */
+  41:diskio.c      **** #define CMD33	(33)		/* ERASE_ER_BLK_END */
+  42:diskio.c      **** #define CMD38	(38)		/* ERASE */
+  43:diskio.c      **** #define CMD55	(55)		/* APP_CMD */
+  44:diskio.c      **** #define CMD58	(58)		/* READ_OCR */
+  45:diskio.c      **** 
+  46:diskio.c      **** 
+  47:diskio.c      **** static volatile
+  48:diskio.c      **** DSTATUS Stat = STA_NOINIT;	/* Disk status */
+  49:diskio.c      **** 
+  50:diskio.c      **** static volatile
+  51:diskio.c      **** BYTE Timer1, Timer2;	/* 100Hz decrement timer */
+  52:diskio.c      **** 
+  53:diskio.c      **** static
+  54:diskio.c      **** BYTE CardType;			/* Card type flags */
+  55:diskio.c      **** 
+  56:diskio.c      **** 
+  57:diskio.c      **** /*-----------------------------------------------------------------------*/
+  58:diskio.c      **** /* Power Control  (Platform dependent)                                   */
+  59:diskio.c      **** /*-----------------------------------------------------------------------*/
+  60:diskio.c      **** /* When the target system does not support socket power control, there   */
+  61:diskio.c      **** /* is nothing to do in these functions and chk_power always returns 1.   */
+  62:diskio.c      **** 
+  63:diskio.c      **** static
+  64:diskio.c      **** int power_status (void)		/* Socket power state: 0=off, 1=on */
+  65:diskio.c      **** {
+  66:diskio.c      **** 	return (PORTA & _BV(7)) ? 0 : 1;
+  67:diskio.c      **** }
+  68:diskio.c      **** 
+  69:diskio.c      **** static
+  70:diskio.c      **** void power_on (void)
+  71:diskio.c      **** {
+  72:diskio.c      **** 	{	/* Remove this block if no socket power control */
+  73:diskio.c      **** 		PORTA &= ~_BV(7);	/* Socket power on (PE7=low) */
+  74:diskio.c      **** 		DDRA |= _BV(7);
+  75:diskio.c      **** 		for (Timer1 = 2; Timer1; );	/* Wait for 20ms */
+  76:diskio.c      **** 	}
+  77:diskio.c      **** 
+  78:diskio.c      **** 	PORTB |= 0b00000101;	/* Configure SCK/MOSI/CS as output */
+  79:diskio.c      **** 	DDRB  |= 0b00000111;
+  80:diskio.c      **** 
+  81:diskio.c      **** 	SPCR = 0x52;			/* Enable SPI function in mode 0 */
+  82:diskio.c      **** 	SPSR = 0x01;			/* SPI 2x mode */
+  83:diskio.c      **** }
+  84:diskio.c      **** 
+  85:diskio.c      **** static
+  86:diskio.c      **** void power_off (void)
+  87:diskio.c      **** {
+  94               	.LM0:
+  95               	.LFBB1:
+  96               	/* prologue: function */
+  97               	/* frame size = 0 */
+  98               	/* stack size = 0 */
+  99               	.L__stack_usage = 0
+  88:diskio.c      **** 	SPCR = 0;				/* Disable SPI function */
+ 101               	.LM1:
+ 102 0000 1DB8      		out 0xd,__zero_reg__
+  89:diskio.c      **** 
+  90:diskio.c      **** 	DDRB  &= ~0b00110111;	/* Set SCK/MOSI/CS as hi-z, INS#/WP as pull-up */
+ 104               	.LM2:
+ 105 0002 87B3      		in r24,0x17
+ 106 0004 887C      		andi r24,lo8(-56)
+ 107 0006 87BB      		out 0x17,r24
+  91:diskio.c      **** 	PORTB &= ~0b00000111;
+ 109               	.LM3:
+ 110 0008 88B3      		in r24,0x18
+ 111 000a 887F      		andi r24,lo8(-8)
+ 112 000c 88BB      		out 0x18,r24
+  92:diskio.c      **** 	PORTB |=  0b00110000;
+ 114               	.LM4:
+ 115 000e 88B3      		in r24,0x18
+ 116 0010 8063      		ori r24,lo8(48)
+ 117 0012 88BB      		out 0x18,r24
+  93:diskio.c      **** 
+  94:diskio.c      **** 	{	/* Remove this block if no socket power control */
+  95:diskio.c      **** 		PORTA |= _BV(7);		/* Socket power off (PE7=high) */
+ 119               	.LM5:
+ 120 0014 DF9A      		sbi 0x1b,7
+  96:diskio.c      **** 		for (Timer1 = 20; Timer1; );	/* Wait for 20ms */
+ 122               	.LM6:
+ 123 0016 84E1      		ldi r24,lo8(20)
+ 124 0018 8093 0000 		sts Timer1,r24
+ 125               	.L2:
+ 127               	.LM7:
+ 128 001c 8091 0000 		lds r24,Timer1
+ 129 0020 8111      		cpse r24,__zero_reg__
+ 130 0022 00C0      		rjmp .L2
+ 131               	/* epilogue start */
+  97:diskio.c      **** 	}
+  98:diskio.c      **** }
+ 133               	.LM8:
+ 134 0024 0895      		ret
+ 136               	.Lscope1:
+ 138               		.stabd	78,0,0
+ 142               	xchg_spi:
+ 143               		.stabd	46,0,0
+  99:diskio.c      **** 
+ 100:diskio.c      **** 
+ 101:diskio.c      **** 
+ 102:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 103:diskio.c      **** /* Transmit/Receive data from/to MMC via SPI  (Platform dependent)       */
+ 104:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 105:diskio.c      **** 
+ 106:diskio.c      **** /* Exchange a byte */
+ 107:diskio.c      **** static
+ 108:diskio.c      **** BYTE xchg_spi (		/* Returns received data */
+ 109:diskio.c      **** 	BYTE dat		/* Data to be sent */
+ 110:diskio.c      **** )
+ 111:diskio.c      **** {
+ 145               	.LM9:
+ 146               	.LFBB2:
+ 147               	/* prologue: function */
+ 148               	/* frame size = 0 */
+ 149               	/* stack size = 0 */
+ 150               	.L__stack_usage = 0
+ 112:diskio.c      **** 	SPDR = dat;
+ 152               	.LM10:
+ 153 0026 8FB9      		out 0xf,r24
+ 154               	.L5:
+ 113:diskio.c      **** 	loop_until_bit_is_set(SPSR, SPIF);
+ 156               	.LM11:
+ 157 0028 779B      		sbis 0xe,7
+ 158 002a 00C0      		rjmp .L5
+ 114:diskio.c      **** 	return SPDR;
+ 160               	.LM12:
+ 161 002c 8FB1      		in r24,0xf
+ 115:diskio.c      **** }
+ 163               	.LM13:
+ 164 002e 0895      		ret
+ 166               	.Lscope2:
+ 168               		.stabd	78,0,0
+ 171               	deselect:
+ 172               		.stabd	46,0,0
+ 116:diskio.c      **** 
+ 117:diskio.c      **** /* Send a data block fast */
+ 118:diskio.c      **** static
+ 119:diskio.c      **** void xmit_spi_multi (
+ 120:diskio.c      **** 	const BYTE *p,	/* Data block to be sent */
+ 121:diskio.c      **** 	UINT cnt		/* Size of data block */
+ 122:diskio.c      **** )
+ 123:diskio.c      **** {
+ 124:diskio.c      **** 	do {
+ 125:diskio.c      **** 		SPDR = *p++; loop_until_bit_is_set(SPSR,SPIF);
+ 126:diskio.c      **** 		SPDR = *p++; loop_until_bit_is_set(SPSR,SPIF);
+ 127:diskio.c      **** 	} while (cnt -= 2);
+ 128:diskio.c      **** }
+ 129:diskio.c      **** 
+ 130:diskio.c      **** /* Receive a data block fast */
+ 131:diskio.c      **** static
+ 132:diskio.c      **** void rcvr_spi_multi (
+ 133:diskio.c      **** 	BYTE *p,	/* Data buffer */
+ 134:diskio.c      **** 	UINT cnt	/* Size of data block */
+ 135:diskio.c      **** )
+ 136:diskio.c      **** {
+ 137:diskio.c      **** 	do {
+ 138:diskio.c      **** 		SPDR = 0xFF; loop_until_bit_is_set(SPSR,SPIF); *p++ = SPDR;
+ 139:diskio.c      **** 		SPDR = 0xFF; loop_until_bit_is_set(SPSR,SPIF); *p++ = SPDR;
+ 140:diskio.c      **** 	} while (cnt -= 2);
+ 141:diskio.c      **** }
+ 142:diskio.c      **** 
+ 143:diskio.c      **** 
+ 144:diskio.c      **** 
+ 145:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 146:diskio.c      **** /* Wait for card ready                                                   */
+ 147:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 148:diskio.c      **** 
+ 149:diskio.c      **** static
+ 150:diskio.c      **** int wait_ready (	/* 1:Ready, 0:Timeout */
+ 151:diskio.c      **** 	UINT wt			/* Timeout [ms] */
+ 152:diskio.c      **** )
+ 153:diskio.c      **** {
+ 154:diskio.c      **** 	BYTE d;
+ 155:diskio.c      **** 
+ 156:diskio.c      **** 
+ 157:diskio.c      **** 	Timer2 = wt / 10;
+ 158:diskio.c      **** 	do
+ 159:diskio.c      **** 		d = xchg_spi(0xFF);
+ 160:diskio.c      **** 	while (d != 0xFF && Timer2);
+ 161:diskio.c      **** 
+ 162:diskio.c      **** 	return (d == 0xFF) ? 1 : 0;
+ 163:diskio.c      **** }
+ 164:diskio.c      **** 
+ 165:diskio.c      **** 
+ 166:diskio.c      **** 
+ 167:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 168:diskio.c      **** /* Deselect the card and release SPI bus                                 */
+ 169:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 170:diskio.c      **** 
+ 171:diskio.c      **** static
+ 172:diskio.c      **** void deselect (void)
+ 173:diskio.c      **** {
+ 174               	.LM14:
+ 175               	.LFBB3:
+ 176               	/* prologue: function */
+ 177               	/* frame size = 0 */
+ 178               	/* stack size = 0 */
+ 179               	.L__stack_usage = 0
+ 174:diskio.c      **** 	CS_HIGH();
+ 181               	.LM15:
+ 182 0030 C09A      		sbi 0x18,0
+ 175:diskio.c      **** 	xchg_spi(0xFF);	/* Dummy clock (force DO hi-z for multiple slave SPI) */
+ 184               	.LM16:
+ 185 0032 8FEF      		ldi r24,lo8(-1)
+ 186 0034 0C94 0000 		jmp xchg_spi
+ 188               	.Lscope3:
+ 190               		.stabd	78,0,0
+ 194               	send_cmd:
+ 195               		.stabd	46,0,0
+ 176:diskio.c      **** }
+ 177:diskio.c      **** 
+ 178:diskio.c      **** 
+ 179:diskio.c      **** 
+ 180:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 181:diskio.c      **** /* Select the card and wait for ready                                    */
+ 182:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 183:diskio.c      **** 
+ 184:diskio.c      **** static
+ 185:diskio.c      **** int select (void)	/* 1:Successful, 0:Timeout */
+ 186:diskio.c      **** {
+ 187:diskio.c      **** 	CS_LOW();
+ 188:diskio.c      **** 	xchg_spi(0xFF);	/* Dummy clock (force DO enabled) */
+ 189:diskio.c      **** 
+ 190:diskio.c      **** 	if (wait_ready(500)) return 1;	/* OK */
+ 191:diskio.c      **** 	deselect();
+ 192:diskio.c      **** 	return 0;	/* Timeout */
+ 193:diskio.c      **** }
+ 194:diskio.c      **** 
+ 195:diskio.c      **** 
+ 196:diskio.c      **** 
+ 197:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 198:diskio.c      **** /* Receive a data packet from MMC                                        */
+ 199:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 200:diskio.c      **** 
+ 201:diskio.c      **** static
+ 202:diskio.c      **** int rcvr_datablock (
+ 203:diskio.c      **** 	BYTE *buff,			/* Data buffer to store received data */
+ 204:diskio.c      **** 	UINT btr			/* Byte count (must be multiple of 4) */
+ 205:diskio.c      **** )
+ 206:diskio.c      **** {
+ 207:diskio.c      **** 	BYTE token;
+ 208:diskio.c      **** 
+ 209:diskio.c      **** 
+ 210:diskio.c      **** 	Timer1 = 20;
+ 211:diskio.c      **** 	do {							/* Wait for data packet in timeout of 200ms */
+ 212:diskio.c      **** 		token = xchg_spi(0xFF);
+ 213:diskio.c      **** 	} while ((token == 0xFF) && Timer1);
+ 214:diskio.c      **** 	if (token != 0xFE) return 0;	/* If not valid data token, retutn with error */
+ 215:diskio.c      **** 
+ 216:diskio.c      **** 	rcvr_spi_multi(buff, btr);		/* Receive the data block into buffer */
+ 217:diskio.c      **** 	xchg_spi(0xFF);					/* Discard CRC */
+ 218:diskio.c      **** 	xchg_spi(0xFF);
+ 219:diskio.c      **** 
+ 220:diskio.c      **** 	return 1;						/* Return with success */
+ 221:diskio.c      **** }
+ 222:diskio.c      **** 
+ 223:diskio.c      **** 
+ 224:diskio.c      **** 
+ 225:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 226:diskio.c      **** /* Send a data packet to MMC                                             */
+ 227:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 228:diskio.c      **** 
+ 229:diskio.c      **** #if	_USE_WRITE
+ 230:diskio.c      **** static
+ 231:diskio.c      **** int xmit_datablock (
+ 232:diskio.c      **** 	const BYTE *buff,	/* 512 byte data block to be transmitted */
+ 233:diskio.c      **** 	BYTE token			/* Data/Stop token */
+ 234:diskio.c      **** )
+ 235:diskio.c      **** {
+ 236:diskio.c      **** 	BYTE resp;
+ 237:diskio.c      **** 
+ 238:diskio.c      **** 
+ 239:diskio.c      **** 	if (!wait_ready(500)) return 0;
+ 240:diskio.c      **** 
+ 241:diskio.c      **** 	xchg_spi(token);					/* Xmit data token */
+ 242:diskio.c      **** 	if (token != 0xFD) {	/* Is data token */
+ 243:diskio.c      **** 		xmit_spi_multi(buff, 512);		/* Xmit the data block to the MMC */
+ 244:diskio.c      **** 		xchg_spi(0xFF);					/* CRC (Dummy) */
+ 245:diskio.c      **** 		xchg_spi(0xFF);
+ 246:diskio.c      **** 		resp = xchg_spi(0xFF);			/* Reveive data response */
+ 247:diskio.c      **** 		if ((resp & 0x1F) != 0x05)		/* If not accepted, return with error */
+ 248:diskio.c      **** 			return 0;
+ 249:diskio.c      **** 	}
+ 250:diskio.c      **** 
+ 251:diskio.c      **** 	return 1;
+ 252:diskio.c      **** }
+ 253:diskio.c      **** #endif
+ 254:diskio.c      **** 
+ 255:diskio.c      **** 
+ 256:diskio.c      **** 
+ 257:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 258:diskio.c      **** /* Send a command packet to MMC                                          */
+ 259:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 260:diskio.c      **** 
+ 261:diskio.c      **** static
+ 262:diskio.c      **** BYTE send_cmd (		/* Returns R1 resp (bit7==1:Send failed) */
+ 263:diskio.c      **** 	BYTE cmd,		/* Command index */
+ 264:diskio.c      **** 	DWORD arg		/* Argument */
+ 265:diskio.c      **** )
+ 266:diskio.c      **** {
+ 197               	.LM17:
+ 198               	.LFBB4:
+ 199 0038 FF92      		push r15
+ 200 003a 0F93      		push r16
+ 201 003c 1F93      		push r17
+ 202 003e CF93      		push r28
+ 203 0040 DF93      		push r29
+ 204               	/* prologue: function */
+ 205               	/* frame size = 0 */
+ 206               	/* stack size = 5 */
+ 207               	.L__stack_usage = 5
+ 208 0042 C82F      		mov r28,r24
+ 209 0044 D42F      		mov r29,r20
+ 210 0046 152F      		mov r17,r21
+ 211 0048 062F      		mov r16,r22
+ 212 004a F72E      		mov r15,r23
+ 267:diskio.c      **** 	BYTE n, res;
+ 268:diskio.c      **** 
+ 269:diskio.c      **** 
+ 270:diskio.c      **** 	if (cmd & 0x80) {	/* ACMD<n> is the command sequense of CMD55-CMD<n> */
+ 214               	.LM18:
+ 215 004c 87FF      		sbrs r24,7
+ 216 004e 00C0      		rjmp .L9
+ 271:diskio.c      **** 		cmd &= 0x7F;
+ 272:diskio.c      **** 		res = send_cmd(CMD55, 0);
+ 218               	.LM19:
+ 219 0050 40E0      		ldi r20,0
+ 220 0052 50E0      		ldi r21,0
+ 221 0054 BA01      		movw r22,r20
+ 222 0056 87E3      		ldi r24,lo8(55)
+ 223 0058 0E94 0000 		call send_cmd
+ 273:diskio.c      **** 		if (res > 1) return res;
+ 225               	.LM20:
+ 226 005c 8230      		cpi r24,lo8(2)
+ 227 005e 00F0      		brlo .+2
+ 228 0060 00C0      		rjmp .L21
+ 271:diskio.c      **** 		cmd &= 0x7F;
+ 230               	.LM21:
+ 231 0062 CF77      		andi r28,lo8(127)
+ 232               	.L9:
+ 274:diskio.c      **** 	}
+ 275:diskio.c      **** 
+ 276:diskio.c      **** 	/* Select the card and wait for ready */
+ 277:diskio.c      **** 	deselect();
+ 234               	.LM22:
+ 235 0064 0E94 0000 		call deselect
+ 236               	.LBB6:
+ 237               	.LBB7:
+ 187:diskio.c      **** 	CS_LOW();
+ 239               	.LM23:
+ 240 0068 C098      		cbi 0x18,0
+ 188:diskio.c      **** 	xchg_spi(0xFF);	/* Dummy clock (force DO enabled) */
+ 242               	.LM24:
+ 243 006a 8FEF      		ldi r24,lo8(-1)
+ 244 006c 0E94 0000 		call xchg_spi
+ 245               	.LBB8:
+ 246               	.LBB9:
+ 157:diskio.c      **** 	Timer2 = wt / 10;
+ 248               	.LM25:
+ 249 0070 82E3      		ldi r24,lo8(50)
+ 250 0072 8093 0000 		sts Timer2,r24
+ 251               	.L12:
+ 159:diskio.c      **** 		d = xchg_spi(0xFF);
+ 253               	.LM26:
+ 254 0076 8FEF      		ldi r24,lo8(-1)
+ 255 0078 0E94 0000 		call xchg_spi
+ 160:diskio.c      **** 	while (d != 0xFF && Timer2);
+ 257               	.LM27:
+ 258 007c 8F3F      		cpi r24,lo8(-1)
+ 259 007e 01F0      		breq .L11
+ 260 0080 8091 0000 		lds r24,Timer2
+ 261 0084 8111      		cpse r24,__zero_reg__
+ 262 0086 00C0      		rjmp .L12
+ 263 0088 00C0      		rjmp .L24
+ 264               	.L25:
+ 265               	.LBE9:
+ 266               	.LBE8:
+ 267               	.LBE7:
+ 268               	.LBE6:
+ 278:diskio.c      **** 	if (!select()) return 0xFF;
+ 279:diskio.c      **** 
+ 280:diskio.c      **** 	/* Send command packet */
+ 281:diskio.c      **** 	xchg_spi(0x40 | cmd);				/* Start + Command index */
+ 282:diskio.c      **** 	xchg_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
+ 283:diskio.c      **** 	xchg_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
+ 284:diskio.c      **** 	xchg_spi((BYTE)(arg >> 8));			/* Argument[15..8] */
+ 285:diskio.c      **** 	xchg_spi((BYTE)arg);				/* Argument[7..0] */
+ 286:diskio.c      **** 	n = 0x01;							/* Dummy CRC + Stop */
+ 287:diskio.c      **** 	if (cmd == CMD0) n = 0x95;			/* Valid CRC for CMD0(0) + Stop */
+ 288:diskio.c      **** 	if (cmd == CMD8) n = 0x87;			/* Valid CRC for CMD8(0x1AA) Stop */
+ 270               	.LM28:
+ 271 008a C830      		cpi r28,lo8(8)
+ 272 008c 01F0      		breq .L19
+ 286:diskio.c      **** 	n = 0x01;							/* Dummy CRC + Stop */
+ 274               	.LM29:
+ 275 008e 81E0      		ldi r24,lo8(1)
+ 276 0090 00C0      		rjmp .L14
+ 277               	.L20:
+ 287:diskio.c      **** 	if (cmd == CMD0) n = 0x95;			/* Valid CRC for CMD0(0) + Stop */
+ 279               	.LM30:
+ 280 0092 85E9      		ldi r24,lo8(-107)
+ 281 0094 00C0      		rjmp .L14
+ 282               	.L19:
+ 284               	.LM31:
+ 285 0096 87E8      		ldi r24,lo8(-121)
+ 286               	.L14:
+ 289:diskio.c      **** 	xchg_spi(n);
+ 288               	.LM32:
+ 289 0098 0E94 0000 		call xchg_spi
+ 290:diskio.c      **** 
+ 291:diskio.c      **** 	/* Receive command response */
+ 292:diskio.c      **** 	if (cmd == CMD12) xchg_spi(0xFF);		/* Skip a stuff byte when stop reading */
+ 291               	.LM33:
+ 292 009c CC30      		cpi r28,lo8(12)
+ 293 009e 01F4      		brne .L15
+ 295               	.LM34:
+ 296 00a0 8FEF      		ldi r24,lo8(-1)
+ 297 00a2 0E94 0000 		call xchg_spi
+ 298               	.L15:
+ 288:diskio.c      **** 	if (cmd == CMD8) n = 0x87;			/* Valid CRC for CMD8(0x1AA) Stop */
+ 300               	.LM35:
+ 301 00a6 CAE0      		ldi r28,lo8(10)
+ 302               	.L16:
+ 293:diskio.c      **** 	n = 10;								/* Wait for a valid response in timeout of 10 attempts */
+ 294:diskio.c      **** 	do
+ 295:diskio.c      **** 		res = xchg_spi(0xFF);
+ 304               	.LM36:
+ 305 00a8 8FEF      		ldi r24,lo8(-1)
+ 306 00aa 0E94 0000 		call xchg_spi
+ 296:diskio.c      **** 	while ((res & 0x80) && --n);
+ 308               	.LM37:
+ 309 00ae 87FF      		sbrs r24,7
+ 310 00b0 00C0      		rjmp .L21
+ 311 00b2 C150      		subi r28,lo8(-(-1))
+ 312 00b4 01F4      		brne .L16
+ 313 00b6 00C0      		rjmp .L21
+ 314               	.L24:
+ 315               	.LBB11:
+ 316               	.LBB10:
+ 191:diskio.c      **** 	deselect();
+ 318               	.LM38:
+ 319 00b8 0E94 0000 		call deselect
+ 278:diskio.c      **** 	if (!select()) return 0xFF;
+ 321               	.LM39:
+ 322 00bc 8FEF      		ldi r24,lo8(-1)
+ 323 00be 00C0      		rjmp .L21
+ 324               	.L11:
+ 325               	.LBE10:
+ 326               	.LBE11:
+ 281:diskio.c      **** 	xchg_spi(0x40 | cmd);				/* Start + Command index */
+ 328               	.LM40:
+ 329 00c0 8C2F      		mov r24,r28
+ 330 00c2 8064      		ori r24,lo8(64)
+ 331 00c4 0E94 0000 		call xchg_spi
+ 282:diskio.c      **** 	xchg_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
+ 333               	.LM41:
+ 334 00c8 8F2D      		mov r24,r15
+ 335 00ca 0E94 0000 		call xchg_spi
+ 283:diskio.c      **** 	xchg_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
+ 337               	.LM42:
+ 338 00ce 802F      		mov r24,r16
+ 339 00d0 0E94 0000 		call xchg_spi
+ 284:diskio.c      **** 	xchg_spi((BYTE)(arg >> 8));			/* Argument[15..8] */
+ 341               	.LM43:
+ 342 00d4 812F      		mov r24,r17
+ 343 00d6 0E94 0000 		call xchg_spi
+ 285:diskio.c      **** 	xchg_spi((BYTE)arg);				/* Argument[7..0] */
+ 345               	.LM44:
+ 346 00da 8D2F      		mov r24,r29
+ 347 00dc 0E94 0000 		call xchg_spi
+ 287:diskio.c      **** 	if (cmd == CMD0) n = 0x95;			/* Valid CRC for CMD0(0) + Stop */
+ 349               	.LM45:
+ 350 00e0 CC23      		tst r28
+ 351 00e2 01F0      		breq .L20
+ 352 00e4 00C0      		rjmp .L25
+ 353               	.L21:
+ 354               	/* epilogue start */
+ 297:diskio.c      **** 
+ 298:diskio.c      **** 	return res;			/* Return with the response value */
+ 299:diskio.c      **** }
+ 356               	.LM46:
+ 357 00e6 DF91      		pop r29
+ 358 00e8 CF91      		pop r28
+ 359 00ea 1F91      		pop r17
+ 360 00ec 0F91      		pop r16
+ 361 00ee FF90      		pop r15
+ 362 00f0 0895      		ret
+ 368               	.Lscope4:
+ 370               		.stabd	78,0,0
+ 374               	rcvr_datablock.constprop.1:
+ 375               		.stabd	46,0,0
+ 202:diskio.c      **** int rcvr_datablock (
+ 377               	.LM47:
+ 378               	.LFBB5:
+ 379 00f2 CF93      		push r28
+ 380 00f4 DF93      		push r29
+ 381               	/* prologue: function */
+ 382               	/* frame size = 0 */
+ 383               	/* stack size = 2 */
+ 384               	.L__stack_usage = 2
+ 385 00f6 EC01      		movw r28,r24
+ 210:diskio.c      **** 	Timer1 = 20;
+ 387               	.LM48:
+ 388 00f8 84E1      		ldi r24,lo8(20)
+ 389 00fa 8093 0000 		sts Timer1,r24
+ 390               	.L28:
+ 212:diskio.c      **** 		token = xchg_spi(0xFF);
+ 392               	.LM49:
+ 393 00fe 8FEF      		ldi r24,lo8(-1)
+ 394 0100 0E94 0000 		call xchg_spi
+ 213:diskio.c      **** 	} while ((token == 0xFF) && Timer1);
+ 396               	.LM50:
+ 397 0104 8F3F      		cpi r24,lo8(-1)
+ 398 0106 01F4      		brne .L27
+ 399 0108 8091 0000 		lds r24,Timer1
+ 400 010c 8111      		cpse r24,__zero_reg__
+ 401 010e 00C0      		rjmp .L28
+ 402 0110 00C0      		rjmp .L33
+ 403               	.L27:
+ 214:diskio.c      **** 	if (token != 0xFE) return 0;	/* If not valid data token, retutn with error */
+ 405               	.LM51:
+ 406 0112 8E3F      		cpi r24,lo8(-2)
+ 407 0114 01F4      		brne .L33
+ 202:diskio.c      **** int rcvr_datablock (
+ 409               	.LM52:
+ 410 0116 CE01      		movw r24,r28
+ 411 0118 9E5F      		subi r25,-2
+ 412               	.LBB16:
+ 413               	.LBB17:
+ 414               	.LBB18:
+ 415               	.LBB19:
+ 138:diskio.c      **** 		SPDR = 0xFF; loop_until_bit_is_set(SPSR,SPIF); *p++ = SPDR;
+ 417               	.LM53:
+ 418 011a 2FEF      		ldi r18,lo8(-1)
+ 419               	.L32:
+ 420 011c 2FB9      		out 0xf,r18
+ 421               	.L30:
+ 422 011e 779B      		sbis 0xe,7
+ 423 0120 00C0      		rjmp .L30
+ 424 0122 3FB1      		in r19,0xf
+ 425 0124 3883      		st Y,r19
+ 139:diskio.c      **** 		SPDR = 0xFF; loop_until_bit_is_set(SPSR,SPIF); *p++ = SPDR;
+ 427               	.LM54:
+ 428 0126 2FB9      		out 0xf,r18
+ 429               	.L31:
+ 430 0128 779B      		sbis 0xe,7
+ 431 012a 00C0      		rjmp .L31
+ 432 012c 3FB1      		in r19,0xf
+ 433 012e 3983      		std Y+1,r19
+ 202:diskio.c      **** int rcvr_datablock (
+ 435               	.LM55:
+ 436 0130 2296      		adiw r28,2
+ 140:diskio.c      **** 	} while (cnt -= 2);
+ 438               	.LM56:
+ 439 0132 C817      		cp r28,r24
+ 440 0134 D907      		cpc r29,r25
+ 441 0136 01F4      		brne .L32
+ 442               	.LBE19:
+ 443               	.LBE18:
+ 217:diskio.c      **** 	xchg_spi(0xFF);					/* Discard CRC */
+ 445               	.LM57:
+ 446 0138 8FEF      		ldi r24,lo8(-1)
+ 447 013a 0E94 0000 		call xchg_spi
+ 218:diskio.c      **** 	xchg_spi(0xFF);
+ 449               	.LM58:
+ 450 013e 8FEF      		ldi r24,lo8(-1)
+ 451 0140 0E94 0000 		call xchg_spi
+ 452 0144 21E0      		ldi r18,lo8(1)
+ 453 0146 30E0      		ldi r19,0
+ 454 0148 00C0      		rjmp .L29
+ 455               	.L33:
+ 456               	.LBE17:
+ 457               	.LBE16:
+ 214:diskio.c      **** 	if (token != 0xFE) return 0;	/* If not valid data token, retutn with error */
+ 459               	.LM59:
+ 460 014a 20E0      		ldi r18,0
+ 461 014c 30E0      		ldi r19,0
+ 462               	.L29:
+ 221:diskio.c      **** }
+ 464               	.LM60:
+ 465 014e C901      		movw r24,r18
+ 466               	/* epilogue start */
+ 467 0150 DF91      		pop r29
+ 468 0152 CF91      		pop r28
+ 469 0154 0895      		ret
+ 474               	.Lscope5:
+ 476               		.stabd	78,0,0
+ 479               	.global	disk_initialize
+ 481               	disk_initialize:
+ 482               		.stabd	46,0,0
+ 300:diskio.c      **** 
+ 301:diskio.c      **** 
+ 302:diskio.c      **** 
+ 303:diskio.c      **** /*--------------------------------------------------------------------------
+ 304:diskio.c      **** 
+ 305:diskio.c      ****    Public Functions
+ 306:diskio.c      **** 
+ 307:diskio.c      **** ---------------------------------------------------------------------------*/
+ 308:diskio.c      **** 
+ 309:diskio.c      **** 
+ 310:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 311:diskio.c      **** /* Initialize Disk Drive                                                 */
+ 312:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 313:diskio.c      **** 
+ 314:diskio.c      **** DSTATUS disk_initialize (
+ 315:diskio.c      **** 	BYTE pdrv		/* Physical drive nmuber (0) */
+ 316:diskio.c      **** )
+ 317:diskio.c      **** {
+ 484               	.LM61:
+ 485               	.LFBB6:
+ 486 0156 CF92      		push r12
+ 487 0158 DF92      		push r13
+ 488 015a EF92      		push r14
+ 489 015c FF92      		push r15
+ 490 015e 0F93      		push r16
+ 491 0160 1F93      		push r17
+ 492 0162 CF93      		push r28
+ 493 0164 DF93      		push r29
+ 494 0166 00D0      		rcall .
+ 495 0168 00D0      		rcall .
+ 496 016a CDB7      		in r28,__SP_L__
+ 497 016c DEB7      		in r29,__SP_H__
+ 498               	/* prologue: function */
+ 499               	/* frame size = 4 */
+ 500               	/* stack size = 12 */
+ 501               	.L__stack_usage = 12
+ 318:diskio.c      **** 	BYTE n, cmd, ty, ocr[4];
+ 319:diskio.c      **** 
+ 320:diskio.c      **** 
+ 321:diskio.c      **** 	if (pdrv) return STA_NOINIT;		/* Supports only single drive */
+ 503               	.LM62:
+ 504 016e 8111      		cpse r24,__zero_reg__
+ 505 0170 00C0      		rjmp .L60
+ 322:diskio.c      **** 	power_off();						/* Turn off the socket power to reset the card */
+ 507               	.LM63:
+ 508 0172 0E94 0000 		call power_off
+ 323:diskio.c      **** 	if (Stat & STA_NODISK) return Stat;	/* No card in the socket */
+ 510               	.LM64:
+ 511 0176 8091 0000 		lds r24,Stat
+ 512 017a 81FD      		sbrc r24,1
+ 513 017c 00C0      		rjmp .L59
+ 514               	.L40:
+ 515               	.LBB22:
+ 516               	.LBB23:
+  73:diskio.c      **** 		PORTA &= ~_BV(7);	/* Socket power on (PE7=low) */
+ 518               	.LM65:
+ 519 017e DF98      		cbi 0x1b,7
+  74:diskio.c      **** 		DDRA |= _BV(7);
+ 521               	.LM66:
+ 522 0180 D79A      		sbi 0x1a,7
+  75:diskio.c      **** 		for (Timer1 = 2; Timer1; );	/* Wait for 20ms */
+ 524               	.LM67:
+ 525 0182 82E0      		ldi r24,lo8(2)
+ 526 0184 8093 0000 		sts Timer1,r24
+ 527               	.L41:
+ 528 0188 8091 0000 		lds r24,Timer1
+ 529 018c 8111      		cpse r24,__zero_reg__
+ 530 018e 00C0      		rjmp .L41
+  78:diskio.c      **** 	PORTB |= 0b00000101;	/* Configure SCK/MOSI/CS as output */
+ 532               	.LM68:
+ 533 0190 88B3      		in r24,0x18
+ 534 0192 8560      		ori r24,lo8(5)
+ 535 0194 88BB      		out 0x18,r24
+  79:diskio.c      **** 	DDRB  |= 0b00000111;
+ 537               	.LM69:
+ 538 0196 87B3      		in r24,0x17
+ 539 0198 8760      		ori r24,lo8(7)
+ 540 019a 87BB      		out 0x17,r24
+  81:diskio.c      **** 	SPCR = 0x52;			/* Enable SPI function in mode 0 */
+ 542               	.LM70:
+ 543 019c 82E5      		ldi r24,lo8(82)
+ 544 019e 8DB9      		out 0xd,r24
+  82:diskio.c      **** 	SPSR = 0x01;			/* SPI 2x mode */
+ 546               	.LM71:
+ 547 01a0 91E0      		ldi r25,lo8(1)
+ 548 01a2 9EB9      		out 0xe,r25
+ 549               	.LBE23:
+ 550               	.LBE22:
+ 324:diskio.c      **** 	power_on();							/* Turn on the socket power */
+ 325:diskio.c      **** 	FCLK_SLOW();
+ 552               	.LM72:
+ 553 01a4 8DB9      		out 0xd,r24
+ 554 01a6 1AE0      		ldi r17,lo8(10)
+ 555               	.L42:
+ 326:diskio.c      **** 	for (n = 10; n; n--) xchg_spi(0xFF);	/* 80 dummy clocks */
+ 557               	.LM73:
+ 558 01a8 8FEF      		ldi r24,lo8(-1)
+ 559 01aa 0E94 0000 		call xchg_spi
+ 560 01ae 1150      		subi r17,lo8(-(-1))
+ 561 01b0 01F4      		brne .L42
+ 327:diskio.c      **** 
+ 328:diskio.c      **** 	ty = 0;
+ 329:diskio.c      **** 	if (send_cmd(CMD0, 0) == 1) {			/* Enter Idle state */
+ 563               	.LM74:
+ 564 01b2 40E0      		ldi r20,0
+ 565 01b4 50E0      		ldi r21,0
+ 566 01b6 BA01      		movw r22,r20
+ 567 01b8 80E0      		ldi r24,0
+ 568 01ba 0E94 0000 		call send_cmd
+ 569 01be 8130      		cpi r24,lo8(1)
+ 570 01c0 01F0      		breq .L43
+ 571 01c2 00C0      		rjmp .L63
+ 572               	.L43:
+ 330:diskio.c      **** 		Timer1 = 100;						/* Initialization timeout of 1000 msec */
+ 574               	.LM75:
+ 575 01c4 84E6      		ldi r24,lo8(100)
+ 576 01c6 8093 0000 		sts Timer1,r24
+ 331:diskio.c      **** 		if (send_cmd(CMD8, 0x1AA) == 1) {	/* SDv2? */
+ 578               	.LM76:
+ 579 01ca 4AEA      		ldi r20,lo8(-86)
+ 580 01cc 51E0      		ldi r21,lo8(1)
+ 581 01ce 60E0      		ldi r22,0
+ 582 01d0 70E0      		ldi r23,0
+ 583 01d2 88E0      		ldi r24,lo8(8)
+ 584 01d4 0E94 0000 		call send_cmd
+ 585 01d8 8130      		cpi r24,lo8(1)
+ 586 01da 01F0      		breq .+2
+ 587 01dc 00C0      		rjmp .L45
+ 588 01de 8E01      		movw r16,r28
+ 589 01e0 0F5F      		subi r16,-1
+ 590 01e2 1F4F      		sbci r17,-1
+ 314:diskio.c      **** DSTATUS disk_initialize (
+ 592               	.LM77:
+ 593 01e4 6E01      		movw r12,r28
+ 594 01e6 85E0      		ldi r24,5
+ 595 01e8 C80E      		add r12,r24
+ 596 01ea D11C      		adc r13,__zero_reg__
+ 597 01ec 7801      		movw r14,r16
+ 598               	.L46:
+ 332:diskio.c      **** 			for (n = 0; n < 4; n++) ocr[n] = xchg_spi(0xFF);		/* Get trailing return value of R7 resp */
+ 600               	.LM78:
+ 601 01ee 8FEF      		ldi r24,lo8(-1)
+ 602 01f0 0E94 0000 		call xchg_spi
+ 603 01f4 F701      		movw r30,r14
+ 604 01f6 8193      		st Z+,r24
+ 605 01f8 7F01      		movw r14,r30
+ 606 01fa EC15      		cp r30,r12
+ 607 01fc FD05      		cpc r31,r13
+ 608 01fe 01F4      		brne .L46
+ 333:diskio.c      **** 			if (ocr[2] == 0x01 && ocr[3] == 0xAA) {				/* The card can work at vdd range of 2.7-3.6V */
+ 610               	.LM79:
+ 611 0200 8B81      		ldd r24,Y+3
+ 612 0202 8130      		cpi r24,lo8(1)
+ 613 0204 01F0      		breq .+2
+ 614 0206 00C0      		rjmp .L63
+ 616               	.LM80:
+ 617 0208 8C81      		ldd r24,Y+4
+ 618 020a 8A3A      		cpi r24,lo8(-86)
+ 619 020c 01F0      		breq .+2
+ 620 020e 00C0      		rjmp .L63
+ 621               	.L67:
+ 334:diskio.c      **** 				while (Timer1 && send_cmd(ACMD41, 1UL << 30));	/* Wait for leaving idle state (ACMD41 with HCS 
+ 623               	.LM81:
+ 624 0210 8091 0000 		lds r24,Timer1
+ 625 0214 8111      		cpse r24,__zero_reg__
+ 626 0216 00C0      		rjmp .L48
+ 627               	.L51:
+ 335:diskio.c      **** 				if (Timer1 && send_cmd(CMD58, 0) == 0) {		/* Check CCS bit in the OCR */
+ 629               	.LM82:
+ 630 0218 8091 0000 		lds r24,Timer1
+ 631 021c 8823      		tst r24
+ 632 021e 01F4      		brne .+2
+ 633 0220 00C0      		rjmp .L63
+ 634 0222 00C0      		rjmp .L49
+ 635               	.L48:
+ 334:diskio.c      **** 				while (Timer1 && send_cmd(ACMD41, 1UL << 30));	/* Wait for leaving idle state (ACMD41 with HCS 
+ 637               	.LM83:
+ 638 0224 40E0      		ldi r20,0
+ 639 0226 50E0      		ldi r21,0
+ 640 0228 60E0      		ldi r22,0
+ 641 022a 70E4      		ldi r23,lo8(64)
+ 642 022c 89EA      		ldi r24,lo8(-87)
+ 643 022e 0E94 0000 		call send_cmd
+ 644 0232 8111      		cpse r24,__zero_reg__
+ 645 0234 00C0      		rjmp .L67
+ 646 0236 00C0      		rjmp .L51
+ 647               	.L49:
+ 649               	.LM84:
+ 650 0238 40E0      		ldi r20,0
+ 651 023a 50E0      		ldi r21,0
+ 652 023c BA01      		movw r22,r20
+ 653 023e 8AE3      		ldi r24,lo8(58)
+ 654 0240 0E94 0000 		call send_cmd
+ 655 0244 8111      		cpse r24,__zero_reg__
+ 656 0246 00C0      		rjmp .L63
+ 657               	.L66:
+ 336:diskio.c      **** 					for (n = 0; n < 4; n++) ocr[n] = xchg_spi(0xFF);
+ 659               	.LM85:
+ 660 0248 8FEF      		ldi r24,lo8(-1)
+ 661 024a 0E94 0000 		call xchg_spi
+ 662 024e F801      		movw r30,r16
+ 663 0250 8193      		st Z+,r24
+ 664 0252 8F01      		movw r16,r30
+ 665 0254 EC15      		cp r30,r12
+ 666 0256 FD05      		cpc r31,r13
+ 667 0258 01F4      		brne .L66
+ 337:diskio.c      **** 					ty = (ocr[0] & 0x40) ? CT_SD2 | CT_BLOCK : CT_SD2;	/* SDv2 */
+ 669               	.LM86:
+ 670 025a 8981      		ldd r24,Y+1
+ 671 025c 86FF      		sbrs r24,6
+ 672 025e 00C0      		rjmp .L61
+ 673 0260 1CE0      		ldi r17,lo8(12)
+ 674 0262 00C0      		rjmp .L44
+ 675               	.L45:
+ 338:diskio.c      **** 				}
+ 339:diskio.c      **** 			}
+ 340:diskio.c      **** 		} else {							/* SDv1 or MMCv3 */
+ 341:diskio.c      **** 			if (send_cmd(ACMD41, 0) <= 1) 	{
+ 677               	.LM87:
+ 678 0264 40E0      		ldi r20,0
+ 679 0266 50E0      		ldi r21,0
+ 680 0268 BA01      		movw r22,r20
+ 681 026a 89EA      		ldi r24,lo8(-87)
+ 682 026c 0E94 0000 		call send_cmd
+ 683 0270 8230      		cpi r24,lo8(2)
+ 684 0272 00F4      		brsh .L62
+ 342:diskio.c      **** 				ty = CT_SD1; cmd = ACMD41;	/* SDv1 */
+ 686               	.LM88:
+ 687 0274 12E0      		ldi r17,lo8(2)
+ 688 0276 09EA      		ldi r16,lo8(-87)
+ 689 0278 00C0      		rjmp .L68
+ 690               	.L62:
+ 343:diskio.c      **** 			} else {
+ 344:diskio.c      **** 				ty = CT_MMC; cmd = CMD1;	/* MMCv3 */
+ 692               	.LM89:
+ 693 027a 11E0      		ldi r17,lo8(1)
+ 694 027c 01E0      		ldi r16,lo8(1)
+ 695               	.L68:
+ 345:diskio.c      **** 			}
+ 346:diskio.c      **** 			while (Timer1 && send_cmd(cmd, 0));			/* Wait for leaving idle state */
+ 697               	.LM90:
+ 698 027e 8091 0000 		lds r24,Timer1
+ 699 0282 8111      		cpse r24,__zero_reg__
+ 700 0284 00C0      		rjmp .L54
+ 701               	.L57:
+ 347:diskio.c      **** 			if (!Timer1 || send_cmd(CMD16, 512) != 0)	/* Set R/W block length to 512 */
+ 703               	.LM91:
+ 704 0286 8091 0000 		lds r24,Timer1
+ 705 028a 8823      		tst r24
+ 706 028c 01F0      		breq .L63
+ 707 028e 00C0      		rjmp .L76
+ 708               	.L54:
+ 346:diskio.c      **** 			while (Timer1 && send_cmd(cmd, 0));			/* Wait for leaving idle state */
+ 710               	.LM92:
+ 711 0290 40E0      		ldi r20,0
+ 712 0292 50E0      		ldi r21,0
+ 713 0294 BA01      		movw r22,r20
+ 714 0296 802F      		mov r24,r16
+ 715 0298 0E94 0000 		call send_cmd
+ 716 029c 8111      		cpse r24,__zero_reg__
+ 717 029e 00C0      		rjmp .L68
+ 718 02a0 00C0      		rjmp .L57
+ 719               	.L76:
+ 721               	.LM93:
+ 722 02a2 40E0      		ldi r20,0
+ 723 02a4 52E0      		ldi r21,lo8(2)
+ 724 02a6 60E0      		ldi r22,0
+ 725 02a8 70E0      		ldi r23,0
+ 726 02aa 80E1      		ldi r24,lo8(16)
+ 727 02ac 0E94 0000 		call send_cmd
+ 728 02b0 8111      		cpse r24,__zero_reg__
+ 729 02b2 00C0      		rjmp .L63
+ 730 02b4 00C0      		rjmp .L44
+ 731               	.L61:
+ 337:diskio.c      **** 					ty = (ocr[0] & 0x40) ? CT_SD2 | CT_BLOCK : CT_SD2;	/* SDv2 */
+ 733               	.LM94:
+ 734 02b6 14E0      		ldi r17,lo8(4)
+ 735 02b8 00C0      		rjmp .L44
+ 736               	.L63:
+ 348:diskio.c      **** 				ty = 0;
+ 738               	.LM95:
+ 739 02ba 10E0      		ldi r17,0
+ 740               	.L44:
+ 349:diskio.c      **** 		}
+ 350:diskio.c      **** 	}
+ 351:diskio.c      **** 	CardType = ty;
+ 742               	.LM96:
+ 743 02bc 1093 0000 		sts CardType,r17
+ 352:diskio.c      **** 	deselect();
+ 745               	.LM97:
+ 746 02c0 0E94 0000 		call deselect
+ 353:diskio.c      **** 
+ 354:diskio.c      **** 	if (ty) {			/* Initialization succeded */
+ 748               	.LM98:
+ 749 02c4 1123      		tst r17
+ 750 02c6 01F0      		breq .L58
+ 355:diskio.c      **** 		Stat &= ~STA_NOINIT;		/* Clear STA_NOINIT */
+ 752               	.LM99:
+ 753 02c8 8091 0000 		lds r24,Stat
+ 754 02cc 8E7F      		andi r24,lo8(-2)
+ 755 02ce 8093 0000 		sts Stat,r24
+ 356:diskio.c      **** 		FCLK_FAST();
+ 757               	.LM100:
+ 758 02d2 80E5      		ldi r24,lo8(80)
+ 759 02d4 8DB9      		out 0xd,r24
+ 760 02d6 00C0      		rjmp .L59
+ 761               	.L58:
+ 357:diskio.c      **** 	} else {			/* Initialization failed */
+ 358:diskio.c      **** 		power_off();
+ 763               	.LM101:
+ 764 02d8 0E94 0000 		call power_off
+ 765               	.L59:
+ 359:diskio.c      **** 	}
+ 360:diskio.c      **** 
+ 361:diskio.c      **** 	return Stat;
+ 767               	.LM102:
+ 768 02dc 8091 0000 		lds r24,Stat
+ 769 02e0 00C0      		rjmp .L39
+ 770               	.L60:
+ 321:diskio.c      **** 	if (pdrv) return STA_NOINIT;		/* Supports only single drive */
+ 772               	.LM103:
+ 773 02e2 81E0      		ldi r24,lo8(1)
+ 774               	.L39:
+ 775               	/* epilogue start */
+ 362:diskio.c      **** }
+ 777               	.LM104:
+ 778 02e4 0F90      		pop __tmp_reg__
+ 779 02e6 0F90      		pop __tmp_reg__
+ 780 02e8 0F90      		pop __tmp_reg__
+ 781 02ea 0F90      		pop __tmp_reg__
+ 782 02ec DF91      		pop r29
+ 783 02ee CF91      		pop r28
+ 784 02f0 1F91      		pop r17
+ 785 02f2 0F91      		pop r16
+ 786 02f4 FF90      		pop r15
+ 787 02f6 EF90      		pop r14
+ 788 02f8 DF90      		pop r13
+ 789 02fa CF90      		pop r12
+ 790 02fc 0895      		ret
+ 797               	.Lscope6:
+ 799               		.stabd	78,0,0
+ 802               	.global	disk_status
+ 804               	disk_status:
+ 805               		.stabd	46,0,0
+ 363:diskio.c      **** 
+ 364:diskio.c      **** 
+ 365:diskio.c      **** 
+ 366:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 367:diskio.c      **** /* Get Disk Status                                                       */
+ 368:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 369:diskio.c      **** 
+ 370:diskio.c      **** DSTATUS disk_status (
+ 371:diskio.c      **** 	BYTE pdrv		/* Physical drive nmuber (0) */
+ 372:diskio.c      **** )
+ 373:diskio.c      **** {
+ 807               	.LM105:
+ 808               	.LFBB7:
+ 809               	/* prologue: function */
+ 810               	/* frame size = 0 */
+ 811               	/* stack size = 0 */
+ 812               	.L__stack_usage = 0
+ 374:diskio.c      **** 	if (pdrv) return STA_NOINIT;	/* Supports only single drive */
+ 814               	.LM106:
+ 815 02fe 8111      		cpse r24,__zero_reg__
+ 816 0300 00C0      		rjmp .L79
+ 375:diskio.c      **** 	return Stat;
+ 818               	.LM107:
+ 819 0302 8091 0000 		lds r24,Stat
+ 820 0306 0895      		ret
+ 821               	.L79:
+ 374:diskio.c      **** 	if (pdrv) return STA_NOINIT;	/* Supports only single drive */
+ 823               	.LM108:
+ 824 0308 81E0      		ldi r24,lo8(1)
+ 376:diskio.c      **** }
+ 826               	.LM109:
+ 827 030a 0895      		ret
+ 829               	.Lscope7:
+ 831               		.stabd	78,0,0
+ 837               	.global	disk_read
+ 839               	disk_read:
+ 840               		.stabd	46,0,0
+ 377:diskio.c      **** 
+ 378:diskio.c      **** 
+ 379:diskio.c      **** 
+ 380:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 381:diskio.c      **** /* Read Sector(s)                                                        */
+ 382:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 383:diskio.c      **** 
+ 384:diskio.c      **** DRESULT disk_read (
+ 385:diskio.c      **** 	BYTE pdrv,			/* Physical drive nmuber (0) */
+ 386:diskio.c      **** 	BYTE *buff,			/* Pointer to the data buffer to store read data */
+ 387:diskio.c      **** 	DWORD sector,		/* Start sector number (LBA) */
+ 388:diskio.c      **** 	BYTE count			/* Sector count (1..255) */
+ 389:diskio.c      **** )
+ 390:diskio.c      **** {
+ 842               	.LM110:
+ 843               	.LFBB8:
+ 844 030c 0F93      		push r16
+ 845 030e CF93      		push r28
+ 846 0310 DF93      		push r29
+ 847               	/* prologue: function */
+ 848               	/* frame size = 0 */
+ 849               	/* stack size = 3 */
+ 850               	.L__stack_usage = 3
+ 851 0312 EB01      		movw r28,r22
+ 852 0314 BA01      		movw r22,r20
+ 853 0316 A901      		movw r20,r18
+ 391:diskio.c      **** 	if (pdrv || !count) return RES_PARERR;
+ 855               	.LM111:
+ 856 0318 8111      		cpse r24,__zero_reg__
+ 857 031a 00C0      		rjmp .L90
+ 859               	.LM112:
+ 860 031c 0023      		tst r16
+ 861 031e 01F0      		breq .L90
+ 392:diskio.c      **** 	if (Stat & STA_NOINIT) return RES_NOTRDY;
+ 863               	.LM113:
+ 864 0320 8091 0000 		lds r24,Stat
+ 865 0324 80FD      		sbrc r24,0
+ 866 0326 00C0      		rjmp .L91
+ 393:diskio.c      **** 
+ 394:diskio.c      **** 	if (!(CardType & CT_BLOCK)) sector *= 512;	/* Convert to byte address if needed */
+ 868               	.LM114:
+ 869 0328 8091 0000 		lds r24,CardType
+ 870 032c 83FD      		sbrc r24,3
+ 871 032e 00C0      		rjmp .L82
+ 873               	.LM115:
+ 874 0330 89E0      		ldi r24,9
+ 875               		1:
+ 876 0332 440F      		lsl r20
+ 877 0334 551F      		rol r21
+ 878 0336 661F      		rol r22
+ 879 0338 771F      		rol r23
+ 880 033a 8A95      		dec r24
+ 881 033c 01F4      		brne 1b
+ 882               	.L82:
+ 395:diskio.c      **** 
+ 396:diskio.c      **** 	if (count == 1) {	/* Single block read */
+ 884               	.LM116:
+ 885 033e 0130      		cpi r16,lo8(1)
+ 886 0340 01F4      		brne .L83
+ 397:diskio.c      **** 		if ((send_cmd(CMD17, sector) == 0)	/* READ_SINGLE_BLOCK */
+ 888               	.LM117:
+ 889 0342 81E1      		ldi r24,lo8(17)
+ 890 0344 0E94 0000 		call send_cmd
+ 891 0348 8111      		cpse r24,__zero_reg__
+ 892 034a 00C0      		rjmp .L84
+ 398:diskio.c      **** 			&& rcvr_datablock(buff, 512))
+ 894               	.LM118:
+ 895 034c CE01      		movw r24,r28
+ 896 034e 0E94 0000 		call rcvr_datablock.constprop.1
+ 897 0352 892B      		or r24,r25
+ 898 0354 01F0      		breq .L84
+ 899 0356 00E0      		ldi r16,0
+ 900 0358 00C0      		rjmp .L84
+ 901               	.L83:
+ 399:diskio.c      **** 			count = 0;
+ 400:diskio.c      **** 	}
+ 401:diskio.c      **** 	else {				/* Multiple block read */
+ 402:diskio.c      **** 		if (send_cmd(CMD18, sector) == 0) {	/* READ_MULTIPLE_BLOCK */
+ 903               	.LM119:
+ 904 035a 82E1      		ldi r24,lo8(18)
+ 905 035c 0E94 0000 		call send_cmd
+ 906 0360 8111      		cpse r24,__zero_reg__
+ 907 0362 00C0      		rjmp .L84
+ 908               	.L96:
+ 403:diskio.c      **** 			do {
+ 404:diskio.c      **** 				if (!rcvr_datablock(buff, 512)) break;
+ 910               	.LM120:
+ 911 0364 CE01      		movw r24,r28
+ 912 0366 0E94 0000 		call rcvr_datablock.constprop.1
+ 913 036a 892B      		or r24,r25
+ 914 036c 01F0      		breq .L86
+ 405:diskio.c      **** 				buff += 512;
+ 916               	.LM121:
+ 917 036e DE5F      		subi r29,-2
+ 406:diskio.c      **** 			} while (--count);
+ 919               	.LM122:
+ 920 0370 0150      		subi r16,lo8(-(-1))
+ 921 0372 01F4      		brne .L96
+ 922               	.L86:
+ 407:diskio.c      **** 			send_cmd(CMD12, 0);				/* STOP_TRANSMISSION */
+ 924               	.LM123:
+ 925 0374 40E0      		ldi r20,0
+ 926 0376 50E0      		ldi r21,0
+ 927 0378 BA01      		movw r22,r20
+ 928 037a 8CE0      		ldi r24,lo8(12)
+ 929 037c 0E94 0000 		call send_cmd
+ 930               	.L84:
+ 408:diskio.c      **** 		}
+ 409:diskio.c      **** 	}
+ 410:diskio.c      **** 	deselect();
+ 932               	.LM124:
+ 933 0380 0E94 0000 		call deselect
+ 411:diskio.c      **** 
+ 412:diskio.c      **** 	return count ? RES_ERROR : RES_OK;
+ 935               	.LM125:
+ 936 0384 81E0      		ldi r24,lo8(1)
+ 937 0386 0111      		cpse r16,__zero_reg__
+ 938 0388 00C0      		rjmp .L81
+ 939 038a 80E0      		ldi r24,0
+ 940 038c 00C0      		rjmp .L81
+ 941               	.L90:
+ 391:diskio.c      **** 	if (pdrv || !count) return RES_PARERR;
+ 943               	.LM126:
+ 944 038e 84E0      		ldi r24,lo8(4)
+ 945 0390 00C0      		rjmp .L81
+ 946               	.L91:
+ 392:diskio.c      **** 	if (Stat & STA_NOINIT) return RES_NOTRDY;
+ 948               	.LM127:
+ 949 0392 83E0      		ldi r24,lo8(3)
+ 950               	.L81:
+ 951               	/* epilogue start */
+ 413:diskio.c      **** }
+ 953               	.LM128:
+ 954 0394 DF91      		pop r29
+ 955 0396 CF91      		pop r28
+ 956 0398 0F91      		pop r16
+ 957 039a 0895      		ret
+ 959               	.Lscope8:
+ 961               		.stabd	78,0,0
+ 963               	.global	disk_timerproc
+ 965               	disk_timerproc:
+ 966               		.stabd	46,0,0
+ 414:diskio.c      **** 
+ 415:diskio.c      **** 
+ 416:diskio.c      **** 
+ 417:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 418:diskio.c      **** /* Write Sector(s)                                                       */
+ 419:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 420:diskio.c      **** 
+ 421:diskio.c      **** #if _USE_WRITE
+ 422:diskio.c      **** DRESULT disk_write (
+ 423:diskio.c      **** 	BYTE pdrv,			/* Physical drive nmuber (0) */
+ 424:diskio.c      **** 	const BYTE *buff,	/* Pointer to the data to be written */
+ 425:diskio.c      **** 	DWORD sector,		/* Start sector number (LBA) */
+ 426:diskio.c      **** 	BYTE count			/* Sector count (1..255) */
+ 427:diskio.c      **** )
+ 428:diskio.c      **** {
+ 429:diskio.c      **** 	if (pdrv || !count) return RES_PARERR;
+ 430:diskio.c      **** 	if (Stat & STA_NOINIT) return RES_NOTRDY;
+ 431:diskio.c      **** 	if (Stat & STA_PROTECT) return RES_WRPRT;
+ 432:diskio.c      **** 
+ 433:diskio.c      **** 	if (!(CardType & CT_BLOCK)) sector *= 512;	/* Convert to byte address if needed */
+ 434:diskio.c      **** 
+ 435:diskio.c      **** 	if (count == 1) {	/* Single block write */
+ 436:diskio.c      **** 		if ((send_cmd(CMD24, sector) == 0)	/* WRITE_BLOCK */
+ 437:diskio.c      **** 			&& xmit_datablock(buff, 0xFE))
+ 438:diskio.c      **** 			count = 0;
+ 439:diskio.c      **** 	}
+ 440:diskio.c      **** 	else {				/* Multiple block write */
+ 441:diskio.c      **** 		if (CardType & CT_SDC) send_cmd(ACMD23, count);
+ 442:diskio.c      **** 		if (send_cmd(CMD25, sector) == 0) {	/* WRITE_MULTIPLE_BLOCK */
+ 443:diskio.c      **** 			do {
+ 444:diskio.c      **** 				if (!xmit_datablock(buff, 0xFC)) break;
+ 445:diskio.c      **** 				buff += 512;
+ 446:diskio.c      **** 			} while (--count);
+ 447:diskio.c      **** 			if (!xmit_datablock(0, 0xFD))	/* STOP_TRAN token */
+ 448:diskio.c      **** 				count = 1;
+ 449:diskio.c      **** 		}
+ 450:diskio.c      **** 	}
+ 451:diskio.c      **** 	deselect();
+ 452:diskio.c      **** 
+ 453:diskio.c      **** 	return count ? RES_ERROR : RES_OK;
+ 454:diskio.c      **** }
+ 455:diskio.c      **** #endif
+ 456:diskio.c      **** 
+ 457:diskio.c      **** 
+ 458:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 459:diskio.c      **** /* Miscellaneous Functions                                               */
+ 460:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 461:diskio.c      **** 
+ 462:diskio.c      **** #if _USE_IOCTL
+ 463:diskio.c      **** DRESULT disk_ioctl (
+ 464:diskio.c      **** 	BYTE pdrv,		/* Physical drive nmuber (0) */
+ 465:diskio.c      **** 	BYTE cmd,		/* Control code */
+ 466:diskio.c      **** 	void *buff		/* Buffer to send/receive control data */
+ 467:diskio.c      **** )
+ 468:diskio.c      **** {
+ 469:diskio.c      **** 	DRESULT res;
+ 470:diskio.c      **** 	BYTE n, csd[16], *ptr = buff;
+ 471:diskio.c      **** 	DWORD *dp, st, ed, csize;
+ 472:diskio.c      **** 
+ 473:diskio.c      **** 
+ 474:diskio.c      **** 	if (pdrv) return RES_PARERR;
+ 475:diskio.c      **** 
+ 476:diskio.c      **** 	res = RES_ERROR;
+ 477:diskio.c      **** 
+ 478:diskio.c      **** 	if (cmd == CTRL_POWER) {
+ 479:diskio.c      **** 		switch (ptr[0]) {
+ 480:diskio.c      **** 		case 0:		/* Sub control code (POWER_OFF) */
+ 481:diskio.c      **** 			power_off();		/* Power off */
+ 482:diskio.c      **** 			res = RES_OK;
+ 483:diskio.c      **** 			break;
+ 484:diskio.c      **** 		case 1:		/* Sub control code (POWER_GET) */
+ 485:diskio.c      **** 			ptr[1] = (BYTE)power_status();
+ 486:diskio.c      **** 			res = RES_OK;
+ 487:diskio.c      **** 			break;
+ 488:diskio.c      **** 		default :
+ 489:diskio.c      **** 			res = RES_PARERR;
+ 490:diskio.c      **** 		}
+ 491:diskio.c      **** 	}
+ 492:diskio.c      **** 	else {
+ 493:diskio.c      **** 		if (Stat & STA_NOINIT) return RES_NOTRDY;
+ 494:diskio.c      **** 
+ 495:diskio.c      **** 		switch (cmd) {
+ 496:diskio.c      **** 		case CTRL_SYNC :		/* Make sure that no pending write process. Do not remove this or written secto
+ 497:diskio.c      **** 			if (select()) res = RES_OK;
+ 498:diskio.c      **** 			break;
+ 499:diskio.c      **** 
+ 500:diskio.c      **** 		case GET_SECTOR_COUNT :	/* Get number of sectors on the disk (DWORD) */
+ 501:diskio.c      **** 			if ((send_cmd(CMD9, 0) == 0) && rcvr_datablock(csd, 16)) {
+ 502:diskio.c      **** 				if ((csd[0] >> 6) == 1) {	/* SDC ver 2.00 */
+ 503:diskio.c      **** 					csize = csd[9] + ((WORD)csd[8] << 8) + ((DWORD)(csd[7] & 63) << 16) + 1;
+ 504:diskio.c      **** 					*(DWORD*)buff = csize << 10;
+ 505:diskio.c      **** 				} else {					/* SDC ver 1.XX or MMC*/
+ 506:diskio.c      **** 					n = (csd[5] & 15) + ((csd[10] & 128) >> 7) + ((csd[9] & 3) << 1) + 2;
+ 507:diskio.c      **** 					csize = (csd[8] >> 6) + ((WORD)csd[7] << 2) + ((WORD)(csd[6] & 3) << 10) + 1;
+ 508:diskio.c      **** 					*(DWORD*)buff = csize << (n - 9);
+ 509:diskio.c      **** 				}
+ 510:diskio.c      **** 				res = RES_OK;
+ 511:diskio.c      **** 			}
+ 512:diskio.c      **** 			break;
+ 513:diskio.c      **** 
+ 514:diskio.c      **** 		case GET_BLOCK_SIZE :	/* Get erase block size in unit of sector (DWORD) */
+ 515:diskio.c      **** 			if (CardType & CT_SD2) {	/* SDv2? */
+ 516:diskio.c      **** 				if (send_cmd(ACMD13, 0) == 0) {	/* Read SD status */
+ 517:diskio.c      **** 					xchg_spi(0xFF);
+ 518:diskio.c      **** 					if (rcvr_datablock(csd, 16)) {				/* Read partial block */
+ 519:diskio.c      **** 						for (n = 64 - 16; n; n--) xchg_spi(0xFF);	/* Purge trailing data */
+ 520:diskio.c      **** 						*(DWORD*)buff = 16UL << (csd[10] >> 4);
+ 521:diskio.c      **** 						res = RES_OK;
+ 522:diskio.c      **** 					}
+ 523:diskio.c      **** 				}
+ 524:diskio.c      **** 			} else {					/* SDv1 or MMCv3 */
+ 525:diskio.c      **** 				if ((send_cmd(CMD9, 0) == 0) && rcvr_datablock(csd, 16)) {	/* Read CSD */
+ 526:diskio.c      **** 					if (CardType & CT_SD1) {	/* SDv1 */
+ 527:diskio.c      **** 						*(DWORD*)buff = (((csd[10] & 63) << 1) + ((WORD)(csd[11] & 128) >> 7) + 1) << ((csd[13] >> 6)
+ 528:diskio.c      **** 					} else {					/* MMCv3 */
+ 529:diskio.c      **** 						*(DWORD*)buff = ((WORD)((csd[10] & 124) >> 2) + 1) * (((csd[11] & 3) << 3) + ((csd[11] & 224)
+ 530:diskio.c      **** 					}
+ 531:diskio.c      **** 					res = RES_OK;
+ 532:diskio.c      **** 				}
+ 533:diskio.c      **** 			}
+ 534:diskio.c      **** 			break;
+ 535:diskio.c      **** 
+ 536:diskio.c      **** 		/* Following commands are never used by FatFs module */
+ 537:diskio.c      **** 
+ 538:diskio.c      **** 		case MMC_GET_TYPE :		/* Get card type flags (1 byte) */
+ 539:diskio.c      **** 			*ptr = CardType;
+ 540:diskio.c      **** 			res = RES_OK;
+ 541:diskio.c      **** 			break;
+ 542:diskio.c      **** 
+ 543:diskio.c      **** 		case MMC_GET_CSD :		/* Receive CSD as a data block (16 bytes) */
+ 544:diskio.c      **** 			if (send_cmd(CMD9, 0) == 0		/* READ_CSD */
+ 545:diskio.c      **** 				&& rcvr_datablock(ptr, 16))
+ 546:diskio.c      **** 				res = RES_OK;
+ 547:diskio.c      **** 			break;
+ 548:diskio.c      **** 
+ 549:diskio.c      **** 		case MMC_GET_CID :		/* Receive CID as a data block (16 bytes) */
+ 550:diskio.c      **** 			if (send_cmd(CMD10, 0) == 0		/* READ_CID */
+ 551:diskio.c      **** 				&& rcvr_datablock(ptr, 16))
+ 552:diskio.c      **** 				res = RES_OK;
+ 553:diskio.c      **** 			break;
+ 554:diskio.c      **** 
+ 555:diskio.c      **** 		case MMC_GET_OCR :		/* Receive OCR as an R3 resp (4 bytes) */
+ 556:diskio.c      **** 			if (send_cmd(CMD58, 0) == 0) {	/* READ_OCR */
+ 557:diskio.c      **** 				for (n = 4; n; n--) *ptr++ = xchg_spi(0xFF);
+ 558:diskio.c      **** 				res = RES_OK;
+ 559:diskio.c      **** 			}
+ 560:diskio.c      **** 			break;
+ 561:diskio.c      **** 
+ 562:diskio.c      **** 		case MMC_GET_SDSTAT :	/* Receive SD statsu as a data block (64 bytes) */
+ 563:diskio.c      **** 			if (send_cmd(ACMD13, 0) == 0) {	/* SD_STATUS */
+ 564:diskio.c      **** 				xchg_spi(0xFF);
+ 565:diskio.c      **** 				if (rcvr_datablock(ptr, 64))
+ 566:diskio.c      **** 					res = RES_OK;
+ 567:diskio.c      **** 			}
+ 568:diskio.c      **** 			break;
+ 569:diskio.c      **** 
+ 570:diskio.c      **** 		default:
+ 571:diskio.c      **** 			res = RES_PARERR;
+ 572:diskio.c      **** 		}
+ 573:diskio.c      **** 
+ 574:diskio.c      **** 		deselect();
+ 575:diskio.c      **** 	}
+ 576:diskio.c      **** 
+ 577:diskio.c      **** 	return res;
+ 578:diskio.c      **** }
+ 579:diskio.c      **** #endif
+ 580:diskio.c      **** 
+ 581:diskio.c      **** 
+ 582:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 583:diskio.c      **** /* Device Timer Interrupt Procedure                                      */
+ 584:diskio.c      **** /*-----------------------------------------------------------------------*/
+ 585:diskio.c      **** /* This function must be called in period of 10ms                        */
+ 586:diskio.c      **** 
+ 587:diskio.c      **** void disk_timerproc (void)
+ 588:diskio.c      **** {
+ 968               	.LM129:
+ 969               	.LFBB9:
+ 970               	/* prologue: function */
+ 971               	/* frame size = 0 */
+ 972               	/* stack size = 0 */
+ 973               	.L__stack_usage = 0
+ 589:diskio.c      **** 	BYTE n, s;
+ 590:diskio.c      **** 
+ 591:diskio.c      **** 
+ 592:diskio.c      **** 	n = Timer1;				/* 100Hz decrement timer */
+ 975               	.LM130:
+ 976 039c 8091 0000 		lds r24,Timer1
+ 593:diskio.c      **** 	if (n) Timer1 = --n;
+ 978               	.LM131:
+ 979 03a0 8823      		tst r24
+ 980 03a2 01F0      		breq .L101
+ 982               	.LM132:
+ 983 03a4 8150      		subi r24,lo8(-(-1))
+ 984 03a6 8093 0000 		sts Timer1,r24
+ 985               	.L101:
+ 594:diskio.c      **** 	n = Timer2;
+ 987               	.LM133:
+ 988 03aa 8091 0000 		lds r24,Timer2
+ 595:diskio.c      **** 	if (n) Timer2 = --n;
+ 990               	.LM134:
+ 991 03ae 8823      		tst r24
+ 992 03b0 01F0      		breq .L102
+ 994               	.LM135:
+ 995 03b2 8150      		subi r24,lo8(-(-1))
+ 996 03b4 8093 0000 		sts Timer2,r24
+ 997               	.L102:
+ 596:diskio.c      **** 
+ 597:diskio.c      **** 	s = Stat;
+ 999               	.LM136:
+ 1000 03b8 8091 0000 		lds r24,Stat
+ 598:diskio.c      **** 
+ 599:diskio.c      **** 	if (SOCKWP)				/* Write protected */
+ 1002               	.LM137:
+ 1003 03bc B59B      		sbis 0x16,5
+ 1004 03be 00C0      		rjmp .L103
+ 600:diskio.c      **** 		s |= STA_PROTECT;
+ 1006               	.LM138:
+ 1007 03c0 8460      		ori r24,lo8(4)
+ 1008 03c2 00C0      		rjmp .L104
+ 1009               	.L103:
+ 601:diskio.c      **** 	else					/* Write enabled */
+ 602:diskio.c      **** 		s &= ~STA_PROTECT;
+ 1011               	.LM139:
+ 1012 03c4 8B7F      		andi r24,lo8(-5)
+ 1013               	.L104:
+ 603:diskio.c      **** 
+ 604:diskio.c      **** 	if (SOCKINS)			/* Card inserted */
+ 1015               	.LM140:
+ 1016 03c6 B499      		sbic 0x16,4
+ 1017 03c8 00C0      		rjmp .L105
+ 605:diskio.c      **** 		s &= ~STA_NODISK;
+ 1019               	.LM141:
+ 1020 03ca 8D7F      		andi r24,lo8(-3)
+ 1021 03cc 00C0      		rjmp .L106
+ 1022               	.L105:
+ 606:diskio.c      **** 	else					/* Socket empty */
+ 607:diskio.c      **** 		s |= (STA_NODISK | STA_NOINIT);
+ 1024               	.LM142:
+ 1025 03ce 8360      		ori r24,lo8(3)
+ 1026               	.L106:
+ 608:diskio.c      **** 
+ 609:diskio.c      **** 	Stat = s;				/* Update MMC status */
+ 1028               	.LM143:
+ 1029 03d0 8093 0000 		sts Stat,r24
+ 1030 03d4 0895      		ret
+ 1032               	.Lscope9:
+ 1034               		.stabd	78,0,0
+ 1035               		.local	Timer2
+ 1036               		.comm	Timer2,1,1
+ 1037               		.local	Timer1
+ 1038               		.comm	Timer1,1,1
+ 1039               		.data
+ 1042               	Stat:
+ 1043 0000 01        		.byte	1
+ 1044               		.local	CardType
+ 1045               		.comm	CardType,1,1
+ 1050               		.text
+ 1052               	.Letext0:
+ 1053               		.ident	"GCC: (Fedora 4.7.3-0.1.fc19) 4.7.3 20130216 (prerelease)"
+ 1054               	.global __do_copy_data
+ 1055               	.global __do_clear_bss
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 diskio.c
+     /tmp/ccahTumW.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccahTumW.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccahTumW.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccahTumW.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccahTumW.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccahTumW.s:91     .text:0000000000000000 power_off
+     /tmp/ccahTumW.s:1036   .bss:0000000000000001 Timer1
+     /tmp/ccahTumW.s:142    .text:0000000000000026 xchg_spi
+     /tmp/ccahTumW.s:171    .text:0000000000000030 deselect
+     /tmp/ccahTumW.s:194    .text:0000000000000038 send_cmd
+                             .bss:0000000000000000 Timer2
+     /tmp/ccahTumW.s:374    .text:00000000000000f2 rcvr_datablock.constprop.1
+     /tmp/ccahTumW.s:481    .text:0000000000000156 disk_initialize
+     /tmp/ccahTumW.s:1042   .data:0000000000000000 Stat
+     /tmp/ccahTumW.s:1038   .bss:0000000000000002 CardType
+     /tmp/ccahTumW.s:804    .text:00000000000002fe disk_status
+     /tmp/ccahTumW.s:839    .text:000000000000030c disk_read
+     /tmp/ccahTumW.s:965    .text:000000000000039c disk_timerproc
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

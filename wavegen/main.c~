@@ -1,0 +1,52 @@
+#define F_CPU 6000000UL
+ 
+#include <stdint.h>
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/pgmspace.h>
+//#include <ioavr.h>
+
+ 
+ 
+#define INTERRUPT_PERIOD 512
+#define FINT (F_CPU / INTERRUPT_PERIOD) // 16kHz?
+#define FS (FINT)
+ 
+ 
+int main() 
+{
+  PORTA.DIRSET=0xFF;
+  //PORTB.DIRSET=0xFF;
+  pwmSet(0,12);
+
+  while(1)
+  {
+    _delay_ms(50);
+    //PORTB.OUT=0xFF;
+    PORTA.OUT=~PORTA.OUT;
+  }
+}
+
+void pwmSet(char channel, char value) 
+{ 
+
+// Setup timer 
+TCC0_CTRLA = 0x01; // divide clock by 1 
+TCC0_PER = 0x0FFF; // set resolution to 12 bits 
+switch(channel){ 
+case 0: 
+TCC0_CCA = value; // duty cycle A 
+break; 
+case 1:    
+TCC0_CCB = val;   // B 
+break; 
+case 2:    
+TCC0_CCC = val;   // C 
+break; 
+case 3:    
+TCC0_CCD = val;   // D 
+}    
+TCC0_CTRLB = 0xF3; /* enable frequency generation for all 4 Channels */ 
+
+} 

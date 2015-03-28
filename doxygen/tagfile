@@ -1,0 +1,4066 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<tagfile>
+  <compound kind="file">
+    <name>config.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/</path>
+    <filename>config_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>F_CPU</name>
+      <anchorfile>config_8h.html</anchorfile>
+      <anchor>a43bafb28b29491ec7f871319b5a3b2f8</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>keyboard.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/keyboard/</path>
+    <filename>keyboard_8c</filename>
+    <includes id="keyboard_8h" name="keyboard.h" local="yes" imported="no">keyboard.h</includes>
+    <member kind="function">
+      <type></type>
+      <name>ISR</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>aeaf658ec243c86cedf6953943cacfa6c</anchor>
+      <arglist>(PORTF_INT1_vect)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>keyboard_clock_init</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a12e80295bc304d42073ca130ff9a9500</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>char</type>
+      <name>keyboard_render_scan_code</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a0d8cfaf4d0e76cc5ecb09681adac3ef3</anchor>
+      <arglist>(uint8_t data)</arglist>
+    </member>
+    <member kind="function">
+      <type>uint8_t</type>
+      <name>keyboard_read_char</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a7060d775150320db57889d2659bb6284</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>keyboard_init</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>aaeb4e4a3c4813ee1efc6b98bba9ec781</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>st</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>ab51051b9acefccd468cdbd407c826fb0</anchor>
+      <arglist>[20]</arglist>
+    </member>
+    <member kind="variable">
+      <type>volatile uint8_t</type>
+      <name>kbd_data</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>ac6271798c92bfb95295c0eb43ad1f8a5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volatile uint8_t</type>
+      <name>char_waiting</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a2076b44e14575d889c509d93df4e3ad2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>started</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a4962713018c207c653a60b1ec9554b52</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>bit_count</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a3638028601cbd7e3383db0fe214e6c9b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>shift</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>a28ac534ad4b71a6f265826746888e43e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>caps_lock</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>ade2e2c50ad5f47ed8904d123c732d5a6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>extended</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>acd53bef429b3afe798b7228806e6e294</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>release</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>add4c887e71286ff439152f14a491d84b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const char keymap[128]</type>
+      <name>PROGMEM</name>
+      <anchorfile>keyboard_8c.html</anchorfile>
+      <anchor>af786df5d8361570448476c5ec3d9e6e2</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>keyboard.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/keyboard/</path>
+    <filename>keyboard_8h</filename>
+    <includes id="lcd8bit_8h" name="lcd8bit.h" local="yes" imported="no">../lcd8bit/lcd8bit.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>INTERRUPT_PERIOD</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a533f998159de957b1f91e571cda46b9c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FINT</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>abef1196c18f992aa76600b2fd4535bf9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a30588c5eca7c9cb6ebba02a0236f0119</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>KB_CLK</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a589673e7bbb27cd5ee1b6e977cb63d47</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>KB_DATA</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a2814188fded020b333e7d90454d61271</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>KB_PORT</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>acfa1f9e0b185e8d32bff74155a3ab4eb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>keyboard_init</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>aaeb4e4a3c4813ee1efc6b98bba9ec781</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>char</type>
+      <name>keyboard_render_scan_code</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a0d8cfaf4d0e76cc5ecb09681adac3ef3</anchor>
+      <arglist>(uint8_t data)</arglist>
+    </member>
+    <member kind="function">
+      <type>uint8_t</type>
+      <name>keyboard_read_char</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a7060d775150320db57889d2659bb6284</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>keyboard_clock_init</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a12e80295bc304d42073ca130ff9a9500</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable">
+      <type>volatile uint8_t</type>
+      <name>kbd_data</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>ac6271798c92bfb95295c0eb43ad1f8a5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volatile uint8_t</type>
+      <name>char_waiting</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a2076b44e14575d889c509d93df4e3ad2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>started</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a4962713018c207c653a60b1ec9554b52</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>bit_count</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a3638028601cbd7e3383db0fe214e6c9b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>shift</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>a28ac534ad4b71a6f265826746888e43e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>caps_lock</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>ade2e2c50ad5f47ed8904d123c732d5a6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>extended</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>acd53bef429b3afe798b7228806e6e294</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint8_t</type>
+      <name>release</name>
+      <anchorfile>keyboard_8h.html</anchorfile>
+      <anchor>add4c887e71286ff439152f14a491d84b</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>keymap.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/keyboard/</path>
+    <filename>keymap_8h</filename>
+  </compound>
+  <compound kind="file">
+    <name>lcd8bit.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/lcd8bit/</path>
+    <filename>lcd8bit_8c</filename>
+    <includes id="config_8h" name="config.h" local="yes" imported="no">../config.h</includes>
+    <includes id="lcd8bit_8h" name="lcd8bit.h" local="yes" imported="no">lcd8bit.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>DATA_PORT</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>ab0c169c959c5be67954c866776329563</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LCD_RS</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a4781e073871c6f27f89b9463ad3a4ed1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LCD_E</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a6ec15b1e813d1f56d2eb644a127e5d49</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>COMM_PORT</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a18b1a802fdc6371ca9ea8219ab62f219</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_set_write_instruction</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a9d0f278e2fa5d8921d3a4fdd508a561e</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_set_write_data</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>ad55e5c04e2a5354bfd4840be5e0eb5d1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_byte</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>aef7fba4025d73ad60e375357e557bca3</anchor>
+      <arglist>(char c)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_clear_and_home</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a88fdc90276b48773630acfc4525ff0db</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_home</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a60675105b93bba6762aaab88d732365a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_goto</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>affc4cf9b640d7c72fcb1e8be36c0183c</anchor>
+      <arglist>(uint8_t line, uint8_t pos)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_line_one</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a8752d4e091188fcb07bbc9ae3c496e95</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_line_two</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>aa0b44a03031cc3639604de620e426021</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_data</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a082c749307f206b15a9cbeb775b03b5c</anchor>
+      <arglist>(char c)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a348a0350888f0a9bc01ed290423e2af8</anchor>
+      <arglist>(char *x, uint8_t len)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string_0</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a9aa8378a804ddb51f770bd01665df653</anchor>
+      <arglist>(char *x)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string_p</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>a39cdfea82914e968ea1dbf7a8c6c9f9e</anchor>
+      <arglist>(const char *s)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_init</name>
+      <anchorfile>lcd8bit_8c.html</anchorfile>
+      <anchor>ac23e73124dc9fabae95671fe71d074a6</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>lcd8bit.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/lcd8bit/</path>
+    <filename>lcd8bit_8h</filename>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_set_write_instruction</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a9d0f278e2fa5d8921d3a4fdd508a561e</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_set_write_data</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>ad55e5c04e2a5354bfd4840be5e0eb5d1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_byte</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>aef7fba4025d73ad60e375357e557bca3</anchor>
+      <arglist>(char c)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_clear_and_home</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a88fdc90276b48773630acfc4525ff0db</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_home</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a60675105b93bba6762aaab88d732365a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_goto</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>affc4cf9b640d7c72fcb1e8be36c0183c</anchor>
+      <arglist>(uint8_t line, uint8_t pos)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_line_one</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a8752d4e091188fcb07bbc9ae3c496e95</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_line_two</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>aa0b44a03031cc3639604de620e426021</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_data</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a082c749307f206b15a9cbeb775b03b5c</anchor>
+      <arglist>(char c)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a348a0350888f0a9bc01ed290423e2af8</anchor>
+      <arglist>(char *x, uint8_t len)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string_0</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a9aa8378a804ddb51f770bd01665df653</anchor>
+      <arglist>(char *x)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_write_string_p</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>a39cdfea82914e968ea1dbf7a8c6c9f9e</anchor>
+      <arglist>(const char *s)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lcd_init</name>
+      <anchorfile>lcd8bit_8h.html</anchorfile>
+      <anchor>ac23e73124dc9fabae95671fe71d074a6</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>list.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/list/</path>
+    <filename>list_8c</filename>
+    <includes id="list_8h" name="list.h" local="yes" imported="no">list.h</includes>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>newNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ace16262cb905d559225fe768d32d574b</anchor>
+      <arglist>(struct order *data)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>newNodeByRef</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ad0b81dec75f1c7bfca0ec9a6f9ae2f30</anchor>
+      <arglist>(struct order *data)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>pushNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ab20a8a7735339bdced34d2d97304b583</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>sort</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a68123d7e3ab7016228af42c9ae480626</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a48838b111c5cba7f2503e6cb34992371</anchor>
+      <arglist>(struct onode **head, struct onode *node1, struct onode *node2)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>insertNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>aac2759a1682242fc31ec173316a40647</anchor>
+      <arglist>(struct onode **head, struct onode *prevNode, struct onode *insertingNode)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>evictNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a57726dc16efcab2ebe228494fce04bf0</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteNodeOnly</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a440d2fb8a7f4399ae63fadcd19e67353</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a59bce7be7525819723563c7a5d83065f</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>printList</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ac334adb29fda2c483930f77a871bc049</anchor>
+      <arglist>(struct onode *node, void(*printItem)(struct order *, FILE *), FILE *out)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getNextOrder</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ace9faaeb801bbdf650d93f4a8b075c4c</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getPrevOrder</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a9960b22010f913d546f29222e8fe71c1</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct order *</type>
+      <name>getOrderData</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a926f037e453969ff428e61cf5d0300ac</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>getOrderId</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a2eecdd9441c2808156e2823cf2647acf</anchor>
+      <arglist>(struct order *orderData)</arglist>
+    </member>
+    <member kind="function">
+      <type>char</type>
+      <name>getOrderStartstop</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a73e537f55ebe8a58816876e8c62c0613</anchor>
+      <arglist>(struct order *orderData, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>getOrderNote</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a2300cf7be3777ca0d27069a65378d41d</anchor>
+      <arglist>(struct order *orderData, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderStartstop</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a2772e75f849e208065637fb8e40816f6</anchor>
+      <arglist>(struct order *orderData, char newStartstop, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderNote</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>ac4be440700d9a5aba95aab1486c043d6</anchor>
+      <arglist>(struct order *orderData, char newNote, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderId</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>aa1c09c554716a9c9267e6bdea34f4040</anchor>
+      <arglist>(struct order *orderData, int id)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteList</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>afd387a5ae038d1e69411b6e5dee52bfe</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteJustList</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a1ca006182933095d94eb455540ff162d</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getOrderNode</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a495419524f4f52b77b4734361093ee47</anchor>
+      <arglist>(struct onode *head, int id)</arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>g</name>
+      <anchorfile>list_8c.html</anchorfile>
+      <anchor>a71867e609034d4dbd6d0ad8d84540e59</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>list.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/list/</path>
+    <filename>list_8h</filename>
+    <class kind="struct">order</class>
+    <class kind="struct">onode</class>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>newNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ace16262cb905d559225fe768d32d574b</anchor>
+      <arglist>(struct order *data)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>newNodeByRef</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ad0b81dec75f1c7bfca0ec9a6f9ae2f30</anchor>
+      <arglist>(struct order *data)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>pushNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ab20a8a7735339bdced34d2d97304b583</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getOrderNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>afd94ea6b6cb1035da16a95976a484ec8</anchor>
+      <arglist>(struct onode *head, int id)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>insertNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>aac2759a1682242fc31ec173316a40647</anchor>
+      <arglist>(struct onode **head, struct onode *prevNode, struct onode *insertingNode)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>evictNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a57726dc16efcab2ebe228494fce04bf0</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteNode</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a59bce7be7525819723563c7a5d83065f</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteNodeOnly</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a440d2fb8a7f4399ae63fadcd19e67353</anchor>
+      <arglist>(struct onode **head, struct onode *node)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteList</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>afd387a5ae038d1e69411b6e5dee52bfe</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>deleteJustList</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a1ca006182933095d94eb455540ff162d</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>printList</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ac334adb29fda2c483930f77a871bc049</anchor>
+      <arglist>(struct onode *node, void(*printItem)(struct order *, FILE *), FILE *out)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getNextOrder</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ace9faaeb801bbdf650d93f4a8b075c4c</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct onode *</type>
+      <name>getPrevOrder</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a9960b22010f913d546f29222e8fe71c1</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>struct order *</type>
+      <name>getOrderData</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a926f037e453969ff428e61cf5d0300ac</anchor>
+      <arglist>(struct onode *order_node)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>getOrderId</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a2eecdd9441c2808156e2823cf2647acf</anchor>
+      <arglist>(struct order *orderData)</arglist>
+    </member>
+    <member kind="function">
+      <type>char</type>
+      <name>getOrderStartstop</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a73e537f55ebe8a58816876e8c62c0613</anchor>
+      <arglist>(struct order *orderData, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>getOrderNote</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a2300cf7be3777ca0d27069a65378d41d</anchor>
+      <arglist>(struct order *orderData, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderId</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>aa1c09c554716a9c9267e6bdea34f4040</anchor>
+      <arglist>(struct order *orderData, int id)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderStartstop</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a2772e75f849e208065637fb8e40816f6</anchor>
+      <arglist>(struct order *orderData, char newStartstop, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderNote</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>ac4be440700d9a5aba95aab1486c043d6</anchor>
+      <arglist>(struct order *orderData, char newNote, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a2619995556f99e9827e5be178b5d6ebd</anchor>
+      <arglist>(struct onode **head, struct onode *n1, struct onode *n2)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>sort</name>
+      <anchorfile>list_8h.html</anchorfile>
+      <anchor>a68123d7e3ab7016228af42c9ae480626</anchor>
+      <arglist>(struct onode **head)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>main.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/</path>
+    <filename>main_8c</filename>
+    <includes id="config_8h" name="config.h" local="yes" imported="no">config.h</includes>
+    <includes id="list_8h" name="list.h" local="yes" imported="no">list/list.h</includes>
+    <includes id="lcd8bit_8h" name="lcd8bit.h" local="yes" imported="no">lcd8bit/lcd8bit.h</includes>
+    <includes id="ff_8h" name="ff.h" local="yes" imported="no">sd_card/ff.h</includes>
+    <includes id="integer_8h" name="integer.h" local="yes" imported="no">sd_card/integer.h</includes>
+    <includes id="wavegen_8h" name="wavegen.h" local="yes" imported="no">wavegen/wavegen.h</includes>
+    <includes id="keyboard_8h" name="keyboard.h" local="yes" imported="no">keyboard/keyboard.h</includes>
+    <member kind="function">
+      <type>DWORD</type>
+      <name>get_fattime</name>
+      <anchorfile>main_8c.html</anchorfile>
+      <anchor>af58b536abfd30f77213f4ecaf2ac52f5</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>die</name>
+      <anchorfile>main_8c.html</anchorfile>
+      <anchor>a3963feeee7b8bfeb3f34308a81c43663</anchor>
+      <arglist>(char *message)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>main</name>
+      <anchorfile>main_8c.html</anchorfile>
+      <anchor>ae66f6b31b5ad750f1fe042a706a4e3d4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable">
+      <type>FATFS</type>
+      <name>FatFs</name>
+      <anchorfile>main_8c.html</anchorfile>
+      <anchor>a8f47e042c2aca024c6534fdf5c3d9426</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>FIL *</type>
+      <name>fp</name>
+      <anchorfile>main_8c.html</anchorfile>
+      <anchor>a8d839bbcaa5e21902d2481c87c4f359f</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>Makefile</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/</path>
+    <filename>Makefile</filename>
+    <member kind="variable">
+      <type></type>
+      <name>DEVICE</name>
+      <anchorfile>Makefile.html</anchorfile>
+      <anchor>a833b28f90e109607cd5d9e826474893a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>gc sections</type>
+      <name>Wl</name>
+      <anchorfile>Makefile.html</anchorfile>
+      <anchor>acbf05e6f0553ff348b66242ac5d80039</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>diskio.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>diskio_8h</filename>
+    <includes id="integer_8h" name="integer.h" local="yes" imported="no">integer.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>STA_NOINIT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>abd6503c70d862b979a3f7080a59e9acd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>STA_NODISK</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aec625080763d6cf487e550a6c9a2dd19</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>STA_PROTECT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a9ec6dc5f6620a33fabe388d3a111ca8c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CTRL_SYNC</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a1b3c492f9aec325f0655941b75256f3c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GET_SECTOR_COUNT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a570216006f6a8fc4e1698b1bbb2d1dde</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GET_BLOCK_SIZE</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aec3bb4dfe075d0ba2f3b07b300a95500</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CTRL_ERASE_SECTOR</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a3b1dc812217ea7ffa118b14a3c1ab151</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CTRL_POWER</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a345531a07462afbd999f414708e3b65b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MMC_GET_TYPE</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aba3a81a9a47c7d1bf3ac7749bc72dcfd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MMC_GET_CSD</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ae3b858b81287929f7c7bea3b7aec3087</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MMC_GET_CID</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a17ad303dd18b19a4c90ab30a8a1c14c4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MMC_GET_OCR</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aff118ba6bd7a9fe7699cee049cff5d6c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MMC_GET_SDSTAT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a5cc43c8449b872e16ea5ab42592f793e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ATA_GET_REV</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a23f5fff3341e98825ea1f7367fd09f1a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ATA_GET_MODEL</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a31f556ab98ab80c39058b38d9283865d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ATA_GET_SN</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a469c4f989757ee1ee404134fea3c74ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CT_MMC</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ac52ec66c278308382fdf7b2c57f0ad8c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CT_SD1</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ad1c9fc863ec15d3320b3850dc571626e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CT_SD2</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a0db1b71113e73184a5ba511e7020a922</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CT_SDC</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ae76d94ac83c68d1f025cb0bcad77fa5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CT_BLOCK</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a7d48ce54c27f4f60666309e8627fab47</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>BYTE</type>
+      <name>DSTATUS</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>adba6790898ce4029c20a34b898ce73c1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <type></type>
+      <name>DRESULT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>RES_OK</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2ba2ea4b6ef3fffc17dd1d38ab5c2837737</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>RES_ERROR</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2ba78011f5557679ec178fb40bd21e89840</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>RES_WRPRT</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2ba442a6d4393dc404827067bc4e981b322</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>RES_NOTRDY</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2baad64c27c69eb1ff39ae67c5f77bb2b1d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>RES_PARERR</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>aacdfef1dad6565f65c26d12fe0ea4b2baf4dcc07fd46310b5495fa8025c89a9f3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>DSTATUS</type>
+      <name>disk_initialize</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a09cdaa6f36fa409bdf002727bff98eb1</anchor>
+      <arglist>(BYTE pdrv)</arglist>
+    </member>
+    <member kind="function">
+      <type>DSTATUS</type>
+      <name>disk_status</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>a8348ac5ee6d709420c02e45c111f4793</anchor>
+      <arglist>(BYTE pdrv)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_read</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ac0c802f8a12fa2047b4bec7109b9293f</anchor>
+      <arglist>(BYTE pdrv, BYTE *buff, DWORD sector, BYTE count)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_write</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ac4785625f4bb82e33562079813659880</anchor>
+      <arglist>(BYTE pdrv, const BYTE *buff, DWORD sector, BYTE count)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_ioctl</name>
+      <anchorfile>diskio_8h.html</anchorfile>
+      <anchor>ab00fa450a811dbdabe3c655c1a36fab4</anchor>
+      <arglist>(BYTE pdrv, BYTE cmd, void *buff)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>ff.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>ff_8c</filename>
+    <includes id="ff_8h" name="ff.h" local="yes" imported="no">ff.h</includes>
+    <includes id="diskio_8h" name="diskio.h" local="yes" imported="no">diskio.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>SS</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a42b5140fc5e09a53c8f4cba66dc0e6c1</anchor>
+      <arglist>(fs)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ENTER_FF</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a458e336ac53f8249ed02d844469b7076</anchor>
+      <arglist>(fs)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LEAVE_FF</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a7e653d8ca0ae09faa49cd5b7335fea84</anchor>
+      <arglist>(fs, res)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ABORT</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a41e4c46636679236568cf50b5535847f</anchor>
+      <arglist>(fs, res)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_DF1S</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a228bfd2cabe490c8567aaf08b8b2cc14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_EXCVT</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a4d9c368236443f6568fd60eebb809d0f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>IsUpper</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a89b2514198590e139dd064c5d534f302</anchor>
+      <arglist>(c)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>IsLower</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a4a9d454724926bd51a3aed589a97f08b</anchor>
+      <arglist>(c)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>IsDigit</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a65dee564f69f2ec27f25b67a348018b9</anchor>
+      <arglist>(c)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>IsDBCS1</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a58d63a832a117f179e41c7373d013dd6</anchor>
+      <arglist>(c)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>IsDBCS2</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a66a3fa880af6078ef181656c1d7d8ef1</anchor>
+      <arglist>(c)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a06c201f90533d5b49cd039c960327968</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_LOSS</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ac92c92c3a3d6b9235ac98feeb00e565a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_LFN</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ae957b8d4065ea0b3eed822aec5368d29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_LAST</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a5a0742bfc1d94f0c3baa5ede485048c4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_BODY</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a4a0e89b504dece19e2e4b02c83782ca2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_EXT</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a3b7fad0942e816fdb84d869c1f7a613e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NS_DOT</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a2db528782a021797b34bdc6e9e9de1c3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MIN_FAT16</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aeec02d5ae07ede32b7d74155bf0fda15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MIN_FAT32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a483625319f3e3bd5ac6502b46c375aed</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_jmpBoot</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a8f81669ee736efb2b2b49c7b0985472d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_OEMName</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a02a76ada191ec2dc5f8af60ff3576da7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_BytsPerSec</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a8551844b4eb4e15aecd8cc9aa3585fa2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_SecPerClus</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aab78e41c617a14b9540c0563d6b957fa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_RsvdSecCnt</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ab3ec444c8457c9bc98aa07e846f5c1b7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_NumFATs</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>af44a1e8c89ec5502595f23496d24cbf1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_RootEntCnt</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aaa667f14c87c45dc128f2ab208e92f98</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_TotSec16</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a4eb540eecde0f2df26fa8c7969341d68</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_Media</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a414e054c4b5ea3414ebefa3539e7e554</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_FATSz16</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a60a2f6efeb6a4c7cb2da1e5def6ca43b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_SecPerTrk</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ac71bb771432ea532bc47713a028ebd76</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_NumHeads</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a9c03603c3be34d4c5cc1b481b0bc6774</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_HiddSec</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a449d4ed5c4c8105daf29aad9488277f7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_TotSec32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a7723a9f0da553e8879d60909d85ccb7b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_DrvNum</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a0c51f7393341b839dfb241c2951f3ef4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_BootSig</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a85a92e790602efef4da3a2f141611ce8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_VolID</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a383a71bda500a0fb5a37f4edd785acbf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_VolLab</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a28498ba4b07ff90aaa9628e81fb89d32</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_FilSysType</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a2264848692d36c1b2499c9b6a10acf75</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_FATSz32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a6e6340030dc29e7da2e9f92e472a763d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_ExtFlags</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a6c832cd9e28f8e4fbbd45fdc86c7ebbb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_FSVer</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a1f75a149df65028e24d43727b9ffcb9d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_RootClus</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a7add0104bd20083d6940d616faecd45a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_FSInfo</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a51c45669282b9ce9da5152231df9f3ac</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BPB_BkBootSec</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a383726fb93488d41866028b4f07c90e1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_DrvNum32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aa670c7b495f5b347c442df67b188c58f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_BootSig32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a59c4b2f802ab4bc9319e5bd840e615b8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_VolID32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>abaa3aafdcf5e83f8cb7e2bb373b13525</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_VolLab32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a8241a49bce313184a58617ba1ad9e84c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_FilSysType32</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a8d8786452966cd0ce579f2575a54a348</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FSI_LeadSig</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a318e58c1966aba52b90ab98dcb649883</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FSI_StrucSig</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a3bac0e6ff5907873030db1d0a7c4ebef</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FSI_Free_Count</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ab711e50459aba01b11c6b46a7cc1410b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FSI_Nxt_Free</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a320700cedf300c9b418edf56e5e6b086</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MBR_Table</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ac3f187bf0ba891551f594af6b61f3188</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SZ_PTE</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>af133060c47366e7e557d4085d931183f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>BS_55AA</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a74b810b3f3583c1eb54bd4305c0f261a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_Name</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>afa89348e9fc2de82ae9e12c661366b0e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_Attr</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ad3233e40118ed66095f3c9545b788f8a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_NTres</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a87ee1f701c2ab941862e3ce00c1c1e9d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_CrtTimeTenth</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a55fd459982581ae39fe3aeb242b2bc0f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_CrtTime</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a47fb1881ea71d860db9b8280564cb4d5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_CrtDate</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>acf498617bb4c7750fd738864c3c0ab5a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_LstAccDate</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>afa0625d73f4683df24345f51e7a43da3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_FstClusHI</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a0bc29c3f09e1e9c40c414f7d50d7905c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_WrtTime</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ab9452d336adeece2a1b0b54ab35b8a59</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_WrtDate</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>abed17fa699511b09cbf64961373d63a4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_FstClusLO</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aebe0e913bff75a89d38dbcb04baf5dff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DIR_FileSize</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>abfbfa613864a02a65f0bf70ead6672c7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LDIR_Ord</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a6c97d545619e6586b02b5d4f39f7be25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LDIR_Attr</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a28dcd75633b49e40b42a31f0cf5f5929</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LDIR_Type</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>acb98a052a9be81564b56854df35480a0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LDIR_Chksum</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ade1d529763d2d097a6d1410956c8a84f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LDIR_FstClusLO</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ad73024151eff6baea94e680f7928969d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SZ_DIR</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ab10c2f2271dbdc132f9a6b9313fc7324</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LLE</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aff828b43518c49e1d637a822879b135d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DDE</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>af39f317ac33b961daaff4b8d8a7ec792</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>NDDE</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a741d6fdda5989919e0bb9811da804e56</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DEF_NAMEBUF</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a40aba328871d2be78bfdd74b390275db</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>INIT_BUF</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a966fe5792671b39db1ccf655a8c1af8d</anchor>
+      <arglist>(dobj)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FREE_BUF</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aba6d6942b59f11cf285bdbfb7e38f1fa</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>mem_cpy</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a8941d573d16af92c8570950d53164f30</anchor>
+      <arglist>(void *dst, const void *src, UINT cnt)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>mem_set</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a02eb5189e43056a9ddc8a59cbe89be93</anchor>
+      <arglist>(void *dst, int val, UINT cnt)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>mem_cmp</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a38b4f223d18bd4416d8bce0f07a63c01</anchor>
+      <arglist>(const void *dst, const void *src, UINT cnt)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>chk_chr</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a1a60c4200d040e4f47e87dc927f23d14</anchor>
+      <arglist>(const char *str, int chr)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>sync_window</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a5e18753404354b210096f9af99e31bc1</anchor>
+      <arglist>(FATFS *fs)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>move_window</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>af2e8986556ee6644b4bf31fa4158d735</anchor>
+      <arglist>(FATFS *fs, DWORD sector)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>sync_fs</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aec6b108298553219ebb2b960b528459d</anchor>
+      <arglist>(FATFS *fs)</arglist>
+    </member>
+    <member kind="function">
+      <type>DWORD</type>
+      <name>clust2sect</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a7519abb60fe91f6aa1d17f64fbae123a</anchor>
+      <arglist>(FATFS *fs, DWORD clst)</arglist>
+    </member>
+    <member kind="function">
+      <type>DWORD</type>
+      <name>get_fat</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a65611adf1626e5e08da77cd33a98dd8b</anchor>
+      <arglist>(FATFS *fs, DWORD clst)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>put_fat</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>abd4b6b071a8d728a88727051c12bc6d7</anchor>
+      <arglist>(FATFS *fs, DWORD clst, DWORD val)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>remove_chain</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ab88651d19a5597dec220fe7538cccf23</anchor>
+      <arglist>(FATFS *fs, DWORD clst)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static DWORD</type>
+      <name>create_chain</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>acbd0a20a17c6f9b6d536490d1cc3c5ac</anchor>
+      <arglist>(FATFS *fs, DWORD clst)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_sdi</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ad173ae134b70df2fe9668a90247567ff</anchor>
+      <arglist>(DIR *dj, WORD idx)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_next</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aa70eb326eb0c3702ae16adf0b4dce1cc</anchor>
+      <arglist>(DIR *dj, int stretch)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_alloc</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a42a5806b264207143a41d58a4c9ff9f1</anchor>
+      <arglist>(DIR *dj, UINT nent)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static DWORD</type>
+      <name>ld_clust</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a996d46ee1f9aed650880aecb4b7eb314</anchor>
+      <arglist>(FATFS *fs, BYTE *dir)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>st_clust</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a357e5a36452e057d68378c98cd61018c</anchor>
+      <arglist>(BYTE *dir, DWORD cl)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_find</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a809fe0feb8e7a864bc048cbd22cc0702</anchor>
+      <arglist>(DIR *dj)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_read</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ac61cefc73baae693adfdfd86e9bd4741</anchor>
+      <arglist>(DIR *dj, int vol)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>dir_register</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aa51744cb902c0cd104d3680cc05ae8b5</anchor>
+      <arglist>(DIR *dj)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>create_name</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a0bb6c133dec7b4fda00bce387e72e636</anchor>
+      <arglist>(DIR *dj, const TCHAR **path)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>follow_path</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aac9a82c50bb738b3d78d4a46ffdad65d</anchor>
+      <arglist>(DIR *dj, const TCHAR *path)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static BYTE</type>
+      <name>check_fs</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a55626c76a1556af5dc5345e2c0841a65</anchor>
+      <arglist>(FATFS *fs, DWORD sect)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>chk_mounted</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>acb7ec4033afc5b9041ee9c82385552db</anchor>
+      <arglist>(const TCHAR **path, FATFS **rfs, BYTE wmode)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static FRESULT</type>
+      <name>validate</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aa7193f5b86c3996b5312043a0c26da5f</anchor>
+      <arglist>(void *obj)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_mount</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a5f9e6982ad48becf73dc39c797e8569d</anchor>
+      <arglist>(BYTE vol, FATFS *fs)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_open</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aefdef7126128d99d0b3bd82c28e54d80</anchor>
+      <arglist>(FIL *fp, const TCHAR *path, BYTE mode)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_read</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ac4c3dcb6869ca252888eebabe39727b3</anchor>
+      <arglist>(FIL *fp, void *buff, UINT btr, UINT *br)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_write</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ae6a4dfae8a9e308bdb2283a37ef680f2</anchor>
+      <arglist>(FIL *fp, const void *buff, UINT btw, UINT *bw)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_sync</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>ad69c7246b122ba56a134939ee0eaf847</anchor>
+      <arglist>(FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_close</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a53882db20ef4323dcfd1874d7733ffc3</anchor>
+      <arglist>(FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_lseek</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a5df0ac672ada972e89ef4b003e57f964</anchor>
+      <arglist>(FIL *fp, DWORD ofs)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_getlabel</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a430bb7b15afe7198d15a03c34641578c</anchor>
+      <arglist>(const TCHAR *path, TCHAR *label, DWORD *sn)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_setlabel</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aa82bca64e28bc0d656a7999dd0eadec7</anchor>
+      <arglist>(const TCHAR *label)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static FATFS *</type>
+      <name>FatFs</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a3d7aad0939745576943767bf6c410eaf</anchor>
+      <arglist>[_VOLUMES]</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static WORD</type>
+      <name>Fsid</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>a0b3f41d8c416222e9b1c16e36d66e18b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const BYTE</type>
+      <name>ExCvt</name>
+      <anchorfile>ff_8c.html</anchorfile>
+      <anchor>aded249c8b2fc2c9ca7997e028d07771b</anchor>
+      <arglist>[]</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>ff.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>ff_8h</filename>
+    <includes id="integer_8h" name="integer.h" local="yes" imported="no">integer.h</includes>
+    <includes id="ffconf_8h" name="ffconf.h" local="yes" imported="no">ffconf.h</includes>
+    <class kind="struct">FATFS</class>
+    <class kind="struct">FIL</class>
+    <class kind="struct">DIR</class>
+    <class kind="struct">FILINFO</class>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FATFS</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a749228947bc890224b8bd5de6e11faa3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LD2PD</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a6577ed2f95527745bf4d27c53488b9a7</anchor>
+      <arglist>(vol)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LD2PT</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aadc4a9aefaf2588bdd7565549f5d91e7</anchor>
+      <arglist>(vol)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_T</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ae936e4c15227768f7da4e0951def89c8</anchor>
+      <arglist>(x)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_TEXT</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a3232964568d17bb4a1af30f9db826ce2</anchor>
+      <arglist>(x)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>f_eof</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a970cdd8970a3a94967ad64cfc5d4c161</anchor>
+      <arglist>(fp)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>f_error</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a25cbdabeed318802cf0e9db6671a33b7</anchor>
+      <arglist>(fp)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>f_tell</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5e1daca7ce13cdc277e42185f7f9124f</anchor>
+      <arglist>(fp)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>f_size</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a26f33722c5bf1aa3cd6f0290a83eb2bc</anchor>
+      <arglist>(fp)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>EOF</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a59adc4c82490d23754cd39c2fb99b0da</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_READ</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a1f4f3530ff03abbd979b072536e72290</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_OPEN_EXISTING</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a0c5dd686b10f84c2a2b3954957a5979a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA__ERROR</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ad3b47fe8126573b17752a9a242b76b9a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_WRITE</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>afa366963220c89b882c0361794020c14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_CREATE_NEW</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a417bb1babd1785fd181a806b5613eba3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_CREATE_ALWAYS</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>afba4546b131dea4b24727fa20a80e29f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA_OPEN_ALWAYS</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a17b01553029920ac0468912b4bcb16c7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA__WRITTEN</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ac4b7d5223f84df91c306ffbff536fae4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FA__DIRTY</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5b2962e3616a1e9eb709d95f4c75c67c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS_FAT12</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aab755aa1b4f81f4aabee4a5d4738cfb0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS_FAT16</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a7ef90a36d99edfc0138a2155a17a79b9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS_FAT32</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ac63e0796095a789cefdbc3c3c676c9ce</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_RDO</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>add6d85d1e7a02b4f6188783ef91a5f1e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_HID</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aa90c4c921c1955fd407d8bbf17f1674e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_SYS</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a1f25d5c17b5a3a6397b3398add8cdc15</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_VOL</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5cfae62dabae0a54809e43b36685ce7c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_LFN</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a91161ef62e0e85ba3c2876d3d339473d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_DIR</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a3a9db44e978ed6c13b641e092d4cd7d3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_ARC</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ae8174d00798e34e7c9e95898cb9e1a09</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>AM_MASK</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aefa78fd6b130faaca4e115602869b57c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CREATE_LINKMAP</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aee297a9011164cf485a4df2a72758b08</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LD_WORD</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a398519bb08da6457e62567d1f0b567e3</anchor>
+      <arglist>(ptr)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>LD_DWORD</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a4690304ddc975516f7dc02575c96e34e</anchor>
+      <arglist>(ptr)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ST_WORD</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a95ceb4c25b216e71baa7102939edfd0d</anchor>
+      <arglist>(ptr, val)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ST_DWORD</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>abf5aba973d95ac5843b80aa7379cdd66</anchor>
+      <arglist>(ptr, val)</arglist>
+    </member>
+    <member kind="typedef">
+      <type>char</type>
+      <name>TCHAR</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a03bdb8ce5895c7e261aadc2529637546</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumeration">
+      <type></type>
+      <name>FRESULT</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_OK</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca62fce5cd9df008f8fc85f99706bda5f1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_DISK_ERR</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca97dee4a6b485dc8f91f37486092dfe34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_INT_ERR</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44cab6c9903af6e9bffbb7a288705f4a6a76</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NOT_READY</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44cac9894bed3e8632ede8d2712235fa8e45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NO_FILE</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca97da8f98fc2e66d8fa7847f9ebb19b8c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NO_PATH</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44cae4529c8cc8b59783d6efc9ba4f574532</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_INVALID_NAME</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca83e45a4b579558c57192c0a391b9bb45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_DENIED</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca897e9f2dd7629a80f48af242d8bc1a3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_EXIST</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca0d8f024d256df76e84782b95018a2450</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_INVALID_OBJECT</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca3dec4eba481cdf5e99d7cd6009e6dcf8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_WRITE_PROTECTED</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44cac3afbb423b1d4497229416812aff383b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_INVALID_DRIVE</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca487844af77de15f6932a3b41ef3a2d65</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NOT_ENABLED</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44cafc56605c68aaffab4a428339a8bd600d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NO_FILESYSTEM</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca086154b5fee763f28c49fd0e2c1cb463</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_MKFS_ABORTED</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca4b02760f758f5b1a89f445244fe9fbca</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_TIMEOUT</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca3f8ca7e51af8b129d14328de7243c5d4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_LOCKED</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca7db5afaaa2af591bd4a208b2967075d7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_NOT_ENOUGH_CORE</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44caf56a76a86602cbdeb2c4f3d00cfad21c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_TOO_MANY_OPEN_FILES</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca50dd3c3c274ccebb2cfbddde9d065bb9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <type>@</type>
+      <name>FR_INVALID_PARAMETER</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a49d0171ecbd362cda5680a0d360db44ca3b89faeceab64db277d0fcdeaaa315d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_mount</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5f9e6982ad48becf73dc39c797e8569d</anchor>
+      <arglist>(BYTE vol, FATFS *fs)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_open</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aefdef7126128d99d0b3bd82c28e54d80</anchor>
+      <arglist>(FIL *fp, const TCHAR *path, BYTE mode)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_read</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ac4c3dcb6869ca252888eebabe39727b3</anchor>
+      <arglist>(FIL *fp, void *buff, UINT btr, UINT *br)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_lseek</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5df0ac672ada972e89ef4b003e57f964</anchor>
+      <arglist>(FIL *fp, DWORD ofs)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_close</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a53882db20ef4323dcfd1874d7733ffc3</anchor>
+      <arglist>(FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_opendir</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a5a7b44d8858165d18ff5617d81244f35</anchor>
+      <arglist>(DIR *dj, const TCHAR *path)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_readdir</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a329a4cbc309719043e5066031fc844c6</anchor>
+      <arglist>(DIR *dj, FILINFO *fno)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_stat</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>abe1f60daab5c7d11170c334fb832c798</anchor>
+      <arglist>(const TCHAR *path, FILINFO *fno)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_write</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ae6a4dfae8a9e308bdb2283a37ef680f2</anchor>
+      <arglist>(FIL *fp, const void *buff, UINT btw, UINT *bw)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_getfree</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a0ff39f75a87cbda9cd6ea65d83f16cec</anchor>
+      <arglist>(const TCHAR *path, DWORD *nclst, FATFS **fatfs)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_truncate</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a691a27b40c348f7c84b42e911636f38a</anchor>
+      <arglist>(FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_sync</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ad69c7246b122ba56a134939ee0eaf847</anchor>
+      <arglist>(FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_unlink</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a2858167fcd0bced48e9be434b3895efe</anchor>
+      <arglist>(const TCHAR *path)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_mkdir</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a4b4d38db58e89c526cfcf53200d719d0</anchor>
+      <arglist>(const TCHAR *path)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_chmod</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ab60b118acf7efa6ea19abb5db05ecccb</anchor>
+      <arglist>(const TCHAR *path, BYTE value, BYTE mask)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_utime</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aafaa718d1a487e12a8f0087173dba0b9</anchor>
+      <arglist>(const TCHAR *path, const FILINFO *fno)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_rename</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aa775b9b024acfeb3a66523cab497d142</anchor>
+      <arglist>(const TCHAR *path_old, const TCHAR *path_new)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_chdrive</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ae4d4c66ec49da9f1e613aaa1bac12dc8</anchor>
+      <arglist>(BYTE drv)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_chdir</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a53c7e9a7fb3c279254cd2d0445667e2f</anchor>
+      <arglist>(const TCHAR *path)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_getcwd</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>acb865a03dbac0031ac5cb8a031f7b71c</anchor>
+      <arglist>(TCHAR *buff, UINT len)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_getlabel</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a430bb7b15afe7198d15a03c34641578c</anchor>
+      <arglist>(const TCHAR *path, TCHAR *label, DWORD *sn)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_setlabel</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>aa82bca64e28bc0d656a7999dd0eadec7</anchor>
+      <arglist>(const TCHAR *label)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_forward</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a6c0c4cd695704aa6d952c90be81d9849</anchor>
+      <arglist>(FIL *fp, UINT(*func)(const BYTE *, UINT), UINT btf, UINT *bf)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_mkfs</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a7bead26ffb9a3b426bd42629ed6bf756</anchor>
+      <arglist>(BYTE vol, BYTE sfd, UINT au)</arglist>
+    </member>
+    <member kind="function">
+      <type>FRESULT</type>
+      <name>f_fdisk</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ae89e589480ab573ce19d22dcd022efe0</anchor>
+      <arglist>(BYTE pdrv, const DWORD szt[], void *work)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>f_putc</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>ad1d73b8d01c2ef89eddf920b7fcc6beb</anchor>
+      <arglist>(TCHAR c, FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>f_puts</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a699fc03ffa785ceab8812a7f204421f3</anchor>
+      <arglist>(const TCHAR *str, FIL *cp)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>f_printf</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a4ce26253177c167df849e76f69b5c66c</anchor>
+      <arglist>(FIL *fp, const TCHAR *str,...)</arglist>
+    </member>
+    <member kind="function">
+      <type>TCHAR *</type>
+      <name>f_gets</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>a0fa54bd310785ecdaed19dda8f60dac5</anchor>
+      <arglist>(TCHAR *buff, int len, FIL *fp)</arglist>
+    </member>
+    <member kind="function">
+      <type>DWORD</type>
+      <name>get_fattime</name>
+      <anchorfile>ff_8h.html</anchorfile>
+      <anchor>af58b536abfd30f77213f4ecaf2ac52f5</anchor>
+      <arglist>(void)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>ffconf.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>ffconf_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FFCONF</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a45082af332369ed49492446a2d4d4c5a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_TINY</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>aa21b30e70610594d3af3a28832b584f6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_READONLY</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>afb8d35370cfe0c23832ac2d82e854ec6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_MINIMIZE</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>abefed32e4f049538ff7d7101cd8e3643</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_STRFUNC</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>aaab0313f867bb008b64236239f5c2660</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_MKFS</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a62cdce547af40f0c1599698ee151bbd7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_FASTSEEK</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a85f4bdb33729ebdaaf9edeec948ac0e7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_LABEL</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a281a4fc4668e40fc896fc865f52f9421</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_FORWARD</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>ae49b948c9a92ff7082b88bd36f63d988</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_CODE_PAGE</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>aaf9b5cee569d93f1ebe43ea70916569f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_LFN</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>ae471cce284bf1888f9e991f5a811fc11</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_MAX_LFN</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a14e73a5c703a586c614b3e40b849f82c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_LFN_UNICODE</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a8dd7e7f166bb146970b394d53cf01d80</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_RPATH</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a52faf11025401372f71e9d81905b7af4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_VOLUMES</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a366da9a40c8ceb3103a6b72ca02b9969</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_MAX_SS</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>ac271b697378912f17132cb9c7d0de024</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_MULTI_PARTITION</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>adc02609ba893fe8706a2f8af0e3a3bb5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_USE_ERASE</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a0e697dc4206d98eac355ae878dcc286e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_WORD_ACCESS</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a943a47fa5ed8073725b45e49e5634dea</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_REENTRANT</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a4e07d7fcae4241b73eb5b70fab5f676d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_TIMEOUT</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a526e3cac667f53cc9a48507873348e60</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_SYNC_t</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a9a3f0670343e51652dd12b18fa90a9eb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>_FS_LOCK</name>
+      <anchorfile>ffconf_8h.html</anchorfile>
+      <anchor>a01410fcb45c2d2d2c5692c56d4f0a481</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>integer.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>integer_8h</filename>
+    <member kind="typedef">
+      <type>int</type>
+      <name>INT</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a392e62da233ed3e2f7c3fd4f487a3896</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned int</type>
+      <name>UINT</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a36cb3b01d81ffd844bbbfb54003e06ec</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>char</type>
+      <name>CHAR</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>aebb9e13210d88d43e32e735ada43a425</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned char</type>
+      <name>UCHAR</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a4f4bb67531a9bf6f0b9c6ad76aeba587</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned char</type>
+      <name>BYTE</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a4ae1dab0fb4b072a66584546209e7d58</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>short</type>
+      <name>SHORT</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a9909bd3cf05f0906045f2ee85be4eeac</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned short</type>
+      <name>USHORT</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a5850d5316caf7f4cedd742fdf8cd7c02</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned short</type>
+      <name>WORD</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a197942eefa7db30960ae396d68339b97</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned short</type>
+      <name>WCHAR</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a570001c92f314285ad3e7139d8c58cf7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>long</type>
+      <name>LONG</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>a2a3e0cda5f1249bef6db47c5eb8e3813</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned long</type>
+      <name>ULONG</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>af632da489ebc3708ec3ab6791ee53fa4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>unsigned long</type>
+      <name>DWORD</name>
+      <anchorfile>integer_8h.html</anchorfile>
+      <anchor>ad342ac907eb044443153a22f964bf0af</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>sdmm.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>sdmm_8c</filename>
+    <includes id="diskio_8h" name="diskio.h" local="yes" imported="no">diskio.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>SD_COM_PORT</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aa9af4b15b1793fe7aa204df18b61de46</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DO_INIT</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ac6600f49593b3799aa84611f725bcc5c</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DO_DQ</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a2462de83417bb3c6974e2a9f51441338</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DO</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a89f8701562ac09bf5c1e58516124c500</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DI_DQ</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a826495b18deac99a0496953aac9e737b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DI_INIT</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a64ccdeced815b199eaf2d3fed3d30167</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DI_H</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a7ecac69bdb02f3aea0e67d6ae37cb3b3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>DI_L</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a1a534785c7b1aa31c10207c071e6a882</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CK_DQ</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a500da70b29e02f9f6fa01c5412bcab32</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CK_INIT</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aff85df63d6c175f7cfcd5f146ad515a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CK_H</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>afb4a6399d39bcf59ab7a6a38758a8fd9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CK_L</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a76572f5d7fc62a8c3e59ad7ce352dd69</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CS_DQ</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a167e875aa0cb60a0b20cc060d5ba848d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CS_INIT</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a5b9afa092f96631ff65b91df4627fffd</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CS_H</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ab6872874dbf2ac63a9885446a5a6da36</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CS_L</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ae809be768bb813a2d5e6cb1edaa7e0af</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD0</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a938c1466755f12fb04ac0d1b775584d1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD1</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aca9979f299fa78c1128d778084478673</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ACMD41</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a9b6fdfed1b57ac31269b6b9987e0761b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD8</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ac75b3e0ad1fb013ea946fb49bbe65668</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD9</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a1fac6a251d7e7dc204d21639bf521459</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD10</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ae7b800ed8e7bd52e6f570a5ce72b8104</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD12</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a8d6283c9b060afbaa0e6d1ff7e5ea7b8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD13</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a4bf0d32fc9e480f24e5282fb3c4752bb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ACMD13</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a4be8f501d86d24b02923846db618fc71</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD16</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aaeab261b94f2031ba41a1d4d857c3541</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD17</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a6bbfe7dc16a19b7f40efcf554b5666ad</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD18</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a3d32c27a6be061b865ba539127278f14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD23</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a14506e981f38b6177bc36f72c2ca18b1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>ACMD23</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aa38144d651e2880f92c65bb683621f78</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD24</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a252300302c6f7960df547a7f5c25be85</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD25</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aee2c673fba987178f4642531fdeefe9e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD32</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>af822a2ff9987b3a48982731fa4ba5f7b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD33</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a309d932899cca7255395821dc32dace0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD38</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a6af4991146dfb0a47c4aa6f166efb046</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD55</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a78289a7a85ffcfddd626694105dc0780</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>CMD58</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aa7a26b2cf17e1ff5967820a1fa41a7aa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>dly_us</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a76a43e01b9676630e121e5a659acbb3f</anchor>
+      <arglist>(UINT n)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>xmit_mmc</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ace0af708caf7775204ca74fbd46818bb</anchor>
+      <arglist>(const BYTE *buff, UINT bc)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>rcvr_mmc</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ab628371b03508f9db7c6daf1203ed84d</anchor>
+      <arglist>(BYTE *buff, UINT bc)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>wait_ready</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a624a19e248af05530dae5c0cc1dddc11</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>deselect</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ac0eadae94de728461ccade9e03fafd8c</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>select</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ab45cb1d47cda5822ce492ad3c11867ae</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>rcvr_datablock</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a8c99afbc312912297b19752cf7e0960b</anchor>
+      <arglist>(BYTE *buff, UINT btr)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>xmit_datablock</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>aefbd30f6bdff37184f58faf98ad1c6e0</anchor>
+      <arglist>(const BYTE *buff, BYTE token)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static BYTE</type>
+      <name>send_cmd</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a99684b493c8bfdb0288a2e24e52f6871</anchor>
+      <arglist>(BYTE cmd, DWORD arg)</arglist>
+    </member>
+    <member kind="function">
+      <type>DSTATUS</type>
+      <name>disk_status</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a21ad8e9a107ea2000705a3edfebaaa2d</anchor>
+      <arglist>(BYTE drv)</arglist>
+    </member>
+    <member kind="function">
+      <type>DSTATUS</type>
+      <name>disk_initialize</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a8e429a29bdbb73f5bc9e2ab2335a5112</anchor>
+      <arglist>(BYTE drv)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_read</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a42043c0f462756dbdf1f3bd1bdb5fa50</anchor>
+      <arglist>(BYTE drv, BYTE *buff, DWORD sector, BYTE count)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_write</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a0045ef2f87f7c45d77bcdef38eae7b67</anchor>
+      <arglist>(BYTE drv, const BYTE *buff, DWORD sector, BYTE count)</arglist>
+    </member>
+    <member kind="function">
+      <type>DRESULT</type>
+      <name>disk_ioctl</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ae342f09a55603a5053750e2fd040f4a8</anchor>
+      <arglist>(BYTE drv, BYTE ctrl, void *buff)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static DSTATUS</type>
+      <name>Stat</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>a5e05b0c3f7ba56fa9c23be08c497eb9f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static BYTE</type>
+      <name>CardType</name>
+      <anchorfile>sdmm_8c.html</anchorfile>
+      <anchor>ae9edfbb60df250acb70f5f287eb1497a</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>timeout.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>timeout_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>F_CPU</name>
+      <anchorfile>timeout_8h.html</anchorfile>
+      <anchor>a43bafb28b29491ec7f871319b5a3b2f8</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>wavegen.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/wavegen/</path>
+    <filename>wavegen_8c</filename>
+    <includes id="config_8h" name="config.h" local="yes" imported="no">../config.h</includes>
+    <includes id="wavegen_8h" name="wavegen.h" local="yes" imported="no">wavegen.h</includes>
+    <member kind="function">
+      <type></type>
+      <name>ISR</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a0763252836531eeb42258e71bf9710be</anchor>
+      <arglist>(TCC0_CCA_vect)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ISR</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a3a29512a08fa8ec3dca462721c2bc7c5</anchor>
+      <arglist>(TCC0_CCB_vect)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setSound</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a06c4de27dbd4f87c49cf845cac490883</anchor>
+      <arglist>(char startStop, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_disableSound</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>ab0362dcbfc260f3cf0df521ce2490308</anchor>
+      <arglist>(char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_sineWave</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a55f37041981c65c7e8228bdf8b2378b5</anchor>
+      <arglist>(char wavetableNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_noiseWave</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a85b6cd362d3ac0ad993136f3b7764de0</anchor>
+      <arglist>(char wavetableNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_pwmInit</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a59f28998af74be3e5d3e3f517cf3d7c6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_pwmSet</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>ae60e9da4b024e72a38d5ab329e39df60</anchor>
+      <arglist>(char channel, int value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setFrequency</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a58af72a721e92918b2ba62c7bef520f3</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setFrequency2</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a414b6724850e921cf222dc4c16cb125f</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_clock_init</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a14ed0e4d1db02ec1dd48c550136994ed</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned char</type>
+      <name>wavetable</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>abc5f735c8235e23b42a484b2744e6a05</anchor>
+      <arglist>[256]</arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned char</type>
+      <name>wavetable2</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>ad0692dc177a7becdaea0cf50eba1841e</anchor>
+      <arglist>[256]</arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned char</type>
+      <name>wavetable3</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a57f9204c34500f70e814fd93a4422f9f</anchor>
+      <arglist>[256]</arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned char sinetable[256]</type>
+      <name>PROGMEM</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>adda78152bf8af9407c0a22deb795d689</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned int</type>
+      <name>frequencyCoef</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>aa5042ede4121ddfe2b77b83e965d3ce7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned int</type>
+      <name>frequencyCoef2</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a1f5b04455abb645a315e61b460cece5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>sound1Enabled</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a23f87a10460c13f092c1bef2e7541c16</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>sound2Enabled</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a6849b21a9a0d35ec2777ab0c319348ae</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>sound3Enabled</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>a50b6c18d6915832ef023f1276791dc0f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>soundPWM</name>
+      <anchorfile>wavegen_8c.html</anchorfile>
+      <anchor>aa1156b1e5639b3855f6d711de3799023</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>wavegen.h</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/wavegen/</path>
+    <filename>wavegen_8h</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>INTERRUPT_PERIOD</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a533f998159de957b1f91e571cda46b9c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FINT</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>abef1196c18f992aa76600b2fd4535bf9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a30588c5eca7c9cb6ebba02a0236f0119</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_pwmInit</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a59f28998af74be3e5d3e3f517cf3d7c6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_clock_init</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a14ed0e4d1db02ec1dd48c550136994ed</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_pwmSet</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>ae60e9da4b024e72a38d5ab329e39df60</anchor>
+      <arglist>(char channel, int value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_sineWave</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a55f37041981c65c7e8228bdf8b2378b5</anchor>
+      <arglist>(char wavetableNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_noiseWave</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a85b6cd362d3ac0ad993136f3b7764de0</anchor>
+      <arglist>(char wavetableNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setFrequency2</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a414b6724850e921cf222dc4c16cb125f</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setFrequency</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a58af72a721e92918b2ba62c7bef520f3</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_setSound</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>a06c4de27dbd4f87c49cf845cac490883</anchor>
+      <arglist>(char startStop, char bankNum)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>wavegen_disableSound</name>
+      <anchorfile>wavegen_8h.html</anchorfile>
+      <anchor>ab0362dcbfc260f3cf0df521ce2490308</anchor>
+      <arglist>(char bankNum)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>~main.c</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/wavegen/</path>
+    <filename>~main_8c</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>F_CPU</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a43bafb28b29491ec7f871319b5a3b2f8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>INTERRUPT_PERIOD</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a533f998159de957b1f91e571cda46b9c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FINT</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>abef1196c18f992aa76600b2fd4535bf9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>FS</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a30588c5eca7c9cb6ebba02a0236f0119</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>pwmSet</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a840070ef659b7bca801ae8305d06a340</anchor>
+      <arglist>(char channel, int value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>sineWave</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a03a0ea567c1b201e084da36acd2cb9d2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFrequency2</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>ade151b02bd65aa70020010d27245c70f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFrequency</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a0c36db54a91957a6b8c91a9932f74d16</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>main</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>ae66f6b31b5ad750f1fe042a706a4e3d4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ISR</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a0763252836531eeb42258e71bf9710be</anchor>
+      <arglist>(TCC0_CCA_vect)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ISR</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a3a29512a08fa8ec3dca462721c2bc7c5</anchor>
+      <arglist>(TCC0_CCB_vect)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>noiseWave</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a707762300647c61a4ee156f653ab29d0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>pwmInit</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>acab6fb947010dfc3cde0f372ea86b008</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFrequency</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a78753f94632ac18ee055de50e473d519</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFrequency2</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>ae78b83612374b4b303c1c0f32362e41e</anchor>
+      <arglist>(unsigned int freq)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clock_init</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a78ab77b57cf2e00089f0a3a22508524c</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable">
+      <type>const unsigned char sinetable[256]</type>
+      <name>PROGMEM</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>adda78152bf8af9407c0a22deb795d689</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned char</type>
+      <name>wavetable</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>abc5f735c8235e23b42a484b2744e6a05</anchor>
+      <arglist>[256]</arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned int</type>
+      <name>frequencyCoef</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>aa5042ede4121ddfe2b77b83e965d3ce7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned int</type>
+      <name>frequencyCoef2</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a1f5b04455abb645a315e61b460cece5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>soundEnabled</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a487767231970dc5871caf94a31630459</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>soundPWM</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>aa1156b1e5639b3855f6d711de3799023</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>soundOn</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a522507a13e786061113a0a66d66896ab</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>currentVoice</name>
+      <anchorfile>~main_8c.html</anchorfile>
+      <anchor>a7b2cf7f8cf113a3976b1ed3dd8dc0d80</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>DIR</name>
+    <filename>structDIR.html</filename>
+    <member kind="variable">
+      <type>FATFS *</type>
+      <name>fs</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>a312eaa66cb703fb2993ea98173dc0c9a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>id</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>aca2c95a99a04173917ec70c030891383</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>index</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>ab95119fbacbe45e3e9ee0f962b844092</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>sclust</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>a9212af5877b94d790dd3bab3aa320994</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>clust</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>acfbb8ba2d6e73b6f999ceffd1857c190</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>sect</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>ad01fcc812ed0dad11a593574336adc9e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE *</type>
+      <name>dir</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>a6c2a8c0cf2d55ae99775e93a16593449</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE *</type>
+      <name>fn</name>
+      <anchorfile>structDIR.html</anchorfile>
+      <anchor>a32da2f31d6c3b6c42eef981cb0cfd2ee</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>FATFS</name>
+    <filename>structFATFS.html</filename>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>fs_type</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>add27d97babe807b573eac98a71dc4ae5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>drv</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a6a791560e2687e8b1569bfce61208d2d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>csize</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a504a1175f6dcc9a854b9da94463bd108</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>n_fats</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a56716c7e7ac10cf46e73ffb2a2e9b545</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>wflag</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a647e43c9ccae94b7274793d1909897de</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>fsi_flag</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a84e9cdc5a6a8e33ea7ec192058abf161</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>id</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a417095d7c20d56d417dc0998e0dd5a5c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>n_rootdir</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a189a00aa038044ffad0fc7f7dcf2aae1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>last_clust</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>ad315def289218e26ab78ff90fde700d1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>free_clust</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a5fb49e6ac511bd97eaffdd636d0e4165</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fsi_sector</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a4900e785d26dfed6e456ceeb59ec29a7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>n_fatent</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a8da50eeba6469bc20d60ca0cf9a1307c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fsize</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a53e9560659f14e66f306c2c444198bf3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>volbase</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a8f0ca578755749d204f59dc83f1a7649</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fatbase</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a848fba02c4aabe02ef2984e578f33d64</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>dirbase</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a3f72fd998dbcce4652a85a81fe944bc4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>database</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a5b6c0bc2e9fd2ae8ef714210a74a2d5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>winsect</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>ac60e69c00e6bf7c25febfbac4dc1476b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>win</name>
+      <anchorfile>structFATFS.html</anchorfile>
+      <anchor>a7cc35a593465e727ab87723c14610644</anchor>
+      <arglist>[_MAX_SS]</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>FIL</name>
+    <filename>structFIL.html</filename>
+    <member kind="variable">
+      <type>FATFS *</type>
+      <name>fs</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>a42376a6797a06228911c8b836c1e9030</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>id</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>af7cae0063b0045fb7078b560101ba8f2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>flag</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>ac409508881f5a16f2998ae675072b376</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>pad1</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>a17f891ef69059bd879f6492473cfceae</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fptr</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>a75d29cf9257c827d117887b9f924c4a9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fsize</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>aa00790d40d7b0081c345fd4f76e22b70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>sclust</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>ad308b74c8d6975c6a9c30d90b4124c40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>clust</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>aa41312aba551b9a6d1c9d3c8c7d2734b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>dsect</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>ab3d4165d6fd32ac71a130d835fbf0b4d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>dir_sect</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>ab203794f939ad4480e81dfa488770783</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE *</type>
+      <name>dir_ptr</name>
+      <anchorfile>structFIL.html</anchorfile>
+      <anchor>a5af9e9fb312b629220eaf684dd28c4a9</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>FILINFO</name>
+    <filename>structFILINFO.html</filename>
+    <member kind="variable">
+      <type>DWORD</type>
+      <name>fsize</name>
+      <anchorfile>structFILINFO.html</anchorfile>
+      <anchor>aee7441af7dc0c443d1e1e6011cc7dcac</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>fdate</name>
+      <anchorfile>structFILINFO.html</anchorfile>
+      <anchor>a7c01c48a15b1b49da459924437b0bd52</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>WORD</type>
+      <name>ftime</name>
+      <anchorfile>structFILINFO.html</anchorfile>
+      <anchor>ae0f751b79621bf7b29669f177bbe6b9a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>BYTE</type>
+      <name>fattrib</name>
+      <anchorfile>structFILINFO.html</anchorfile>
+      <anchor>a838d542585831b085537b363f18205c0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>TCHAR</type>
+      <name>fname</name>
+      <anchorfile>structFILINFO.html</anchorfile>
+      <anchor>abd852510f2f79b4ec773156d8942dc7c</anchor>
+      <arglist>[13]</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>onode</name>
+    <filename>structonode.html</filename>
+    <member kind="variable">
+      <type>struct order *</type>
+      <name>data</name>
+      <anchorfile>structonode.html</anchorfile>
+      <anchor>ab7312b747804b1474c83bd2bb7df8d3c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>struct onode *</type>
+      <name>next</name>
+      <anchorfile>structonode.html</anchorfile>
+      <anchor>ac9704e6f9b12c04f52e61c856f8c1e29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>struct onode *</type>
+      <name>prev</name>
+      <anchorfile>structonode.html</anchorfile>
+      <anchor>a597f99367f877e2e4a9cafe4be30e837</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>order</name>
+    <filename>structorder.html</filename>
+    <member kind="variable">
+      <type>int</type>
+      <name>id</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>a4328e44fed73692e76eb23049f1d972a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank1_startstop</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>a8c533b3d1568db6bb3132be3a58b14ee</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank1_note</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>a0a9f68e4094dfe71346d413df3c5f722</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank2_startstop</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>aa07172101a0760b7b19335fe24f9e462</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank2_note</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>adc801e65b34bd19e8db0decc145bc791</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank3_startstop</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>a92057c9ceb6ae7cc28814e5a8b3ff3e2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>char</type>
+      <name>bank3_note</name>
+      <anchorfile>structorder.html</anchorfile>
+      <anchor>aed04b397690a0528443e701f41a99e8f</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="dir">
+    <name>keyboard</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/keyboard/</path>
+    <filename>dir_fb0b1e2663c8abb876623317aa8e6792.html</filename>
+    <file>keyboard.c</file>
+    <file>keyboard.h</file>
+    <file>keymap.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>lcd8bit</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/lcd8bit/</path>
+    <filename>dir_dc230a88f68a0a553cf09e0138c480b8.html</filename>
+    <file>lcd8bit.c</file>
+    <file>lcd8bit.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>list</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/list/</path>
+    <filename>dir_48c61abad44e2f181b0a6a33afb59c17.html</filename>
+    <file>list.c</file>
+    <file>list.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>sd_card</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/sd_card/</path>
+    <filename>dir_b79de6592bc007bb564d112e68101bb8.html</filename>
+    <file>diskio.h</file>
+    <file>ff.c</file>
+    <file>ff.h</file>
+    <file>ffconf.h</file>
+    <file>integer.h</file>
+    <file>sdmm.c</file>
+    <file>timeout.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>wavegen</name>
+    <path>/home/bagnaramatt/senior_project/avrsynth/wavegen/</path>
+    <filename>dir_75e204ae6fecca196fc708753d03ee2f.html</filename>
+    <file>wavegen.c</file>
+    <file>wavegen.h</file>
+    <file>~main.c</file>
+  </compound>
+</tagfile>

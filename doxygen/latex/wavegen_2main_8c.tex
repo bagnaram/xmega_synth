@@ -1,0 +1,303 @@
+\hypertarget{wavegen_2main_8c}{\section{wavegen/main.c File Reference}
+\label{wavegen_2main_8c}\index{wavegen/main.\-c@{wavegen/main.\-c}}
+}
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+{\ttfamily \#include $<$avr/interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$avr/io.\-h$>$}\\*
+{\ttfamily \#include $<$util/delay.\-h$>$}\\*
+{\ttfamily \#include $<$avr/pgmspace.\-h$>$}\\*
+Include dependency graph for main.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{wavegen_2main_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{wavegen_2main_8c_a43bafb28b29491ec7f871319b5a3b2f8}{F\-\_\-\-C\-P\-U}~32000000\-U\-L
+\item 
+\#define \hyperlink{wavegen_2main_8c_a533f998159de957b1f91e571cda46b9c}{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D}~512
+\item 
+\#define \hyperlink{wavegen_2main_8c_abef1196c18f992aa76600b2fd4535bf9}{F\-I\-N\-T}~(\hyperlink{config_8h_a43bafb28b29491ec7f871319b5a3b2f8}{F\-\_\-\-C\-P\-U} / \hyperlink{wavegen_8h_a533f998159de957b1f91e571cda46b9c}{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D})
+\item 
+\#define \hyperlink{wavegen_2main_8c_a30588c5eca7c9cb6ebba02a0236f0119}{F\-S}~(\hyperlink{wavegen_8h_abef1196c18f992aa76600b2fd4535bf9}{F\-I\-N\-T})
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{wavegen_2main_8c_a840070ef659b7bca801ae8305d06a340}{pwm\-Set} (char channel, int value)
+\item 
+void \hyperlink{wavegen_2main_8c_a03a0ea567c1b201e084da36acd2cb9d2}{sine\-Wave} ()
+\item 
+void \hyperlink{wavegen_2main_8c_a707762300647c61a4ee156f653ab29d0}{noise\-Wave} ()
+\item 
+void \hyperlink{wavegen_2main_8c_ade151b02bd65aa70020010d27245c70f}{set\-Frequency2} ()
+\item 
+void \hyperlink{wavegen_2main_8c_a0c36db54a91957a6b8c91a9932f74d16}{set\-Frequency} ()
+\item 
+int \hyperlink{wavegen_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\item 
+\hyperlink{wavegen_2main_8c_a0763252836531eeb42258e71bf9710be}{I\-S\-R} (T\-C\-C0\-\_\-\-C\-C\-A\-\_\-vect)
+\item 
+\hyperlink{wavegen_2main_8c_a3a29512a08fa8ec3dca462721c2bc7c5}{I\-S\-R} (T\-C\-C0\-\_\-\-C\-C\-B\-\_\-vect)
+\item 
+void \hyperlink{wavegen_2main_8c_acab6fb947010dfc3cde0f372ea86b008}{pwm\-Init} ()
+\item 
+void \hyperlink{wavegen_2main_8c_a78753f94632ac18ee055de50e473d519}{set\-Frequency} (unsigned int freq)
+\item 
+void \hyperlink{wavegen_2main_8c_ae78b83612374b4b303c1c0f32362e41e}{set\-Frequency2} (unsigned int freq)
+\item 
+void \hyperlink{wavegen_2main_8c_a78ab77b57cf2e00089f0a3a22508524c}{clock\-\_\-init} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const unsigned char sinetable\mbox{[}256\mbox{]} \hyperlink{wavegen_2main_8c_adda78152bf8af9407c0a22deb795d689}{P\-R\-O\-G\-M\-E\-M}
+\item 
+unsigned char \hyperlink{wavegen_2main_8c_abc5f735c8235e23b42a484b2744e6a05}{wavetable} \mbox{[}256\mbox{]}
+\item 
+unsigned int \hyperlink{wavegen_2main_8c_aa5042ede4121ddfe2b77b83e965d3ce7}{frequency\-Coef} =100
+\item 
+unsigned int \hyperlink{wavegen_2main_8c_a1f5b04455abb645a315e61b460cece5d}{frequency\-Coef2} =100
+\item 
+char \hyperlink{wavegen_2main_8c_a487767231970dc5871caf94a31630459}{sound\-Enabled} =1
+\item 
+char \hyperlink{wavegen_2main_8c_aa1156b1e5639b3855f6d711de3799023}{sound\-P\-W\-M} =1
+\item 
+char \hyperlink{wavegen_2main_8c_a522507a13e786061113a0a66d66896ab}{sound\-On} =0
+\item 
+int \hyperlink{wavegen_2main_8c_a7b2cf7f8cf113a3976b1ed3dd8dc0d80}{current\-Voice} =0
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{wavegen_2main_8c_a43bafb28b29491ec7f871319b5a3b2f8}{\index{wavegen/main.\-c@{wavegen/main.\-c}!F\-\_\-\-C\-P\-U@{F\-\_\-\-C\-P\-U}}
+\index{F\-\_\-\-C\-P\-U@{F\-\_\-\-C\-P\-U}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{F\-\_\-\-C\-P\-U}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-\_\-\-C\-P\-U~32000000\-U\-L}}\label{wavegen_2main_8c_a43bafb28b29491ec7f871319b5a3b2f8}
+
+
+Referenced by set\-Frequency(), and set\-Frequency2().
+
+\hypertarget{wavegen_2main_8c_abef1196c18f992aa76600b2fd4535bf9}{\index{wavegen/main.\-c@{wavegen/main.\-c}!F\-I\-N\-T@{F\-I\-N\-T}}
+\index{F\-I\-N\-T@{F\-I\-N\-T}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{F\-I\-N\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-I\-N\-T~({\bf F\-\_\-\-C\-P\-U} / {\bf I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D})}}\label{wavegen_2main_8c_abef1196c18f992aa76600b2fd4535bf9}
+\hypertarget{wavegen_2main_8c_a30588c5eca7c9cb6ebba02a0236f0119}{\index{wavegen/main.\-c@{wavegen/main.\-c}!F\-S@{F\-S}}
+\index{F\-S@{F\-S}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{F\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-S~({\bf F\-I\-N\-T})}}\label{wavegen_2main_8c_a30588c5eca7c9cb6ebba02a0236f0119}
+
+
+Referenced by set\-Frequency(), set\-Frequency2(), wavegen\-\_\-set\-Frequency(), and wavegen\-\_\-set\-Frequency2().
+
+\hypertarget{wavegen_2main_8c_a533f998159de957b1f91e571cda46b9c}{\index{wavegen/main.\-c@{wavegen/main.\-c}!I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D@{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D}}
+\index{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D@{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-P\-E\-R\-I\-O\-D~512}}\label{wavegen_2main_8c_a533f998159de957b1f91e571cda46b9c}
+
+
+\subsection{Function Documentation}
+\hypertarget{wavegen_2main_8c_a78ab77b57cf2e00089f0a3a22508524c}{\index{wavegen/main.\-c@{wavegen/main.\-c}!clock\-\_\-init@{clock\-\_\-init}}
+\index{clock\-\_\-init@{clock\-\_\-init}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{clock\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void clock\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a78ab77b57cf2e00089f0a3a22508524c}
+
+
+Referenced by main().
+
+\hypertarget{wavegen_2main_8c_a0763252836531eeb42258e71bf9710be}{\index{wavegen/main.\-c@{wavegen/main.\-c}!I\-S\-R@{I\-S\-R}}
+\index{I\-S\-R@{I\-S\-R}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{T\-C\-C0\-\_\-\-C\-C\-A\-\_\-vect}]{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a0763252836531eeb42258e71bf9710be}
+
+
+References frequency\-Coef, pwm\-Set(), sound\-P\-W\-M, and wavetable.
+
+\hypertarget{wavegen_2main_8c_a3a29512a08fa8ec3dca462721c2bc7c5}{\index{wavegen/main.\-c@{wavegen/main.\-c}!I\-S\-R@{I\-S\-R}}
+\index{I\-S\-R@{I\-S\-R}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}I\-S\-R (
+\begin{DoxyParamCaption}
+\item[{T\-C\-C0\-\_\-\-C\-C\-B\-\_\-vect}]{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a3a29512a08fa8ec3dca462721c2bc7c5}
+
+
+References frequency\-Coef2, pwm\-Set(), sound\-P\-W\-M, and wavetable.
+
+\hypertarget{wavegen_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{\index{wavegen/main.\-c@{wavegen/main.\-c}!main@{main}}
+\index{main@{main}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}
+
+
+References clock\-\_\-init(), noise\-Wave(), pwm\-Init(), set\-Frequency(), and set\-Frequency2().
+
+\hypertarget{wavegen_2main_8c_a707762300647c61a4ee156f653ab29d0}{\index{wavegen/main.\-c@{wavegen/main.\-c}!noise\-Wave@{noise\-Wave}}
+\index{noise\-Wave@{noise\-Wave}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{noise\-Wave}]{\setlength{\rightskip}{0pt plus 5cm}void noise\-Wave (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a707762300647c61a4ee156f653ab29d0}
+
+
+References wavetable.
+
+
+
+Referenced by main(), and pwm\-Init().
+
+\hypertarget{wavegen_2main_8c_acab6fb947010dfc3cde0f372ea86b008}{\index{wavegen/main.\-c@{wavegen/main.\-c}!pwm\-Init@{pwm\-Init}}
+\index{pwm\-Init@{pwm\-Init}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{pwm\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_acab6fb947010dfc3cde0f372ea86b008}
+
+
+References noise\-Wave().
+
+
+
+Referenced by main().
+
+\hypertarget{wavegen_2main_8c_a840070ef659b7bca801ae8305d06a340}{\index{wavegen/main.\-c@{wavegen/main.\-c}!pwm\-Set@{pwm\-Set}}
+\index{pwm\-Set@{pwm\-Set}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{pwm\-Set}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\-Set (
+\begin{DoxyParamCaption}
+\item[{char}]{channel, }
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a840070ef659b7bca801ae8305d06a340}
+
+
+Referenced by I\-S\-R().
+
+\hypertarget{wavegen_2main_8c_a0c36db54a91957a6b8c91a9932f74d16}{\index{wavegen/main.\-c@{wavegen/main.\-c}!set\-Frequency@{set\-Frequency}}
+\index{set\-Frequency@{set\-Frequency}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{set\-Frequency}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Frequency (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a0c36db54a91957a6b8c91a9932f74d16}
+
+
+Referenced by main().
+
+\hypertarget{wavegen_2main_8c_a78753f94632ac18ee055de50e473d519}{\index{wavegen/main.\-c@{wavegen/main.\-c}!set\-Frequency@{set\-Frequency}}
+\index{set\-Frequency@{set\-Frequency}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{set\-Frequency}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Frequency (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{freq}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a78753f94632ac18ee055de50e473d519}
+
+
+References F\-\_\-\-C\-P\-U, frequency\-Coef, F\-S, and sound\-P\-W\-M.
+
+\hypertarget{wavegen_2main_8c_ade151b02bd65aa70020010d27245c70f}{\index{wavegen/main.\-c@{wavegen/main.\-c}!set\-Frequency2@{set\-Frequency2}}
+\index{set\-Frequency2@{set\-Frequency2}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{set\-Frequency2}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Frequency2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_ade151b02bd65aa70020010d27245c70f}
+
+
+Referenced by main().
+
+\hypertarget{wavegen_2main_8c_ae78b83612374b4b303c1c0f32362e41e}{\index{wavegen/main.\-c@{wavegen/main.\-c}!set\-Frequency2@{set\-Frequency2}}
+\index{set\-Frequency2@{set\-Frequency2}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{set\-Frequency2}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Frequency2 (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{freq}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_ae78b83612374b4b303c1c0f32362e41e}
+
+
+References F\-\_\-\-C\-P\-U, frequency\-Coef2, F\-S, and sound\-P\-W\-M.
+
+\hypertarget{wavegen_2main_8c_a03a0ea567c1b201e084da36acd2cb9d2}{\index{wavegen/main.\-c@{wavegen/main.\-c}!sine\-Wave@{sine\-Wave}}
+\index{sine\-Wave@{sine\-Wave}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{sine\-Wave}]{\setlength{\rightskip}{0pt plus 5cm}void sine\-Wave (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{wavegen_2main_8c_a03a0ea567c1b201e084da36acd2cb9d2}
+
+
+References wavetable.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{wavegen_2main_8c_a7b2cf7f8cf113a3976b1ed3dd8dc0d80}{\index{wavegen/main.\-c@{wavegen/main.\-c}!current\-Voice@{current\-Voice}}
+\index{current\-Voice@{current\-Voice}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{current\-Voice}]{\setlength{\rightskip}{0pt plus 5cm}int current\-Voice =0}}\label{wavegen_2main_8c_a7b2cf7f8cf113a3976b1ed3dd8dc0d80}
+\hypertarget{wavegen_2main_8c_aa5042ede4121ddfe2b77b83e965d3ce7}{\index{wavegen/main.\-c@{wavegen/main.\-c}!frequency\-Coef@{frequency\-Coef}}
+\index{frequency\-Coef@{frequency\-Coef}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{frequency\-Coef}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int frequency\-Coef =100}}\label{wavegen_2main_8c_aa5042ede4121ddfe2b77b83e965d3ce7}
+
+
+Referenced by I\-S\-R(), and set\-Frequency().
+
+\hypertarget{wavegen_2main_8c_a1f5b04455abb645a315e61b460cece5d}{\index{wavegen/main.\-c@{wavegen/main.\-c}!frequency\-Coef2@{frequency\-Coef2}}
+\index{frequency\-Coef2@{frequency\-Coef2}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{frequency\-Coef2}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int frequency\-Coef2 =100}}\label{wavegen_2main_8c_a1f5b04455abb645a315e61b460cece5d}
+
+
+Referenced by I\-S\-R(), and set\-Frequency2().
+
+\hypertarget{wavegen_2main_8c_adda78152bf8af9407c0a22deb795d689}{\index{wavegen/main.\-c@{wavegen/main.\-c}!P\-R\-O\-G\-M\-E\-M@{P\-R\-O\-G\-M\-E\-M}}
+\index{P\-R\-O\-G\-M\-E\-M@{P\-R\-O\-G\-M\-E\-M}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{P\-R\-O\-G\-M\-E\-M}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned char sinetable \mbox{[}256\mbox{]} P\-R\-O\-G\-M\-E\-M}}\label{wavegen_2main_8c_adda78152bf8af9407c0a22deb795d689}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{ 
+128,131,134,137,140,143,146,149,152,156,159,162,165,168,171,174, 
+176,179,182,185,188,191,193,196,199,201,204,206,209,211,213,216, 
+218,220,222,224,226,228,230,232,234,236,237,239,240,242,243,245, 
+246,247,248,249,250,251,252,252,253,254,254,255,255,255,255,255, 
+255,255,255,255,255,255,254,254,253,252,252,251,250,249,248,247, 
+246,245,243,242,240,239,237,236,234,232,230,228,226,224,222,220, 
+218,216,213,211,209,206,204,201,199,196,193,191,188,185,182,179, 
+176,174,171,168,165,162,159,156,152,149,146,143,140,137,134,131, 
+128,124,121,118,115,112,109,106,103,99, 96, 93, 90, 87, 84, 81,  
+79, 76, 73, 70, 67, 64, 62, 59, 56, 54, 51, 49, 46, 44, 42, 39,  
+37, 35, 33, 31, 29, 27, 25, 23, 21, 19, 18, 16, 15, 13, 12, 10,  
+9,  8,  7,  6,  5,  4,  3,  3,  2,  1,  1,  0,  0,  0,  0,  0,   
+0,  0,  0,  0,  0,  0,  1,  1,  2,  3,  3,  4,  5,  6,  7,  8,   
+9,  10, 12, 13, 15, 16, 18, 19, 21, 23, 25, 27, 29, 31, 33, 35,  
+37, 39, 42, 44, 46, 49, 51, 54, 56, 59, 62, 64, 67, 70, 73, 76,  
+79, 81, 84, 87, 90, 93, 96, 99, 103,106,109,112,115,118,121,124 
+\}
+\end{DoxyCode}
+\hypertarget{wavegen_2main_8c_a487767231970dc5871caf94a31630459}{\index{wavegen/main.\-c@{wavegen/main.\-c}!sound\-Enabled@{sound\-Enabled}}
+\index{sound\-Enabled@{sound\-Enabled}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{sound\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}char sound\-Enabled =1}}\label{wavegen_2main_8c_a487767231970dc5871caf94a31630459}
+\hypertarget{wavegen_2main_8c_a522507a13e786061113a0a66d66896ab}{\index{wavegen/main.\-c@{wavegen/main.\-c}!sound\-On@{sound\-On}}
+\index{sound\-On@{sound\-On}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{sound\-On}]{\setlength{\rightskip}{0pt plus 5cm}char sound\-On =0}}\label{wavegen_2main_8c_a522507a13e786061113a0a66d66896ab}
+\hypertarget{wavegen_2main_8c_aa1156b1e5639b3855f6d711de3799023}{\index{wavegen/main.\-c@{wavegen/main.\-c}!sound\-P\-W\-M@{sound\-P\-W\-M}}
+\index{sound\-P\-W\-M@{sound\-P\-W\-M}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{sound\-P\-W\-M}]{\setlength{\rightskip}{0pt plus 5cm}char sound\-P\-W\-M =1}}\label{wavegen_2main_8c_aa1156b1e5639b3855f6d711de3799023}
+
+
+Referenced by I\-S\-R(), set\-Frequency(), and set\-Frequency2().
+
+\hypertarget{wavegen_2main_8c_abc5f735c8235e23b42a484b2744e6a05}{\index{wavegen/main.\-c@{wavegen/main.\-c}!wavetable@{wavetable}}
+\index{wavetable@{wavetable}!wavegen/main.c@{wavegen/main.\-c}}
+\subsubsection[{wavetable}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char wavetable\mbox{[}256\mbox{]}}}\label{wavegen_2main_8c_abc5f735c8235e23b42a484b2744e6a05}
+
+
+Referenced by I\-S\-R(), noise\-Wave(), and sine\-Wave().
+
