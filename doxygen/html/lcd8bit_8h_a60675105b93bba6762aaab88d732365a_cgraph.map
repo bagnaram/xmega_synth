@@ -1,4 +1,0 @@
-<map id="lcd_home" name="lcd_home">
-<area shape="rect" id="node2" href="$lcd8bit_8c.html#a9d0f278e2fa5d8921d3a4fdd508a561e" title="lcd_set_write_instruction" alt="" coords="134,5,301,32"/>
-<area shape="rect" id="node3" href="$lcd8bit_8c.html#aef7fba4025d73ad60e375357e557bca3" title="lcd_write_byte" alt="" coords="164,56,271,83"/>
-</map>

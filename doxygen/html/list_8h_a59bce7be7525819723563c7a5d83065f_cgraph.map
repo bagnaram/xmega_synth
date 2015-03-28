@@ -1,4 +1,0 @@
-<map id="deleteNode" name="deleteNode">
-<area shape="rect" id="node2" href="$list_8c.html#a440d2fb8a7f4399ae63fadcd19e67353" title="Removes the specified node from the list, and does NOT free memory the node is using. " alt="" coords="141,5,256,32"/>
-<area shape="rect" id="node3" href="$list_8c.html#a57726dc16efcab2ebe228494fce04bf0" title="Internally removes the specified node from the list, and updates the linked list. ..." alt="" coords="305,5,386,32"/>
-</map>

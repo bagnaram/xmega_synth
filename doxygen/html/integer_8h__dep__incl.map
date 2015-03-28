@@ -1,7 +1,0 @@
-<map id="sd_card/integer.h" name="sd_card/integer.h">
-<area shape="rect" id="node2" href="$diskio_8h.html" title="sd_card/diskio.h" alt="" coords="24,80,140,107"/>
-<area shape="rect" id="node5" href="$ff_8h.html" title="sd_card/ff.h" alt="" coords="165,80,256,107"/>
-<area shape="rect" id="node6" href="$main_8c.html" title="main.c" alt="" coords="263,155,324,181"/>
-<area shape="rect" id="node3" href="$ff_8c.html" title="sd_card/ff.c" alt="" coords="148,155,239,181"/>
-<area shape="rect" id="node4" href="$sdmm_8c.html" title="sd_card/sdmm.c" alt="" coords="5,155,123,181"/>
-</map>

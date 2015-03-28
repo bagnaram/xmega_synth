@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node2" href="$~main_8c.html#a78ab77b57cf2e00089f0a3a22508524c" title="clock_init" alt="" coords="120,5,197,32"/>
-<area shape="rect" id="node3" href="$~main_8c.html#acab6fb947010dfc3cde0f372ea86b008" title="pwmInit" alt="" coords="125,56,193,83"/>
-<area shape="rect" id="node5" href="$~main_8c.html#a0c36db54a91957a6b8c91a9932f74d16" title="setFrequency" alt="" coords="108,107,209,133"/>
-<area shape="rect" id="node6" href="$~main_8c.html#ade151b02bd65aa70020010d27245c70f" title="setFrequency2" alt="" coords="105,157,213,184"/>
-<area shape="rect" id="node4" href="$~main_8c.html#a03a0ea567c1b201e084da36acd2cb9d2" title="sineWave" alt="" coords="261,56,341,83"/>
-</map>

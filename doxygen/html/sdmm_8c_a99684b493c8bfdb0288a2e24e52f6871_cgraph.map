@@ -1,8 +1,0 @@
-<map id="send_cmd" name="send_cmd">
-<area shape="rect" id="node2" href="$sdmm_8c.html#ac0eadae94de728461ccade9e03fafd8c" title="deselect" alt="" coords="274,26,345,53"/>
-<area shape="rect" id="node3" href="$sdmm_8c.html#ab628371b03508f9db7c6daf1203ed84d" title="rcvr_mmc" alt="" coords="400,52,480,78"/>
-<area shape="rect" id="node4" href="$sdmm_8c.html#ab45cb1d47cda5822ce492ad3c11867ae" title="select" alt="" coords="149,77,206,104"/>
-<area shape="rect" id="node7" href="$sdmm_8c.html#ace0af708caf7775204ca74fbd46818bb" title="xmit_mmc" alt="" coords="136,128,219,154"/>
-<area shape="rect" id="node5" href="$sdmm_8c.html#a624a19e248af05530dae5c0cc1dddc11" title="wait_ready" alt="" coords="267,128,352,154"/>
-<area shape="rect" id="node6" href="$sdmm_8c.html#a76a43e01b9676630e121e5a659acbb3f" title="dly_us" alt="" coords="410,128,470,154"/>
-</map>

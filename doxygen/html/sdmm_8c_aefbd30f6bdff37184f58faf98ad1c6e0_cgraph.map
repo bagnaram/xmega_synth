@@ -1,6 +1,0 @@
-<map id="xmit_datablock" name="xmit_datablock">
-<area shape="rect" id="node2" href="$sdmm_8c.html#ab628371b03508f9db7c6daf1203ed84d" title="rcvr_mmc" alt="" coords="299,5,379,32"/>
-<area shape="rect" id="node3" href="$sdmm_8c.html#a624a19e248af05530dae5c0cc1dddc11" title="wait_ready" alt="" coords="165,56,251,83"/>
-<area shape="rect" id="node5" href="$sdmm_8c.html#ace0af708caf7775204ca74fbd46818bb" title="xmit_mmc" alt="" coords="167,107,249,133"/>
-<area shape="rect" id="node4" href="$sdmm_8c.html#a76a43e01b9676630e121e5a659acbb3f" title="dly_us" alt="" coords="309,56,369,83"/>
-</map>

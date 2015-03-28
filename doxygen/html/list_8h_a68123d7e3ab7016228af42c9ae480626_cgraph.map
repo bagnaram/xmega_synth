@@ -1,6 +1,0 @@
-<map id="sort" name="sort">
-<area shape="rect" id="node2" href="$list_8c.html#ace9faaeb801bbdf650d93f4a8b075c4c" title="Simply returns the next node in the list, or NULL if there are no further nodes. " alt="" coords="99,5,199,32"/>
-<area shape="rect" id="node3" href="$list_8c.html#a2eecdd9441c2808156e2823cf2647acf" title="getOrderId" alt="" coords="108,56,191,83"/>
-<area shape="rect" id="node4" href="$list_8c.html#a9960b22010f913d546f29222e8fe71c1" title="getPrevOrder" alt="" coords="100,107,199,133"/>
-<area shape="rect" id="node5" href="$list_8c.html#a48838b111c5cba7f2503e6cb34992371" title="swap" alt="" coords="123,157,176,184"/>
-</map>

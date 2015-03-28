@@ -1,5 +1,0 @@
-<map id="lcd_write_string_p" name="lcd_write_string_p">
-<area shape="rect" id="node2" href="$lcd8bit_8c.html#a082c749307f206b15a9cbeb775b03b5c" title="lcd_write_data" alt="" coords="181,31,288,57"/>
-<area shape="rect" id="node3" href="$lcd8bit_8c.html#ad55e5c04e2a5354bfd4840be5e0eb5d1" title="lcd_set_write_data" alt="" coords="336,5,467,32"/>
-<area shape="rect" id="node4" href="$lcd8bit_8c.html#aef7fba4025d73ad60e375357e557bca3" title="lcd_write_byte" alt="" coords="348,56,455,83"/>
-</map>
